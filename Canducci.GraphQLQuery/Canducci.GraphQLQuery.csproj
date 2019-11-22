@@ -11,5 +11,6 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>GraphQL Query JSON</PackageTags>
     <PackageReleaseNotes>0.0.1</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>

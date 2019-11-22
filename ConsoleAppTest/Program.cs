@@ -101,6 +101,7 @@ namespace ConsoleAppTest
       );
 
       string str = (ql);
+      System.Console.WriteLine(ql);
     }
   }
 }
