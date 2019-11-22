@@ -4,9 +4,9 @@ namespace Canducci.GraphQLQuery
   public class Field : IField
   {
     public string Name { get; }
-    public string Alias { get; }
+    public string Alias { get; }    
     public Field(string name)
-      : this(name, "") { }
+      : this(name, "") { }  
     public Field(string name, string alias)
     {
       Name = name;

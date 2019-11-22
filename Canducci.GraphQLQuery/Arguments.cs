@@ -1,6 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
-using System;
 using System.Collections.Generic;
+
 namespace Canducci.GraphQLQuery
 {
   public class Arguments : List<IArgument>
@@ -8,6 +8,6 @@ namespace Canducci.GraphQLQuery
     public Arguments(params IArgument[] arguments)
     {
       AddRange(arguments);
-    }
+    }      
   }
 }

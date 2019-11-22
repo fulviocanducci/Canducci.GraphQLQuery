@@ -3,9 +3,7 @@
   public interface ITypeQL
   {
     ITypeQLConfiguration Configuration { get; }
-    IQueryType QueryTypeItem { get; }
-    Arguments Arguments { get; }
-    Fields Fields { get; }
+    IQueryType[] QueryTypes { get; }    
     string ToStringJson();
   }
 }

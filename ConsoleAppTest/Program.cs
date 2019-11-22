@@ -7,6 +7,7 @@ namespace ConsoleAppTest
   {
     static void Main(string[] args)
     {
+      #region old
       //TypeQL typeQL = new TypeQL(
       //  name: "states_state",
       //  arguments: new Arguments(
@@ -81,27 +82,47 @@ namespace ConsoleAppTest
       //  )
       //);
 
-      var ql = new TypeQL(
-          "countries_by_name",
-          new Arguments(
-            new Argument<bool>("load", true),
-            new Argument<string>("name", "presidente")
-          ),
-          new Fields(
-            new Field("id"),
-            new Field("name"),
-            new Field("stateId"),
-            new FieldRelationship("state","s",
-              new Fields(               
-                new Field("id"),
-                new Field("uf")
-              )
-            )
-          )         
-      );
+      //var ql = new TypeQL(
+      //    "countries_by_name",
+      //    new Arguments(
+      //      new Argument<bool>("load", true),
+      //      new Argument<string>("name", "presidente")
+      //    ),
+      //    new Fields(
+      //      new Field("id"),
+      //      new Field("name"),
+      //      new Field("stateId"),
+      //      new FieldRelationship("state",,"s",
+      //        new Fields(               
+      //          new Field("id"),
+      //          new Field("uf")
+      //        )
+      //      )
+      //    )         
+      //);
+      #endregion
 
-      string str = (ql);
-      System.Console.WriteLine(ql);
+      var ql = new TypeQL(new QueryType(
+        name: "people_find",
+        alias: "people_find_0",
+        arguments: new Arguments(new Argument<int>("id", 1)),
+        fields: new Fields(
+          new Field("id"),
+          new Field("name")
+        )
+      ), 
+      new QueryType(
+        alias: "people_find_1",
+        arguments: new Arguments(new Argument<int>("id", 1)),
+        name: "people_find",
+        fields: new Fields(
+          new Field("id"),
+          new Field("name")
+        )
+      ));
+
+      //string str = (ql);
+      System.Console.WriteLine(ql.ToStringJson());
     }
   }
 }
