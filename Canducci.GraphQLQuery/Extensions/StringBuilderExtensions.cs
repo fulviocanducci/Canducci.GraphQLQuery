@@ -9,7 +9,7 @@ namespace Canducci.GraphQLQuery.Extensions
     internal static StringBuilder AppendString(this StringBuilder stringBuilder, string value)
     {
       return stringBuilder.Append(value);
-    }   
+    }
     internal static StringBuilder AppendBracketOpen(this StringBuilder stringBuilder)
     {
       return stringBuilder.Append("(");
@@ -75,15 +75,15 @@ namespace Canducci.GraphQLQuery.Extensions
           argument.TypeValue == typeof(float) ||
           argument.TypeValue == typeof(decimal) ||
           argument.TypeValue == typeof(double)) // integer, number
-          {
+        {
           stringBuilder.Append(argument.Value);
         }
         else if (argument.TypeValue == typeof(bool)) // bool
-          {
+        {
           stringBuilder.AppendString(((bool)argument.Value).ToString().ToLower());
         }
         else if (argument.TypeValue == typeof(DateTime)) // DateTime
-          {
+        {
           ArgumentFormat argumentFormat = argument.ArgumentFormat == ArgumentFormat.Default
             ? configuration.ArgumentFormat
             : argument.ArgumentFormat;
@@ -117,14 +117,34 @@ namespace Canducci.GraphQLQuery.Extensions
           .AppendBackslashes()
           .AppendQuotationMark();
         }
-        else // string, text
-          {
+        else if (argument.TypeValue == typeof(string)
+          || argument.TypeValue == typeof(char))
+        { // string texto char        
           stringBuilder
           .AppendBackslashes()
           .AppendQuotationMark()
           .Append(argument.Value)
           .AppendBackslashes()
           .AppendQuotationMark();
+        }
+        else if (argument.TypeValue.IsClass)
+        {
+          stringBuilder.AppendKeyOpen();
+          foreach (var property in argument.Value.GetType().GetProperties())
+          {
+            stringBuilder.Append(property.Name.ToLower())
+              .AppendPoints()
+              .AppendBackslashes()
+              .AppendQuotationMark()
+              .Append(property.GetValue(argument.Value))
+              .AppendBackslashes()
+              .AppendQuotationMark();
+            if (!property.Equals(argument.Value.GetType().GetProperties().LastOrDefault()))
+            {
+              stringBuilder.AppendSeparation(configuration);
+            }
+          }
+          stringBuilder.AppendKeyClose();
         }
         if (!argument.Equals(arguments.LastOrDefault()))
         {
@@ -136,27 +156,26 @@ namespace Canducci.GraphQLQuery.Extensions
     }
     internal static StringBuilder AppendFields(this StringBuilder stringBuilder, Fields fields, ITypeQLConfiguration configuration)
     {
-      if (fields == null || fields?.Count <= 0) 
+      if (fields == null || fields?.Count <= 0)
       {
         return stringBuilder;
       }
-      void AppendFieldsInternal(StringBuilder str, Fields f, ITypeQLConfiguration c)
-      {        
-        str.AppendKeyOpen();
-        fields?.ForEach(field =>
+      void AppendFieldsInternal(StringBuilder _stringBuilder, Fields _fields, ITypeQLConfiguration _configuration)
+      {
+        _stringBuilder.AppendKeyOpen();
+        foreach (IField _field in _fields)
         {
-          stringBuilder.AppendField(field.Name, field.Alias);
-          if (field is IFieldRelationship item)
+          stringBuilder.AppendField(_field.Name, _field.Alias);
+          if (_field is IFieldRelationship item)
           {
-            str.AppendField(item.Name, item.Alias);
-            AppendFieldsInternal(stringBuilder, item.Fields, c);
+            AppendFieldsInternal(stringBuilder, item.Fields, _configuration);
           }
-          if (field.Equals(fields.LastOrDefault()) == false)
+          if (_field.Equals(_fields.LastOrDefault()) == false)
           {
-            str.AppendSeparation(configuration);
+            _stringBuilder.AppendSeparation(configuration);
           }
-        });
-        str.AppendKeyClose();        
+        };
+        _stringBuilder.AppendKeyClose();
       }
       AppendFieldsInternal(stringBuilder, fields, configuration);
       return stringBuilder;

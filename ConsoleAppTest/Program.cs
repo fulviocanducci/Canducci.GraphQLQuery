@@ -102,24 +102,56 @@ namespace ConsoleAppTest
 
       var ql = new TypeQL(new QueryType(
         name: "people_find",
-        alias: "people_find_0",
         arguments: new Arguments(new Argument<int>("id", 1)),
-        fields: new Fields(
-          new Field("id"),
-          new Field("name")
-        )
-      ), 
-      new QueryType(
-        alias: "people_find_1",
-        arguments: new Arguments(new Argument<int>("id", 1)),
-        name: "people_find",
         fields: new Fields(
           new Field("id"),
           new Field("name")
         )
       ));
 
-      //string str = (ql);
+      /*var ql = new TypeQL(new QueryType(
+        name: "states",
+        arguments: new Arguments(new Argument<bool>("load", true)),
+        fields: new Fields(
+          new Field("id"),
+          new Field("uf"),
+          new FieldRelationship("country",
+            new Fields(
+              new Field("id"),
+              new Field("name"),
+              new Field("stateId")
+            )
+          )
+        )
+      ), 
+      new QueryType(
+        name: "people_find",        
+        arguments: new Arguments(new Argument<int>("id", 1)),        
+        fields: new Fields(
+          new Field("id"),
+          new Field("name")
+        )
+      ),
+      new QueryType(
+        "countries_by_name",        
+        new Arguments(
+          new Argument<string>("name", "pirap"),
+          new Argument<bool>("load", true)
+        ),        
+        new Fields(
+          new Field("id"),
+          new Field("name"),
+          new Field("stateId"),
+          new FieldRelationship("state", 
+            new Fields(
+              new Field("id"),
+              new Field("uf")
+            )
+          )
+        )
+      );*/
+
+      string str = (ql);
       System.Console.WriteLine(ql.ToStringJson());
     }
   }

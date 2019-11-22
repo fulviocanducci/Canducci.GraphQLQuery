@@ -12,5 +12,5 @@
     <PackageTags>GraphQL Query JSON</PackageTags>
     <PackageReleaseNotes>0.0.1.1</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+  </PropertyGroup>  
 </Project>
