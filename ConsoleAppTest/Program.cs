@@ -1,6 +1,4 @@
-﻿using System;
-using Canducci.GraphQLQuery;
-
+﻿using Canducci.GraphQLQuery;
 namespace ConsoleAppTest
 {
   class Program
