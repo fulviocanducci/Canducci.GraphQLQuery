@@ -1,0 +1,3 @@
+# Canducci.GraphQLQuery
+
+Canducci GraphQLQuery
