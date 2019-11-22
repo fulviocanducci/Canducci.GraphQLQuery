@@ -13,7 +13,7 @@ namespace Canducci.GraphQLQuery
     {
       Name = name;
       Value = value;
-      ArgumentFormat = ArgumentFormat.None;
+      ArgumentFormat = ArgumentFormat.Default;
       TypeValue = typeof(T);
     }
     public Argument(string name, T value, ArgumentFormat argumentFormat)
@@ -23,7 +23,7 @@ namespace Canducci.GraphQLQuery
       ArgumentFormat = argumentFormat;
       TypeValue = typeof(T);
     }
-    public static Argument<T> Create(string name, T value) => Create(name, value, ArgumentFormat.None);    
+    public static Argument<T> Create(string name, T value) => Create(name, value, ArgumentFormat.Default);    
     public static Argument<T> Create(string name, T value, ArgumentFormat argumentFormat)
     {
       return new Argument<T>(name, value, argumentFormat)

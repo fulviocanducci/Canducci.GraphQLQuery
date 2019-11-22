@@ -6,6 +6,6 @@
     IQueryType QueryTypeItem { get; }
     Arguments Arguments { get; }
     Fields Fields { get; }
-    string Render();
+    string ToStringJson();
   }
 }

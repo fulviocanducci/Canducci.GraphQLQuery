@@ -44,24 +44,63 @@ namespace ConsoleAppTest
       //);
 
       //id name created active
-      TypeQL ql = new TypeQL(
-        "peoples_by_created",
-        new Arguments(
-          Argument<DateTime>.Create("created", DateTime.Parse("03/03/1993"))
-        ),
-        new Fields(
-          Field.Create("id", "_id"),
-          Field.Create("name", "_name"),
-          Field.Create("created"),
-          Field.Create("active")
-        ));
+      //TypeQL ql = new TypeQL(
+      //  "peoples_by_created",
+      //  new Arguments(
+      //    Argument<DateTime>.Create("created", DateTime.Parse("03/03/1993"))
+      //  ),
+      //  new Fields(
+      //    Field.Create("id", "_id"),
+      //    Field.Create("name", "_name"),
+      //    Field.Create("created"),
+      //    Field.Create("active")
+      //  ));
 
       //typeQL.Arguments.Add(typeof(int), new Argument("id", 1));
       //typeQL.Arguments.Add(typeof(string), new Argument("name", "\"a\""));
 
-      
+      //var ql = new TypeQL(
+      //  "nome",
+      //  new Arguments(
+      //    Argument<int>.Create("id", 1),
+      //    Argument<string>.Create("name", "name"),
+      //    Argument<bool>.Create("active", false),
+      //    Argument<DateTime>.Create("created", DateTime.Now.AddDays(-1))
+      //  ),
+      //  new Fields(
+      //    Field.Create("id"),
+      //    Field.Create("name"),
+      //    Field.Create("active"),
+      //    Field.Create("created"),
+      //    Field.Create("state", 
+      //      new Fields(
+      //        Field.Create("id"),
+      //        Field.Create("uf")
+      //      )
+      //    )
+      //  )
+      //);
 
-      System.Console.WriteLine(ql.Render());
+      var ql = new TypeQL(
+          "countries_by_name",
+          new Arguments(
+            new Argument<bool>("load", true),
+            new Argument<string>("name", "presidente")
+          ),
+          new Fields(
+            new Field("id"),
+            new Field("name"),
+            new Field("stateId"),
+            new FieldRelationship("state","s",
+              new Fields(               
+                new Field("id"),
+                new Field("uf")
+              )
+            )
+          )         
+      );
+
+      string str = (ql);
     }
   }
 }

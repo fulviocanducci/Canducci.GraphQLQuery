@@ -16,6 +16,7 @@ namespace Canducci.GraphQLQuery
     #region Constructors
     public TypeQL(string name, Fields fields, string alias = "", ITypeQLConfiguration configuration = null)
       : this(name, null, fields, alias, configuration) { }
+
     public TypeQL(string name, Arguments arguments, Fields fields, string alias = "", ITypeQLConfiguration configuration = null)
     {
       QueryTypeItem = new QueryType(name, alias);
@@ -23,33 +24,7 @@ namespace Canducci.GraphQLQuery
       Fields = fields ?? new Fields();
       Configuration = configuration ?? new TypeQLConfiguration(",", ArgumentFormat.FormatDateTime);
     }
-    #endregion
-    public string Render()
-    {
-      StringBuilder stringBuilder 
-        = new StringBuilder();
-      //iniType
-      RenderOpenKey(stringBuilder);
-      RenderAspas(stringBuilder);
-      RenderQuery(stringBuilder);
-      RenderAspas(stringBuilder);
-      RenderTwoPoints(stringBuilder);
-      RenderAspas(stringBuilder);
-      RenderOpenKey(stringBuilder);
-      RenderItem(stringBuilder, QueryTypeItem);
-      //endType
-      //iniArgument      
-      RenderArguments(stringBuilder);
-      //endArgument      
-      //initFields
-      RenderFields(stringBuilder, Fields);
-      //endFields
-      RenderCloseKey(stringBuilder);
-      RenderAspas(stringBuilder);
-      RenderCloseKey(stringBuilder);
-      //
-      return stringBuilder.ToString();
-    }
+    #endregion    
 
     #region RenderAll
     private void RenderString<T>(StringBuilder stringBuilder, T value)
@@ -84,6 +59,8 @@ namespace Canducci.GraphQLQuery
         RenderOpenBracket(stringBuilder);
         Arguments.ForEach(argument =>
         {
+          RenderString(stringBuilder, argument.Name);
+          RenderTwoPoints(stringBuilder);
           if (argument.TypeValue == typeof(uint) ||
             argument.TypeValue == typeof(short) ||
             argument.TypeValue == typeof(int) ||
@@ -92,15 +69,15 @@ namespace Canducci.GraphQLQuery
             argument.TypeValue == typeof(decimal) ||
             argument.TypeValue == typeof(double)) // integer, number
           {
-            stringBuilder.Append(argument.Name + ":" + argument.Value);
+            RenderString(stringBuilder, argument.Value);
+          }
+          else if (argument.TypeValue == typeof(bool)) // bool
+          {
+            RenderString(stringBuilder, ((bool)argument.Value).ToString().ToLower());
           }
           else if (argument.TypeValue == typeof(DateTime)) // DateTime
           {
-            var argumentFormat = argument.ArgumentFormat == ArgumentFormat.None
-              ? Configuration.ArgumentFormat
-              : argument.ArgumentFormat;
-            RenderString(stringBuilder, argument.Name);
-            RenderTwoPoints(stringBuilder);
+            ArgumentFormat argumentFormat = argument.ArgumentFormat == ArgumentFormat.Default ? Configuration.ArgumentFormat : argument.ArgumentFormat;            
             RenderBarra(stringBuilder);
             RenderAspas(stringBuilder);
             switch (argumentFormat)
@@ -128,24 +105,19 @@ namespace Canducci.GraphQLQuery
             }
             RenderBarra(stringBuilder);
             RenderAspas(stringBuilder);
-          }
-          else if (argument.TypeValue == typeof(bool)) // bool
-          {
-            RenderString(stringBuilder, argument.Name);
-            RenderTwoPoints(stringBuilder);
-            RenderString(stringBuilder, ((bool)argument.Value).ToString().ToLower());
-          }
+          }          
           else // string, text
-          {
-            RenderString(stringBuilder, argument.Name);
-            RenderTwoPoints(stringBuilder);
+          {            
             RenderBarra(stringBuilder);
             RenderAspas(stringBuilder);
             RenderString(stringBuilder, argument.Value);
             RenderBarra(stringBuilder);
             RenderAspas(stringBuilder);
           }
-          if (!argument.Equals(Arguments.LastOrDefault())) RenderSpace(stringBuilder);
+          if (!argument.Equals(Arguments.LastOrDefault()))
+          {
+            RenderSpace(stringBuilder);
+          }
         });
         RenderCloseBracket(stringBuilder);
       }
@@ -158,15 +130,16 @@ namespace Canducci.GraphQLQuery
       RenderOpenKey(stringBuilder);
       foreach (IField item in fields)
       {
-        if (item.Fields?.Count > 0)
+        if (item is IFieldRelationship itemFieldRelatioship)
         {
-          RenderItem(stringBuilder, item);
-          RenderFields(stringBuilder, item.Fields);
+          RenderItem(stringBuilder, itemFieldRelatioship);
+          RenderFields(stringBuilder, itemFieldRelatioship.Fields);
         }
         else
         {
           RenderItem(stringBuilder, item);
         }
+
         if (item.Equals(fields.LastOrDefault()) == false)
         {
           RenderSpace(stringBuilder);
@@ -174,6 +147,38 @@ namespace Canducci.GraphQLQuery
       }
       RenderCloseKey(stringBuilder);
     }
+    #endregion
+
+    #region StringJson
+    public string ToStringJson()
+    {
+      StringBuilder stringBuilder = new StringBuilder();
+      //iniType
+      RenderOpenKey(stringBuilder);
+      RenderAspas(stringBuilder);
+      RenderQuery(stringBuilder);
+      RenderAspas(stringBuilder);
+      RenderTwoPoints(stringBuilder);
+      RenderAspas(stringBuilder);
+      RenderOpenKey(stringBuilder);
+      RenderItem(stringBuilder, QueryTypeItem);
+      //endType
+      //iniArgument      
+      RenderArguments(stringBuilder);
+      //endArgument      
+      //initFields
+      RenderFields(stringBuilder, Fields);
+      //endFields
+      RenderCloseKey(stringBuilder);
+      RenderAspas(stringBuilder);
+      RenderCloseKey(stringBuilder);
+      //
+      return stringBuilder.ToString();
+    }
+    #endregion
+
+    #region OperatorForString
+    public static implicit operator string(TypeQL typeQL) => typeQL.ToStringJson();
     #endregion
   }
 }
