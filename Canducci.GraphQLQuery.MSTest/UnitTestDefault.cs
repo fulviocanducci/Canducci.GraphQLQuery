@@ -54,7 +54,7 @@ namespace Canducci.GraphQLQuery.MSTest
       
       var typeQLTest = TypeQLTest(queryType);
       Assert.AreEqual(
-        "{\"query\":\"{people_add(people:{id:\"000\",name:\"test\"}){id,name}}\"}",
+        "{\"query\":\"{people_add(people:{id:\"0\",name:\"test\"}){id,name}}\"}",
           typeQLTest.ToStringJson()
       );
     }
