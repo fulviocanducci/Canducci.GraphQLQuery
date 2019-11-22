@@ -8,5 +8,5 @@
 
 
 ```
-PM> Install-Package Canducci.Zip
+PM> Install-Package Canducci.GraphQLQuery
 ```
