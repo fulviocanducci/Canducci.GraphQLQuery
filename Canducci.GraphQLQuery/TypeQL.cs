@@ -26,7 +26,8 @@ namespace Canducci.GraphQLQuery
     #endregion
     public string Render()
     {
-      StringBuilder stringBuilder = new StringBuilder();
+      StringBuilder stringBuilder 
+        = new StringBuilder();
       //iniType
       RenderOpenKey(stringBuilder);
       RenderAspas(stringBuilder);
