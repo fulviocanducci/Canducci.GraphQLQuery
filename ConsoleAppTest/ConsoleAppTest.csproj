@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Canducci.GraphQLQuery\Canducci.GraphQLQuery.csproj" />    
+    <ProjectReference Include="..\Canducci.GraphQLQuery\Canducci.GraphQLQuery.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />    
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 namespace Canducci.GraphQLQuery.Extensions
@@ -13,7 +14,10 @@ namespace Canducci.GraphQLQuery.Extensions
       typeof(uint),
       typeof(int),
       typeof(ulong),
-      typeof(long),
+      typeof(long),      
+    };
+    public static Type[] NumberFloat = new Type[]
+    {
       typeof(float),
       typeof(decimal),
       typeof(double)
@@ -21,6 +25,10 @@ namespace Canducci.GraphQLQuery.Extensions
     public static bool IsNumber(this IArgument argument)
     {
       return NumberTypes.Contains(argument.TypeValue);
+    }
+    public static bool IsNumberFloat(this IArgument argument)
+    {
+      return NumberFloat.Contains(argument.TypeValue);
     }
     public static bool IsBool(this IArgument argument)
     {
@@ -41,6 +49,10 @@ namespace Canducci.GraphQLQuery.Extensions
     public static bool IsNumber(this Type type)
     {
       return NumberTypes.Contains(type);
+    }
+    public static bool IsNumberFloat(this Type type)      
+    {
+      return NumberFloat.Contains(type);
     }
     public static bool IsBool(this Type type)
     {
@@ -184,7 +196,10 @@ namespace Canducci.GraphQLQuery.Extensions
       stringBuilder.AppendString(((bool)value).ToString().ToLower());
       return stringBuilder;
     }
-
+    internal static StringBuilder AppendNumber(this StringBuilder stringBuilder, object value)
+    { 
+      return stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "{0}", value));
+    }
     #region Arguments_Group_Special
     internal static StringBuilder AppendArguments(this StringBuilder stringBuilder, Arguments arguments, ITypeQLConfiguration configuration)
     {
@@ -201,6 +216,10 @@ namespace Canducci.GraphQLQuery.Extensions
         if (argument.IsNumber())
         {
           stringBuilder.Append(argument.Value);
+        }
+        else if (argument.IsNumberFloat())
+        {
+          stringBuilder.AppendNumber(argument.Value);
         }
         else if (argument.IsBool())
         {
@@ -236,6 +255,10 @@ namespace Canducci.GraphQLQuery.Extensions
         if (property.PropertyType.IsNumber())
         {
           stringBuilder.Append(property.GetValue(argument.Value));
+        }
+        else if (property.PropertyType.IsNumberFloat())
+        {
+          stringBuilder.AppendNumber(property.GetValue(argument.Value));
         }
         else if (property.PropertyType.IsBool())
         {
