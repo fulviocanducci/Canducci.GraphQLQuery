@@ -16,6 +16,13 @@ namespace Canducci.GraphQLQuery
       ArgumentFormat = ArgumentFormat.Default;
       TypeValue = typeof(T);
     }
+    public Argument(string name, T value, Type typeValue)
+    {
+      Name = name;
+      Value = value;
+      ArgumentFormat = ArgumentFormat.Default;
+      TypeValue = typeValue;
+    }
     public Argument(string name, T value, ArgumentFormat argumentFormat)
     {
       Name = name;

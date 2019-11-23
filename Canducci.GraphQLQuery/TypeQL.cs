@@ -40,11 +40,10 @@ namespace Canducci.GraphQLQuery
       stringBuilder
         .AppendKeyClose()
         .AppendQuotationMark()
-        .AppendKeyClose();
+        .AppendKeyClose();      
       return stringBuilder.ToString();      
     }
     #endregion
-
     #region OperatorForString
     public static implicit operator string(TypeQL typeQL) => typeQL.ToStringJson();
     #endregion
