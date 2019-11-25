@@ -2,7 +2,7 @@
 {
   public enum ArgumentFormat
   {
-    Default,    
+    Default,
     FormatDate,
     FormatDateTime,
     FormatTime,

@@ -11,7 +11,7 @@ namespace Canducci.GraphQLQuery
     #endregion
     #region Constructors
     public TypeQL(params IQueryType[] queryTypes)
-      :this(new TypeQLConfiguration(",", ArgumentFormat.FormatDateTime), queryTypes) { }
+      :this(new TypeQLConfiguration(Separation.Comma, ArgumentFormat.FormatDateTime), queryTypes) { }
     public TypeQL(ITypeQLConfiguration configuration, params IQueryType[] queryTypes)
     {
       QueryTypes = queryTypes;

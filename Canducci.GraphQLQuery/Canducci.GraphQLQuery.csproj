@@ -3,7 +3,7 @@
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.0.1.1</Version>
+    <Version>0.0.1.3</Version>
     <Authors>Fulvio Cezar Canducci Dias</Authors>
     <Description>GraphQL Query</Description>
     <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
@@ -12,5 +12,6 @@
     <PackageTags>GraphQL Query JSON</PackageTags>
     <PackageReleaseNotes>0.0.1.1</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl>https://raw.githubusercontent.com/fulviocanducci/Canducci.GraphQLQuery/master/logo/logo.png</PackageIconUrl>
   </PropertyGroup>  
 </Project>

@@ -2,7 +2,7 @@
 {
   public interface ITypeQLConfiguration
   {
-    string Separation { get; }
+    Separation Separation { get; }
     ArgumentFormat ArgumentFormat { get; }
   }
 }

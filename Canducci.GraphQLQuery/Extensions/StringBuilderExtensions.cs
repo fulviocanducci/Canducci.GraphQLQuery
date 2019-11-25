@@ -24,28 +24,28 @@ namespace Canducci.GraphQLQuery.Extensions
     };
     public static bool IsNumber(this IArgument argument)
     {
-      return NumberTypes.Contains(argument.TypeValue);
+      return IsNumber(argument.TypeValue);
     }
     public static bool IsNumberFloat(this IArgument argument)
     {
-      return NumberFloat.Contains(argument.TypeValue);
+      return IsNumberFloat(argument.TypeValue);
     }
     public static bool IsBool(this IArgument argument)
     {
-      return argument.TypeValue == typeof(bool);
+      return IsBool(argument.TypeValue);
     }
     public static bool IsDateTime(this IArgument argument)
     {
-      return argument.TypeValue == typeof(DateTime);
+      return IsDateTime(argument.TypeValue);
     }
     public static bool IsString(this IArgument argument)
     {
-      return argument.TypeValue == typeof(string) || argument.TypeValue == typeof(char);
+      return IsString(argument.TypeValue);
     }
     public static bool IsClass(this IArgument argument)
     {
-      return argument.TypeValue.IsClass;
-    }
+      return IsClass(argument.TypeValue);
+    }    
     public static bool IsNumber(this Type type)
     {
       return NumberTypes.Contains(type);
@@ -65,6 +65,10 @@ namespace Canducci.GraphQLQuery.Extensions
     public static bool IsString(this Type type)
     {
       return type == typeof(string) || type == typeof(char);
+    }
+    public static bool IsClass(this Type type)
+    {
+      return type.IsClass;
     }
   }
   internal static class StringBuilderExtensions
@@ -116,7 +120,7 @@ namespace Canducci.GraphQLQuery.Extensions
     }
     internal static StringBuilder AppendSeparation(this StringBuilder stringBuilder, ITypeQLConfiguration configuration)
     {
-      return stringBuilder.Append(configuration.Separation);
+      return stringBuilder.Append(configuration.Separation == Separation.Comma ? "," : " ");
     }
     internal static StringBuilder AppendQueryType(this StringBuilder stringBuilder, IQueryType queryType)
     {
@@ -157,12 +161,8 @@ namespace Canducci.GraphQLQuery.Extensions
     internal static StringBuilder AppendDateTime(this StringBuilder stringBuilder, IArgument argument, ITypeQLConfiguration configuration, object value = null)
     {
       value = value ?? argument.Value;
-      ArgumentFormat argumentFormat = argument.ArgumentFormat == ArgumentFormat.Default
-            ? configuration.ArgumentFormat
-            : argument.ArgumentFormat;
-      stringBuilder
-      .AppendBackslashes()
-      .AppendQuotationMark();
+      ArgumentFormat argumentFormat = argument.ArgumentFormat == ArgumentFormat.Default ? configuration.ArgumentFormat : argument.ArgumentFormat;
+      stringBuilder.AppendBackslashes().AppendQuotationMark();
       switch (argumentFormat)
       {
         case ArgumentFormat.FormatDate:
@@ -186,10 +186,7 @@ namespace Canducci.GraphQLQuery.Extensions
             break;
           }
       }
-      stringBuilder
-      .AppendBackslashes()
-      .AppendQuotationMark();
-      return stringBuilder;
+      return stringBuilder.AppendBackslashes().AppendQuotationMark();
     }
     internal static StringBuilder AppendBool(this StringBuilder stringBuilder, object value)
     {
@@ -210,9 +207,7 @@ namespace Canducci.GraphQLQuery.Extensions
       stringBuilder.AppendBracketOpen();
       foreach (IArgument argument in arguments)
       {
-        stringBuilder
-          .AppendString(argument.Name)
-          .AppendPoints();
+        stringBuilder.AppendString(argument.Name).AppendPoints();
         if (argument.IsNumber())
         {
           stringBuilder.Append(argument.Value);
@@ -248,10 +243,10 @@ namespace Canducci.GraphQLQuery.Extensions
     internal static StringBuilder AppendClassArguments(this StringBuilder stringBuilder, IArgument argument, ITypeQLConfiguration configuration)
     {
       stringBuilder.AppendKeyOpen();
-      foreach (var property in argument.Value.GetType().GetProperties())
+      var properties = argument.Value.GetType().GetProperties();
+      foreach (var property in properties)
       {
-        stringBuilder.AppendString(property.Name.ToLower())
-          .AppendPoints();
+        stringBuilder.AppendString(property.Name.ToLower()).AppendPoints();
         if (property.PropertyType.IsNumber())
         {
           stringBuilder.Append(property.GetValue(argument.Value));
@@ -272,7 +267,7 @@ namespace Canducci.GraphQLQuery.Extensions
         {
           stringBuilder.AppendStringWithQuote(property.GetValue(argument.Value));
         }
-        if (!property.Equals(argument.Value.GetType().GetProperties().LastOrDefault()))
+        if (!property.Equals(properties.LastOrDefault()))
         {
           stringBuilder.AppendSeparation(configuration);
         }
