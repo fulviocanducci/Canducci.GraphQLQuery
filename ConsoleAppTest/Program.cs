@@ -91,7 +91,7 @@ namespace ConsoleAppTest
         new QueryType(
           "cars",
           new Arguments(
-            new Argument<People>("people", new People(1, "Fúlvio", DateTime.Parse("03/01/1977"), true, 1500.50m)),
+            new Argument<People>("people", new People(1, "Fúlvio", null, true, 1500.50m)),
             new Argument<int>("id", 1100)
           ),
           new Fields(
@@ -110,6 +110,10 @@ namespace ConsoleAppTest
         )
       );
       System.Console.WriteLine(typeQL);
+
+      DateTime? data = null;
+      var result0 = data?.GetType() == typeof(DateTime);
+      var result1 = Nullable.GetUnderlyingType(typeof(DateTime?));
     }
   }
 }

@@ -1,6 +1,4 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
-using Canducci.GraphQLQuery.Extensions;
-using System.Text;
 namespace Canducci.GraphQLQuery
 {  
   public class TypeQL : ITypeQL
@@ -21,27 +19,29 @@ namespace Canducci.GraphQLQuery
     #region ToStringJson
     public string ToStringJson()
     {
-      StringBuilder stringBuilder = new StringBuilder();
-      stringBuilder
-          .AppendKeyOpen()
-          .AppendQuotationMark()
-          .AppendQuery()
-          .AppendQuotationMark()
-          .AppendPoints()
-          .AppendQuotationMark()
-          .AppendKeyOpen();
-      foreach (IQueryType item in QueryTypes)
+      using (Builder stringSourceBuilder = new Builder())
       {
-        stringBuilder
-          .AppendQueryType(item)
-          .AppendScalarArguments(item.Arguments, Configuration)
-          .AppendFields(item.Fields, Configuration);
-      }
-      stringBuilder
-        .AppendKeyClose()
-        .AppendQuotationMark()
-        .AppendKeyClose();      
-      return stringBuilder.ToString();      
+        stringSourceBuilder
+            .AppendKeyOpen()
+            .AppendQuotationMark()
+            .AppendQuery()
+            .AppendQuotationMark()
+            .AppendPoints()
+            .AppendQuotationMark()
+            .AppendKeyOpen();
+        foreach (IQueryType item in QueryTypes)
+        {
+          stringSourceBuilder
+            .AppendQueryType(item)
+            .AppendScalarArguments(item.Arguments, Configuration)
+            .AppendFields(item.Fields, Configuration);
+        }
+        stringSourceBuilder
+          .AppendKeyClose()
+          .AppendQuotationMark()
+          .AppendKeyClose();
+        return stringSourceBuilder.ToStringJson();
+      }   
     }
     #endregion
     #region OperatorForString
