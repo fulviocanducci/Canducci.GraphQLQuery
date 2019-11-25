@@ -34,7 +34,7 @@ namespace Canducci.GraphQLQuery
       {
         stringBuilder
           .AppendQueryType(item)
-          .AppendArguments(item.Arguments, Configuration)
+          .AppendScalarArguments(item.Arguments, Configuration)
           .AppendFields(item.Fields, Configuration);
       }
       stringBuilder

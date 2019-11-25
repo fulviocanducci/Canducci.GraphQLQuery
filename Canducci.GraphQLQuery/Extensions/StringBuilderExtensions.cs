@@ -2,81 +2,12 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 namespace Canducci.GraphQLQuery.Extensions
 {
-  internal static class TypeExtensions
-  {
-    public static Type[] NumberTypes = new Type[]
-    {
-      typeof(ushort),
-      typeof(short),
-      typeof(uint),
-      typeof(int),
-      typeof(ulong),
-      typeof(long),      
-    };
-    public static Type[] NumberFloat = new Type[]
-    {
-      typeof(float),
-      typeof(decimal),
-      typeof(double)
-    };
-    public static bool IsNumber(this IArgument argument)
-    {
-      return IsNumber(argument.TypeValue);
-    }
-    public static bool IsNumberFloat(this IArgument argument)
-    {
-      return IsNumberFloat(argument.TypeValue);
-    }
-    public static bool IsBool(this IArgument argument)
-    {
-      return IsBool(argument.TypeValue);
-    }
-    public static bool IsDateTime(this IArgument argument)
-    {
-      return IsDateTime(argument.TypeValue);
-    }
-    public static bool IsString(this IArgument argument)
-    {
-      return IsString(argument.TypeValue);
-    }
-    public static bool IsClass(this IArgument argument)
-    {
-      return IsClass(argument.TypeValue);
-    }    
-    public static bool IsNumber(this Type type)
-    {
-      return NumberTypes.Contains(type);
-    }
-    public static bool IsNumberFloat(this Type type)      
-    {
-      return NumberFloat.Contains(type);
-    }
-    public static bool IsBool(this Type type)
-    {
-      return type == typeof(bool);
-    }
-    public static bool IsDateTime(this Type type)
-    {
-      return type == typeof(DateTime);
-    }
-    public static bool IsString(this Type type)
-    {
-      return type == typeof(string) || type == typeof(char);
-    }
-    public static bool IsClass(this Type type)
-    {
-      return type.IsClass;
-    }
-  }
   internal static class StringBuilderExtensions
-  {
-    internal static StringBuilder AppendString(this StringBuilder stringBuilder, string value)
-    {
-      return stringBuilder.Append(value);
-    }
+  { 
     internal static StringBuilder AppendStringWithQuote(this StringBuilder stringBuilder, object value)
     {
       return stringBuilder
@@ -126,11 +57,9 @@ namespace Canducci.GraphQLQuery.Extensions
     {
       return AppendField(stringBuilder, queryType.Name, queryType.Alias);
     }
-    internal static StringBuilder AppendField(this StringBuilder stringBuilder, string name, string alias)
+    internal static StringBuilder AppendField(this StringBuilder stringBuilder, string name, string alias = null)
     {
-      return string.IsNullOrEmpty(alias)
-        ? stringBuilder.Append(name)
-        : stringBuilder.AppendString(alias).AppendPoints().AppendString(name);
+      return string.IsNullOrEmpty(alias) ? stringBuilder.Append(name) : stringBuilder.Append(alias).AppendPoints().Append(name);
     }    
     internal static StringBuilder AppendFields(this StringBuilder stringBuilder, Fields fields, ITypeQLConfiguration configuration)
     {
@@ -140,7 +69,7 @@ namespace Canducci.GraphQLQuery.Extensions
       }
       void AppendFieldsInternal(StringBuilder _stringBuilder, Fields _fields, ITypeQLConfiguration _configuration)
       {
-        _stringBuilder.AppendKeyOpen();
+        _stringBuilder.AppendKeyOpen();        
         foreach (IField _field in _fields)
         {
           stringBuilder.AppendField(_field.Name, _field.Alias);
@@ -158,31 +87,30 @@ namespace Canducci.GraphQLQuery.Extensions
       AppendFieldsInternal(stringBuilder, fields, configuration);
       return stringBuilder;
     }
-    internal static StringBuilder AppendDateTime(this StringBuilder stringBuilder, IArgument argument, ITypeQLConfiguration configuration, object value = null)
+    internal static StringBuilder AppendDateTime(this StringBuilder stringBuilder, object value, ITypeQLConfiguration configuration, ArgumentFormat argumentFormat = ArgumentFormat.Default)
     {
-      value = value ?? argument.Value;
-      ArgumentFormat argumentFormat = argument.ArgumentFormat == ArgumentFormat.Default ? configuration.ArgumentFormat : argument.ArgumentFormat;
+      argumentFormat = argumentFormat == ArgumentFormat.Default ? configuration.ArgumentFormat : argumentFormat;
       stringBuilder.AppendBackslashes().AppendQuotationMark();
       switch (argumentFormat)
       {
         case ArgumentFormat.FormatDate:
           {
-            stringBuilder.AppendString(((DateTime)value).ToString("yyyy-MM-dd"));
+            stringBuilder.Append(((DateTime)value).ToString("yyyy-MM-dd"));
             break;
           }
         case ArgumentFormat.FormatDateTime:
           {
-            stringBuilder.AppendString(((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
+            stringBuilder.Append(((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
             break;
           }
         case ArgumentFormat.FormatTime:
           {
-            stringBuilder.AppendString(((DateTime)value).ToString("HH:mm:ss"));
+            stringBuilder.Append(((DateTime)value).ToString("HH:mm:ss"));
             break;
           }
         default:
           {
-            stringBuilder.AppendString(((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
+            stringBuilder.Append(((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
             break;
           }
       }
@@ -190,84 +118,45 @@ namespace Canducci.GraphQLQuery.Extensions
     }
     internal static StringBuilder AppendBool(this StringBuilder stringBuilder, object value)
     {
-      stringBuilder.AppendString(((bool)value).ToString().ToLower());
-      return stringBuilder;
+      return stringBuilder.Append(((bool)value).ToString().ToLower());      
     }
     internal static StringBuilder AppendNumber(this StringBuilder stringBuilder, object value)
     { 
       return stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "{0}", value));
-    }
-    #region Arguments_Group_Special
-    internal static StringBuilder AppendArguments(this StringBuilder stringBuilder, Arguments arguments, ITypeQLConfiguration configuration)
+    }    
+    internal static StringBuilder AppendScalarArguments(this StringBuilder stringBuilder, Arguments arguments, ITypeQLConfiguration configuration)
     {
       if (arguments == null || arguments?.Count <= 0)
       {
         return stringBuilder;
       }
       stringBuilder.AppendBracketOpen();
+      IArgument argumentLast = arguments?.LastOrDefault();
       foreach (IArgument argument in arguments)
       {
-        stringBuilder.AppendString(argument.Name).AppendPoints();
-        if (argument.IsNumber())
-        {
-          stringBuilder.Append(argument.Value);
-        }
-        else if (argument.IsNumberFloat())
-        {
-          stringBuilder.AppendNumber(argument.Value);
-        }
-        else if (argument.IsBool())
-        {
-          stringBuilder.AppendBool(argument.Value);
-        }
-        else if (argument.IsDateTime())
-        {
-          stringBuilder.AppendDateTime(argument, configuration);
-        }
-        else if (argument.IsString())
-        {
-          stringBuilder.AppendStringWithQuote(argument.Value);
-        }
-        else if (argument.IsClass())
-        {
-          stringBuilder.AppendClassArguments(argument, configuration);
-        }
-        if (!argument.Equals(arguments.LastOrDefault()))
+        stringBuilder
+          .Append(argument.Name)
+          .AppendPoints()
+          .AppendTypesOf(argument.TypeValue, argument.Value, configuration, argument.ArgumentFormat);
+        if (!argument.Equals(argumentLast))
         {
           stringBuilder.AppendSeparation(configuration);
         }
       }
-      stringBuilder.AppendBracketClose();
-      return stringBuilder;
-    }
-    internal static StringBuilder AppendClassArguments(this StringBuilder stringBuilder, IArgument argument, ITypeQLConfiguration configuration)
+      return stringBuilder.AppendBracketClose();
+    }    
+    internal static StringBuilder AppendClassArguments(this StringBuilder stringBuilder, object value, ITypeQLConfiguration configuration, ArgumentFormat argumentFormat = ArgumentFormat.Default)
     {
       stringBuilder.AppendKeyOpen();
-      var properties = argument.Value.GetType().GetProperties();
-      foreach (var property in properties)
+      PropertyInfo[] properties = value.GetType().GetProperties();
+      PropertyInfo propertyLast = properties.LastOrDefault();
+      foreach (PropertyInfo property in properties)
       {
-        stringBuilder.AppendString(property.Name.ToLower()).AppendPoints();
-        if (property.PropertyType.IsNumber())
-        {
-          stringBuilder.Append(property.GetValue(argument.Value));
-        }
-        else if (property.PropertyType.IsNumberFloat())
-        {
-          stringBuilder.AppendNumber(property.GetValue(argument.Value));
-        }
-        else if (property.PropertyType.IsBool())
-        {
-          stringBuilder.AppendBool(property.GetValue(argument.Value));
-        }
-        else if (property.PropertyType.IsDateTime())
-        {
-          stringBuilder.AppendDateTime(argument, configuration, property.GetValue(argument.Value));
-        }
-        else if (property.PropertyType.IsString())
-        {
-          stringBuilder.AppendStringWithQuote(property.GetValue(argument.Value));
-        }
-        if (!property.Equals(properties.LastOrDefault()))
+        stringBuilder
+          .Append(property.Name.ToLower())
+          .AppendPoints()
+          .AppendTypesOf(property.PropertyType, property.GetValue(value), configuration, argumentFormat);
+        if (!property.Equals(propertyLast))
         {
           stringBuilder.AppendSeparation(configuration);
         }
@@ -275,6 +164,33 @@ namespace Canducci.GraphQLQuery.Extensions
       stringBuilder.AppendKeyClose();
       return stringBuilder;
     }
-    #endregion
+    internal static StringBuilder AppendTypesOf(this StringBuilder stringBuilder, Type type, object value, ITypeQLConfiguration configuration, ArgumentFormat argumentFormat = ArgumentFormat.Default)
+    {      
+      if (type.IsNumber())
+      {
+        stringBuilder.Append(value);
+      }
+      else if (type.IsNumberFloat())
+      {
+        stringBuilder.AppendNumber(value);
+      }
+      else if (type.IsBool())
+      {
+        stringBuilder.AppendBool(value);
+      }
+      else if (type.IsDateTime())
+      {
+        stringBuilder.AppendDateTime(value, configuration, argumentFormat);
+      }
+      else if (type.IsString())
+      {
+        stringBuilder.AppendStringWithQuote(value);
+      }
+      else if (type.IsClass())
+      {
+        stringBuilder.AppendClassArguments(value, configuration);
+      }
+      return stringBuilder;
+    }
   }
 }

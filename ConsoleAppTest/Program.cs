@@ -89,13 +89,23 @@ namespace ConsoleAppTest
       //Car List
       TypeQL typeQL = new TypeQL(
         new QueryType(
-          "cars",          
+          "cars",     
+          arguments: new Arguments(
+            new Argument<People>("people", new People(1, "Fúlvio", DateTime.Parse("03/01/1977"), true, 1500.50m)),
+            new Argument<int>("id", 1100)
+          ),
           new Fields(
             new Field("id"),
             new Field("title"),
             new Field("purchase"),
             new Field("value"),
-            new Field("active")
+            new Field("active"),
+            new FieldRelationship("state", 
+              new Fields(
+                new Field("code"),
+                new Field("source")
+              )
+            )
           )
         )
       );
