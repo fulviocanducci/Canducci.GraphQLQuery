@@ -3,7 +3,6 @@
   public class People
   {
     public People()
-      :this(0, "", System.DateTime.Now.AddDays(-1), false, 0)
     {
     }
     public People(int id, string name, System.DateTime created, bool active, decimal value)

@@ -46,7 +46,7 @@ namespace Canducci.GraphQLQuery.MSTest
       var queryType = new QueryType(
         name: "people_add",
         arguments: new Arguments(
-          new Argument<People>("people", new People(0, "test"))
+          new Argument<People>("people", new People(0, "test", DateTime.Parse("01/01/1970"), true, 0))
         ),
         fields: new Fields(
           new Field("id"),
@@ -56,7 +56,7 @@ namespace Canducci.GraphQLQuery.MSTest
       
       var typeQLTest = TypeQLTest(queryType);
       Assert.AreEqual(
-        "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\"}){id,name}}\"}",
+        "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01 00:00:00\\\",active:true,value:0}){id,name}}\"}",
           typeQLTest.ToStringJson()
       );
     }
