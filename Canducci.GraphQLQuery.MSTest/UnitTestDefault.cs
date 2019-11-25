@@ -1,5 +1,6 @@
 using Canducci.GraphQLQuery.MSTest.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models;
 using System;
 
 namespace Canducci.GraphQLQuery.MSTest
@@ -46,7 +47,7 @@ namespace Canducci.GraphQLQuery.MSTest
       var queryType = new QueryType(
         name: "people_add",
         arguments: new Arguments(
-          new Argument<People>("people", new People(0, "test", DateTime.Parse("01/01/1970"), true, 0))
+          new Argument<People>("people", new People(0, "test", DateTime.Parse("01/01/1970"), true, 0, TimeSpan.Parse("14:25:00")))
         ),
         fields: new Fields(
           new Field("id"),
@@ -56,7 +57,7 @@ namespace Canducci.GraphQLQuery.MSTest
       
       var typeQLTest = TypeQLTest(queryType);
       Assert.AreEqual(
-        "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01 00:00:00\\\",active:true,value:0}){id,name}}\"}",
+        "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01 00:00:00\\\",active:true,value:0,hours:\\\"14:25:00\\\"}){id,name}}\"}",
           typeQLTest.ToStringJson()
       );
     }
@@ -150,6 +151,47 @@ namespace Canducci.GraphQLQuery.MSTest
         )
       );
       string expect = "{\"query\":\"{car_delete(id:1){description,operation,status}}\"}";
+      Assert.AreEqual(expect, typeQL);
+    }
+
+    [TestMethod]
+    public void TestItemsNullFields()
+    {
+      var item = new Items() { Id = null, Title = "Item", Updated = null };
+      TypeQL typeQL = new TypeQL(
+        new QueryType(
+          "item_add",
+          new Arguments(
+            new Argument<Items>("item", item)
+          ),
+          new Fields(
+            new Field("id"),
+            new Field("title"),
+            new Field("updated")
+          )
+        )
+      );
+      string expect = "{\"query\":\"{item_add(item:{id:null,title:\\\"Item\\\",updated:null}){id,title,updated}}\"}";
+      Assert.AreEqual(expect, typeQL);
+    }
+    [TestMethod]
+    public void TestItemsGuidEmptyValueAndNullFields()
+    {
+      var item = new Items() { Id = Guid.Empty, Title = "Item", Updated = null };
+      TypeQL typeQL = new TypeQL(
+        new QueryType(
+          "item_add",
+          new Arguments(
+            new Argument<Items>("item", item)
+          ),
+          new Fields(
+            new Field("id"),
+            new Field("title"),
+            new Field("updated")
+          )
+        )
+      );
+      string expect = "{\"query\":\"{item_add(item:{id:\\\"00000000-0000-0000-0000-000000000000\\\",title:\\\"Item\\\",updated:null}){id,title,updated}}\"}";
       Assert.AreEqual(expect, typeQL);
     }
   }

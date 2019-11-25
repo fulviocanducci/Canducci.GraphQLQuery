@@ -9,7 +9,7 @@ namespace Canducci.GraphQLQuery
 {
   internal class Builder : IDisposable
   {
-    internal StringBuilder StringSource { get; private set; }
+    protected internal StringBuilder StringSource { get; private set; }
     internal string ToStringJson() => StringSource.ToString();
     public Builder()
     {
@@ -27,7 +27,7 @@ namespace Canducci.GraphQLQuery
       StringSource.Append("null");
       return this;
     }
-    internal Builder AppendDateTime(object value, ITypeQLConfiguration configuration, ArgumentFormat argumentFormat = ArgumentFormat.Default)
+    internal Builder AppendDateTime(DateTime value, ITypeQLConfiguration configuration, ArgumentFormat argumentFormat = ArgumentFormat.Default)
     {
       argumentFormat = argumentFormat == ArgumentFormat.Default ? configuration.ArgumentFormat : argumentFormat;
       AppendBackslashes().AppendQuotationMark();
@@ -35,22 +35,22 @@ namespace Canducci.GraphQLQuery
       {
         case ArgumentFormat.FormatDate:
           {
-            AppendString(((DateTime)value).ToString("yyyy-MM-dd"));
+            AppendString(value.ToString("yyyy-MM-dd"));
             break;
           }
         case ArgumentFormat.FormatDateTime:
           {
-            AppendString(((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
+            AppendString(value.ToString("yyyy-MM-dd HH:mm:ss"));
             break;
           }
         case ArgumentFormat.FormatTime:
           {
-            AppendString(((DateTime)value).ToString("HH:mm:ss"));
+            AppendString(value.ToString("HH\\:mm\\:ss"));
             break;
           }
         default:
           {
-            AppendString(((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
+            AppendString(value.ToString("yyyy-MM-dd HH:mm:ss"));
             break;
           }
       }
@@ -63,6 +63,18 @@ namespace Canducci.GraphQLQuery
     internal Builder AppendNumber<T>(T value)
     {
       return AppendString(string.Format(CultureInfo.InvariantCulture, "{0}", value));      
+    }
+    internal Builder AppendGuid(Guid value)
+    {
+      AppendBackslashes().AppendQuotationMark();      
+      AppendString(value.ToString());
+      return AppendBackslashes().AppendQuotationMark();
+    }
+    internal Builder AppendTimeSpan(TimeSpan value)
+    {
+      AppendBackslashes().AppendQuotationMark();      
+      AppendString(value.ToString("hh\\:mm\\:ss", CultureInfo.InvariantCulture));
+      return AppendBackslashes().AppendQuotationMark();
     }
     #endregion
 
@@ -188,35 +200,57 @@ namespace Canducci.GraphQLQuery
     }
     internal Builder AppendTypesOf(Type type, object value, ITypeQLConfiguration configuration, ArgumentFormat argumentFormat = ArgumentFormat.Default)
     {
+      type.IsNullable(out Type localType);
       if (value == null)
       {
         AppendNull();
       }
-      else if (type.IsNumber() || type.IsNumberFloat())
+      else if (localType.IsString())
+      {
+        AppendStringWithQuote(value.ToString());
+      }
+      else if (localType.IsClass() && !localType.IsString())
+      {
+        AppendClassArguments(value, configuration);
+      }      
+      else if (localType.IsGuid())
+      {
+        if (Guid.TryParse(value.ToString(), out Guid valueGuid))
+        {
+          AppendGuid(valueGuid);
+        }
+      }
+      else if (localType.IsNumber() || localType.IsNumberFloat() || localType.IsBigInteger())
       {
         AppendNumber(value);
       }
-      else if (type.IsBool())
+      else if (localType.IsBool())
       {
-        if (bool.TryParse(value.ToString(), out bool boolValue))
+        if (bool.TryParse(value.ToString(), out bool valueBool))
         {
-          AppendBool(boolValue);
+          AppendBool(valueBool);
         }
       }
-      else if (type.IsDateTime())
+      else if (localType.IsDateTime())
       {
         if (DateTime.TryParse(value.ToString(), out DateTime valueDateTime))
         {
           AppendDateTime(valueDateTime, configuration, argumentFormat);
         }
       }
-      else if (type.IsString())
+      else if (localType.IsDateTimeOffset())
       {
-        AppendStringWithQuote(value.ToString());
+        if (DateTimeOffset.TryParse(value.ToString(), out DateTimeOffset valueDateTimeOffSet))
+        {
+          AppendDateTime(valueDateTimeOffSet.DateTime, configuration, argumentFormat);
+        }
       }
-      else if (type.IsClass())
+      else if (localType.IsTimeSpan())
       {
-        AppendClassArguments(value, configuration);
+        if (TimeSpan.TryParse(value.ToString(), out TimeSpan timeSpan))
+        {
+          AppendTimeSpan(timeSpan);
+        }
       }
       return this;
     }

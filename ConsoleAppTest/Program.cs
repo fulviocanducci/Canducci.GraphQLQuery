@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery;
 using Canducci.GraphQLQuery.MSTest.Models;
+using Models;
 using System;
 
 namespace ConsoleAppTest
@@ -87,33 +88,29 @@ namespace ConsoleAppTest
       //System.Console.WriteLine(typeQL);
 
       //Car List
+      var item = new Items() { Id = Guid.Empty, Title = "Item 10", Updated = null };
       TypeQL typeQL = new TypeQL(
         new QueryType(
-          "cars",
+          "item_add",
           new Arguments(
-            new Argument<People>("people", new People(1, "Fúlvio", null, true, 1500.50m)),
-            new Argument<int>("id", 1100)
+            new Argument<Items>("item", item)
           ),
           new Fields(
             new Field("id"),
             new Field("title"),
-            new Field("purchase"),
-            new Field("value"),
-            new Field("active"),
-            new FieldRelationship("state", 
-              new Fields(
-                new Field("code"),
-                new Field("source")
-              )
-            )
+            new Field("updated")
           )
         )
       );
       System.Console.WriteLine(typeQL);
 
-      DateTime? data = null;
-      var result0 = data?.GetType() == typeof(DateTime);
-      var result1 = Nullable.GetUnderlyingType(typeof(DateTime?));
+      //DateTime? data = null;
+      //var result0 = data?.GetType() == typeof(DateTime);
+      //var result1 = Nullable.GetUnderlyingType(typeof(DateTime?));
+
+      //System.Console.WriteLine(default(Guid));
+
+
     }
   }
 }
