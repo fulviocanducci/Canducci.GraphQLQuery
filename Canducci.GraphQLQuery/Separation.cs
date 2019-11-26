@@ -1,12 +1,8 @@
-﻿using System.ComponentModel;
-
-namespace Canducci.GraphQLQuery
+﻿namespace Canducci.GraphQLQuery
 {
   public enum Separation
-  {
-    [Description("Space")]
-    Space,
-    [Description("Comma")]
+  {    
+    Space,   
     Comma
   }
 }

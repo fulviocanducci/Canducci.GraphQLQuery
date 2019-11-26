@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Canducci.GraphQLQuery
 {
-  public class Arguments : List<IArgument>
-  {
-    public Arguments(params IArgument[] arguments)
-    {
-      AddRange(arguments);
-    }      
-  }
+   public class Arguments : List<IArgument>
+   {
+      public Arguments(params IArgument[] arguments)
+      {
+         AddRange(arguments);
+      }
+   }
 }

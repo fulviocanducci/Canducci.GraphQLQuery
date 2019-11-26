@@ -1,8 +1,8 @@
 ﻿namespace Canducci.GraphQLQuery.Interfaces
 {
-  public interface IField
-  {
-    string Name { get; }
-    string Alias { get; }
-  }
+   public interface IField
+   {
+      string Name { get; }
+      string Alias { get; }
+   }
 }
