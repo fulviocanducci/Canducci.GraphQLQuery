@@ -14,7 +14,5 @@ namespace Canducci.GraphQLQuery
          Alias = alias;
          Fields = fields;
       }
-      public static IFieldRelationship Create(string name, Fields fields) => new FieldRelationship(name, fields);
-      public static IFieldRelationship Create(string name, string alias, Fields fields) => new FieldRelationship(name, alias, fields);
    }
 }

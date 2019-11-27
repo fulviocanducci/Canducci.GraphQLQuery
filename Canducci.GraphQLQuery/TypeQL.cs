@@ -1,42 +1,44 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
+using System.Text;
 namespace Canducci.GraphQLQuery
 {
    public class TypeQL : ITypeQL
    {
-      public ITypeQLConfiguration Configuration { get; private set; }
       public IQueryType[] QueryTypes { get; private set; }
       public TypeQL(params IQueryType[] queryTypes)
-        : this(new TypeQLConfiguration(Separation.Comma, ArgumentFormat.FormatDateTime), queryTypes) { }
-      public TypeQL(ITypeQLConfiguration configuration, params IQueryType[] queryTypes)
       {
          QueryTypes = queryTypes;
-         Configuration = configuration;
       }
       public string ToStringJson()
-      {
-         using (Builder stringSourceBuilder = new Builder())
+      {       
+         StringBuilder str = new StringBuilder();
+         foreach (IQueryType item in QueryTypes)
          {
-            stringSourceBuilder
-                .AppendKeyOpen()
-                .AppendQuotationMark()
-                .AppendQuery()
-                .AppendQuotationMark()
-                .AppendPoints()
-                .AppendQuotationMark()
-                .AppendKeyOpen();
-            foreach (IQueryType item in QueryTypes)
+            str.Append("{");
+            str.Append("\"");
+            str.Append("query");
+            str.Append("\"");
+            str.Append(":");
+            str.Append("\"");
+            str.Append("{");            
+            str.Append(string.IsNullOrEmpty(item.Alias) ? item.Name.ToLowerInvariant(): $"{item.Alias.ToLowerInvariant()}:{item.Name.ToLowerInvariant()}");
+            if (item?.Arguments?.Count > 0)
             {
-               stringSourceBuilder
-                 .AppendQueryType(item)
-                 .AppendScalarArguments(item.Arguments, Configuration)
-                 .AppendFields(item.Fields, Configuration);
-            }
-            stringSourceBuilder
-              .AppendKeyClose()
-              .AppendQuotationMark()
-              .AppendKeyClose();
-            return stringSourceBuilder.ToStringJson();
+               str.Append("(");
+               item.Arguments.AppendStringBuilder(str);
+               str.Append(")");
+            }            
+            if (item?.Fields?.Count > 0)
+            {
+               str.Append("{");
+               item.Fields.AppendStringBuilder(str);
+               str.Append("}");
+            }                     
+            str.Append("}");
+            str.Append("\"");
+            str.Append("}");
          }
+         return str.ToString();
       }
       public static implicit operator string(TypeQL typeQL)
       {
@@ -44,7 +46,6 @@ namespace Canducci.GraphQLQuery
       }
       public void Dispose()
       {
-         Configuration = null;
          QueryTypes = null;
          System.GC.SuppressFinalize(this);
       }

@@ -1,29 +1,32 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
-using System;
-
+using System.Globalization;
 namespace Canducci.GraphQLQuery
-{   
-   public class Argument<T> : IArgument
+{
+   public class Argument : IArgument
    {
-      public string Name { get; private set; }
-      public object Value { get; private set; }
-      public Type TypeValue { get; private set; }
-      public ArgumentFormat ArgumentFormat { get; private set; }
-      public Argument(string name, T value)
+      public string Name { get; }
+      public object Value { get; }
+      public IRule Rule { get; }
+      public string KeyValue
+      {
+         get
+         {
+            if (Rule.Format == Format.FormatClass)
+            {
+               return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}{3}", Name, "{", Convert(), "}");
+            }
+            return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", Name, Convert());
+         }
+      }
+      public Argument(string name, object value)
       {
          Name = name;
          Value = value;
-         ArgumentFormat = ArgumentFormat.Default;
-         TypeValue = typeof(T);
-      }
-      public Argument(string name, T value, ArgumentFormat argumentFormat)
+         Rule = Rules.Instance.Rule(value?.GetType());
+      }      
+      public string Convert()
       {
-         Name = name;
-         Value = value;
-         ArgumentFormat = argumentFormat;
-         TypeValue = typeof(T);
-      }
-      public static Argument<T> Create(string name, T value) => Create(name, value, ArgumentFormat.Default);
-      public static Argument<T> Create(string name, T value, ArgumentFormat argumentFormat) => new Argument<T>(name, value, argumentFormat) { TypeValue = typeof(T) };
+         return Rule.Convert(Value);
+      }      
    }
 }

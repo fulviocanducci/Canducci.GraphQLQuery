@@ -1,4 +1,6 @@
-﻿namespace Canducci.GraphQLQuery.Interfaces
+﻿using System.Text;
+
+namespace Canducci.GraphQLQuery.Interfaces
 {
    public interface IField
    {

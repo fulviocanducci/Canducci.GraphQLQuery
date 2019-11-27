@@ -12,7 +12,5 @@ namespace Canducci.GraphQLQuery
          Name = name;
          Alias = alias;
       }
-      public static IField Create(string name) => new Field(name);
-      public static IField Create(string name, string alias) => new Field(name, alias);
    }
 }
