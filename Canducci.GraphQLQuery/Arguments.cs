@@ -11,13 +11,13 @@ namespace Canducci.GraphQLQuery
          AddRange(arguments);
       }
       internal void AppendStringBuilder(StringBuilder str = null)
-      {         
+      {
          foreach (IArgument argument in this)
          {
             str.Append(argument.KeyValue);
-            if (argument.Equals(this.LastOrDefault()) == false)
+            if (!argument.Equals(this.LastOrDefault()))
             {
-               str.Append(",");
+               str.Append(Signals.Comma);
             }
          }
       }

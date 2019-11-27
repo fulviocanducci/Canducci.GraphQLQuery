@@ -1,4 +1,6 @@
-﻿using Canducci.GraphQLQuery.Interfaces;
+﻿using Canducci.GraphQLQuery.Extensions;
+using Canducci.GraphQLQuery.Interfaces;
+using System.Linq;
 using System.Text;
 namespace Canducci.GraphQLQuery
 {
@@ -10,36 +12,22 @@ namespace Canducci.GraphQLQuery
          QueryTypes = queryTypes;
       }
       public string ToStringJson()
-      {       
-         StringBuilder str = new StringBuilder();
-         foreach (IQueryType item in QueryTypes)
-         {
-            str.Append("{");
-            str.Append("\"");
-            str.Append("query");
-            str.Append("\"");
-            str.Append(":");
-            str.Append("\"");
-            str.Append("{");            
-            str.Append(string.IsNullOrEmpty(item.Alias) ? item.Name.ToLowerInvariant(): $"{item.Alias.ToLowerInvariant()}:{item.Name.ToLowerInvariant()}");
-            if (item?.Arguments?.Count > 0)
-            {
-               str.Append("(");
-               item.Arguments.AppendStringBuilder(str);
-               str.Append(")");
-            }            
-            if (item?.Fields?.Count > 0)
-            {
-               str.Append("{");
-               item.Fields.AppendStringBuilder(str);
-               str.Append("}");
-            }                     
-            str.Append("}");
-            str.Append("\"");
-            str.Append("}");
-         }
-         return str.ToString();
+      {
+         StringBuilder stringBuilder = new StringBuilder();
+         stringBuilder.Append(Signals.BraceOpen);
+         stringBuilder.Append(Signals.QuotationMark);
+         stringBuilder.Append(Signals.Query);
+         stringBuilder.Append(Signals.QuotationMark);
+         stringBuilder.Append(Signals.Colon);
+         stringBuilder.Append(Signals.QuotationMark);
+         stringBuilder.Append(Signals.BraceOpen);
+         stringBuilder.Append<IQueryType>(QueryTypes);
+         stringBuilder.Append(Signals.BraceClose);
+         stringBuilder.Append(Signals.QuotationMark);
+         stringBuilder.Append(Signals.BraceClose);
+         return stringBuilder.ToString();
       }
+
       public static implicit operator string(TypeQL typeQL)
       {
          return typeQL.ToStringJson();

@@ -10,7 +10,7 @@
 PM> Install-Package Canducci.GraphQLQuery
 ```
 
-## Example
+## Examples
 
 ### Code:
 
@@ -31,6 +31,33 @@ TypeQL typeQL = new TypeQL(
 
 ### Result:
 
-```
+```json
 {"query":"{cars{id,title,purchase,value,active}}"}
+```
+
+---
+
+### Code:
+
+```
+TypeQL typeQL = new TypeQL(
+  new QueryType("states", "data",
+      new Fields(
+        new Field("id"),
+        new Field("uf")
+      )
+  ),
+  new QueryType("countries",
+      new Fields(
+        new Field("id"),
+        new Field("name")
+      )
+  )
+);
+```
+
+### Example:
+
+```json
+{"query":"{data:states{id,uf}countries{id,name}}"}
 ```

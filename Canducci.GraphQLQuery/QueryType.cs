@@ -16,11 +16,6 @@ namespace Canducci.GraphQLQuery
          Alias = alias;
          Arguments = arguments;
          Fields = fields;
-      }
-      public static QueryType Create(string name, Fields fields) => new QueryType(name, fields);
-      public static QueryType Create(string name, Arguments arguments, Fields fields) => new QueryType(name, arguments, fields);
-      public static QueryType Create(string name, string alias, Fields fields) => new QueryType(name, alias, fields);
-      public static QueryType Create(string name, string alias, Arguments arguments, Fields fields) => new QueryType(name, alias, arguments, fields);
-
+      }   
    }
 }

@@ -11,11 +11,7 @@ namespace Canducci.GraphQLQuery
       {
          get
          {
-            if (Rule.Format == Format.FormatClass)
-            {
-               return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}{3}", Name, "{", Convert(), "}");
-            }
-            return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", Name, Convert());
+            return GetKeyValue();
          }
       }
       public Argument(string name, object value)
@@ -27,6 +23,14 @@ namespace Canducci.GraphQLQuery
       public string Convert()
       {
          return Rule.Convert(Value);
-      }      
+      }    
+      private string GetKeyValue()
+      {
+         if (Rule.Format == Format.FormatClass)
+         {
+            return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}{3}", Name, Signals.BraceOpen, Convert(), Signals.BraceClose);
+         }
+         return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", Name, Convert());
+      }
    }
 }

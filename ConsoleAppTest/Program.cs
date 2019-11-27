@@ -1,6 +1,5 @@
 ﻿using Canducci.GraphQLQuery;
 using Canducci.GraphQLQuery.MSTest.Models;
-using System;
 
 namespace ConsoleAppTest
 {
@@ -8,6 +7,88 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
+         TypeQL typeQL = new TypeQL(
+            new QueryType("states", "data",
+               new Fields(
+                  new Field("id"),
+                  new Field("uf")
+               )
+            ),
+            new QueryType("countries",
+               new Fields(
+                  new Field("id"),
+                  new Field("name")
+               )
+            )
+         );
+
+         System.Console.WriteLine(typeQL);
+         //TypeQL typeQL = new TypeQL(
+         //   new QueryType("states","data",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf"),
+         //         new Field(
+         //            new QueryType("country",
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("name")
+         //               )
+         //            )
+         //         )
+         //      )
+         //   ),
+         //   new QueryType("countries",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("name")
+         //      )
+         //   )
+         //);
+         //System.Console.WriteLine(typeQL);
+
+         #region Comments
+         //TypeQL typeQL = new TypeQL(
+         //   new QueryType("state_find",
+         //      new Arguments(
+         //         new Argument("id", 11),
+         //         new Argument("load", true)
+         //      ),
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf"),
+         //         new Field(
+         //            new QueryType("country",
+         //               new Arguments(new Argument("car", new Car())),
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("name")
+         //               )
+         //            )
+         //         )
+         //      )
+         //   ),
+         //   new QueryType("country_find","data",
+         //      new Arguments(
+         //         new Argument("id", 1),
+         //         new Argument("load", true)
+         //      ),
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("name"),
+         //         new Field(
+         //            new QueryType("state",
+         //               new Arguments(new Argument("car", new Car())),
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("uf")
+         //               )
+         //            )
+         //         )
+         //      )
+         //   )
+         //);
+         //System.Console.WriteLine(typeQL);
 
          //TypeQL typeQL = new TypeQL(
          //  new QueryType(
@@ -31,30 +112,30 @@ namespace ConsoleAppTest
 
 
          //AddCar
-         Car car = new Car()
-         {
-            Id = 0,
-            Title = "Car 1",
-            Purchase = DateTime.Now.AddDays(-100),
-            Value = 10000.00M,
-            Active = true
-         };
-         TypeQL typeQL = new TypeQL(
-           new QueryType(
-             "car_add",
-             new Arguments(
-               new Argument("car", car)
-             ),
-             new Fields(
-               new Field("id"),
-               new Field("title"),
-               new Field("purchase"),
-               new Field("value"),
-               new Field("active")
-             )
-           )
-         );
-         System.Console.WriteLine(typeQL);
+         //Car car = new Car()
+         //{
+         //   Id = 0,
+         //   Title = "Car 1",
+         //   Purchase = DateTime.Now.AddDays(-100),
+         //   Value = 10000.00M,
+         //   Active = true
+         //};
+         //TypeQL typeQL = new TypeQL(
+         //  new QueryType(
+         //    "car_add",
+         //    new Arguments(
+         //      new Argument("car", car)
+         //    ),
+         //    new Fields(
+         //      new Field("id"),
+         //      new Field("title"),
+         //      new Field("purchase"),
+         //      new Field("value"),
+         //      new Field("active")
+         //    )
+         //  )
+         //);
+         //System.Console.WriteLine(typeQL);
 
          //Car Edit
          //Car car = new Car()
@@ -134,7 +215,7 @@ namespace ConsoleAppTest
          //var result1 = Nullable.GetUnderlyingType(typeof(DateTime?));
 
          //System.Console.WriteLine(default(Guid));
-
+         #endregion
 
       }
    }
