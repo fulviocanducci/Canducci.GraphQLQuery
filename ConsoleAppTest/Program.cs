@@ -27,8 +27,8 @@ namespace ConsoleAppTest
             new QueryType("states", 
                "data",
                new Fields(
-                  new Field("id"),
-                  new Field("uf")
+                  new Field("id", "_id"),
+                  new Field("uf", "_uf")
                )
             )
          );
