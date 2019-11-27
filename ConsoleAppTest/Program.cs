@@ -7,22 +7,34 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
+         //TypeQL typeQL = new TypeQL(
+         //   new QueryType("states", "data",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf")
+         //      )
+         //   ),
+         //   new QueryType("countries",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("name")
+         //      )
+         //   )
+         //);
+         //System.Console.WriteLine(typeQL);
+
          TypeQL typeQL = new TypeQL(
-            new QueryType("states", "data",
+            new QueryType("states", 
+               "data",
                new Fields(
                   new Field("id"),
                   new Field("uf")
                )
-            ),
-            new QueryType("countries",
-               new Fields(
-                  new Field("id"),
-                  new Field("name")
-               )
             )
          );
-
          System.Console.WriteLine(typeQL);
+
+
          //TypeQL typeQL = new TypeQL(
          //   new QueryType("states","data",
          //      new Fields(

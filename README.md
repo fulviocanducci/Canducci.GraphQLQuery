@@ -6,18 +6,22 @@
 
 ## Package Installation
 
-```
+```code
 PM> Install-Package Canducci.GraphQLQuery
 ```
 
-## Examples
+## Examples:
+ 
+__A Query Type Only__
 
-### Code:
+###### Code
 
-```csharp
+
+
+```c#
 TypeQL typeQL = new TypeQL(
   new QueryType(
-    "cars",          
+    "cars",
     new Fields(
       new Field("id"),
       new Field("title"),
@@ -29,17 +33,19 @@ TypeQL typeQL = new TypeQL(
 );
 ```
 
-### Result:
+###### Result
 
 ```json
 {"query":"{cars{id,title,purchase,value,active}}"}
 ```
 
----
+#
 
-### Code:
+__Multiple Query Type__
 
-```
+###### Code:
+
+```c#
 TypeQL typeQL = new TypeQL(
   new QueryType("states", "data",
       new Fields(
@@ -56,8 +62,35 @@ TypeQL typeQL = new TypeQL(
 );
 ```
 
-### Example:
+###### Example:
 
 ```json
 {"query":"{data:states{id,uf}countries{id,name}}"}
 ```
+
+#
+
+__Query Type with Alias__
+
+###### Code:
+
+```c#
+TypeQL typeQL = new TypeQL(
+     new QueryType(
+	 "states", 
+	 "data", // <-alias
+	  new Fields(
+	    new Field("id"),
+            new Field("uf")
+      )
+   )
+);
+```
+
+###### Example:
+
+```json
+{"query":"{data:states{id,uf}}"}
+```
+
+#
