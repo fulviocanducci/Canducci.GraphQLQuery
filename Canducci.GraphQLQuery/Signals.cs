@@ -5,7 +5,7 @@
       public const string QuotationMark = "\"";
       public const string Backslashes = "\\";
       public const string ParenthesisOpen = "(";
-      public const string ParenthesisClose = "(";
+      public const string ParenthesisClose = ")";
       public const string BraceOpen = "{";
       public const string BraceClose = "}";
       public const string Colon = ":";
