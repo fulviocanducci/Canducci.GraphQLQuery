@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery;
 using Canducci.GraphQLQuery.MSTest.Models;
+using System.Globalization;
 
 namespace ConsoleAppTest
 {
@@ -7,6 +8,30 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
+
+         Car car = new Car
+         {
+            Id = 0,
+            Title = "Example",
+            Active = true,
+            Purchase = System.DateTime.ParseExact("1970-01-01 01:00:00", @"yyyy-MM-dd hh\:mm\:ss", CultureInfo.InvariantCulture),
+            Value = 1000M
+         };
+         TypeQL typeQL = new TypeQL(
+           new QueryType(
+             "car_add",
+             new Arguments(new Argument("car", car)),
+             new Fields(
+               new Field("id"),
+               new Field("title"),
+               new Field("purchase"),
+               new Field("value"),
+               new Field("active")
+             )
+           )
+         );
+         System.Console.WriteLine(typeQL);
+
          //TypeQL typeQL = new TypeQL(
          //   new QueryType("states", "data",
          //      new Fields(
@@ -23,16 +48,16 @@ namespace ConsoleAppTest
          //);
          //System.Console.WriteLine(typeQL);
 
-         TypeQL typeQL = new TypeQL(
-            new QueryType("states", 
-               "data",
-               new Fields(
-                  new Field("id", "_id"),
-                  new Field("uf", "_uf")
-               )
-            )
-         );
-         System.Console.WriteLine(typeQL);
+         //TypeQL typeQL = new TypeQL(
+         //   new QueryType("states", 
+         //      "data",
+         //      new Fields(
+         //         new Field("id", "_id"),
+         //         new Field("uf", "_uf")
+         //      )
+         //   )
+         //);
+         //System.Console.WriteLine(typeQL);
 
 
          //TypeQL typeQL = new TypeQL(
