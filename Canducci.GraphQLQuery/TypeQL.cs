@@ -18,12 +18,8 @@ namespace Canducci.GraphQLQuery
          stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append(Signals.Query);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append(Signals.Colon);
-         stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append(Signals.BraceOpen);
+         stringBuilder.Append(Signals.Colon);                  
          stringBuilder.Append<IQueryType>(QueryTypes);
-         stringBuilder.Append(Signals.BraceClose);
-         stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append(Signals.BraceClose);
          return stringBuilder.ToString();
       }

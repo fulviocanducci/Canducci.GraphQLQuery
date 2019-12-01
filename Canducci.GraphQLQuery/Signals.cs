@@ -13,6 +13,10 @@
       public const string Comma = ",";
       public const string Query = "query";
       public const string Tab = "\t";
+      public const string DollarSign = "$";
+      public const string ExclamationPoint = "!";
+      public const string EqualSign = "=";
+      public const string Variables = "variables";
       //public static string NewLine = System.Environment.NewLine;            
    }
 }

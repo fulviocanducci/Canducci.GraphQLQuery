@@ -13,5 +13,9 @@
     <PackageReleaseNotes>Improvements, better performance, clean code, Bug class Signal Resolved</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/fulviocanducci/Canducci.GraphQLQuery/master/logo/logo.png</PackageIconUrl>
-  </PropertyGroup>  
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Reflection.Emit" Version="4.6.0" />
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+  </ItemGroup>  
 </Project>
