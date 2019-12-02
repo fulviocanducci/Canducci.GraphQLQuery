@@ -254,7 +254,7 @@ namespace Canducci.GraphQLQuery.MSTest
                "getStates",
                new Variable("id", 1, true, 0)
             ),
-            new QueryType("state_find"
+            new QueryType("state_find",
                new Fields(
                   new Field("id"),
                   new Field("uf"),
