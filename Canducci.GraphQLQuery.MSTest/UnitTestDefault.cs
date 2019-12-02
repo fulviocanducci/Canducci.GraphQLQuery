@@ -125,15 +125,15 @@ namespace Canducci.GraphQLQuery.MSTest
          };
          TypeQL typeQL = new TypeQL(
            new QueryType(
-             "car_add",
-             new Arguments(new Argument("car", car)),
+             "car_add",             
              new Fields(
                new Field("id"),
                new Field("title"),
                new Field("purchase"),
                new Field("value"),
                new Field("active")
-             )
+             ),
+             new Arguments(new Argument("car", car))
            )
          );
          string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14 23:54:18\\\",value:10000.00,active:true}){id,title,purchase,value,active}}\"}";
@@ -153,14 +153,14 @@ namespace Canducci.GraphQLQuery.MSTest
          TypeQL typeQL = new TypeQL(
            new QueryType(
              "car_edit",
-             new Arguments(new Argument("car", car)),
              new Fields(
                new Field("id"),
                new Field("title"),
                new Field("purchase"),
                new Field("value"),
                new Field("active")
-             )
+             ),
+             new Arguments(new Argument("car", car))
            )
          );
          string expect = "{\"query\":\"{car_edit(car:{id:1,title:\\\"Car 1\\\",purchase:\\\"2019-08-14 23:54:18\\\",value:11000.00,active:true}){id,title,purchase,value,active}}\"}";
@@ -173,14 +173,14 @@ namespace Canducci.GraphQLQuery.MSTest
          TypeQL typeQL = new TypeQL(
            new QueryType(
              "car_find",
-             new Arguments(new Argument("id", 1)),
              new Fields(
                new Field("id"),
                new Field("title"),
                new Field("purchase"),
                new Field("value"),
                new Field("active")
-             )
+             ),
+             new Arguments(new Argument("id", 1))
            )
          );
          string expect = "{\"query\":\"{car_find(id:1){id,title,purchase,value,active}}\"}";
@@ -193,12 +193,12 @@ namespace Canducci.GraphQLQuery.MSTest
          TypeQL typeQL = new TypeQL(
            new QueryType(
              "car_delete",
-             new Arguments(new Argument("id", 1)),
              new Fields(
                new Field("description"),
                new Field("operation"),
                new Field("status")
-             )
+             ),
+             new Arguments(new Argument("id", 1))
            )
          );
          string expect = "{\"query\":\"{car_delete(id:1){description,operation,status}}\"}";
@@ -212,13 +212,13 @@ namespace Canducci.GraphQLQuery.MSTest
          TypeQL typeQL = new TypeQL(
            new QueryType(
              "item_add",
-             new Arguments(
-               new Argument("item", item)
-             ),
              new Fields(
                new Field("id"),
                new Field("title"),
                new Field("updated")
+             ),
+             new Arguments(
+               new Argument("item", item)
              )
            )
          );
@@ -232,17 +232,53 @@ namespace Canducci.GraphQLQuery.MSTest
          TypeQL typeQL = new TypeQL(
            new QueryType(
              "item_add",
-             new Arguments(
-               new Argument("item", item)
-             ),
              new Fields(
                new Field("id"),
                new Field("title"),
                new Field("updated")
+             ),
+             new Arguments(
+               new Argument("item", item)
              )
            )
          );
          string expect = "{\"query\":\"{item_add(item:{id:\\\"00000000-0000-0000-0000-000000000000\\\",title:\\\"Item\\\",updated:null}){id,title,updated}}\"}";
+         Assert.AreEqual(expect, typeQL);
+      }
+
+      [TestMethod]
+      public void TestMultipleGraphQLWithVariables()
+      {
+         TypeQL typeQL = new TypeQL(
+            new Variables(
+               "getStates",
+               new Variable("id", 1, true, 0)
+            ),
+            new QueryType("state_find"
+               new Fields(
+                  new Field("id"),
+                  new Field("uf"),
+                  new Field(
+                     new QueryType("country",
+                        new Fields(
+                           new Field("id"),
+                           new Field("name")
+                        )
+                     )
+                  )
+               ),
+               new Arguments(
+                  new Argument("id",1 )
+               )               
+            ),
+            new QueryType("countries",
+               new Fields(
+                  new Field("id"),
+                  new Field("name")
+               )
+            )
+         );
+         string expect = "{\"query\":\"query getStates($id:Int){state_find(id:$id){id,uf,country{id,name}}countries{id,name}}\",\"variables\":{\"id\":11}}";
          Assert.AreEqual(expect, typeQL);
       }
    }

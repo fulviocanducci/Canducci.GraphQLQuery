@@ -1,4 +1,5 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.Internals;
 using System.Globalization;
 namespace Canducci.GraphQLQuery
 {
@@ -19,16 +20,22 @@ namespace Canducci.GraphQLQuery
          Name = name;
          Value = value;
          Rule = Rules.Instance.Rule(value?.GetType());
-      }      
+      }
       public string Convert()
       {
          return Rule.Convert(Value);
-      }    
+      }
       private string GetKeyValue()
       {
          if (Rule.Format == Format.FormatClass)
          {
-            return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}{3}", Name, Signals.BraceOpen, Convert(), Signals.BraceClose);
+            return string.Format(CultureInfo.InvariantCulture,
+               "{0}:{1}{2}{3}",
+               Name,
+               Signals.BraceOpen,
+               Convert(),
+               Signals.BraceClose
+            );
          }
          return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", Name, Convert());
       }

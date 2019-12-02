@@ -2,9 +2,13 @@
 {
    public interface IVariable
    {
-      string Name { get; set; }
-      object Value { get; set; }
-      object ValueDefault { get; set; }
-      bool Required { get; set; }      
+      string Name { get; }
+      object Value { get; }
+      object ValueDefault { get; }
+      bool Required { get; }
+      IRule Rule { get; }
+      string Convert();
+      string KeyParam { get; }
+      string KeyArgument { get; }
    }
 }

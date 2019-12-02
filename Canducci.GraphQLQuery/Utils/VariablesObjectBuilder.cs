@@ -22,28 +22,29 @@ namespace Canducci.GraphQLQuery.Utils
       public static object CreateObjectWithValues(IDictionary<string, object> parameters)
       {
          object obj = null;
-
-         if (parameters.Any() == false) goto end;
-
-         var objType = CreateClass(parameters);
-         obj = Activator.CreateInstance(objType);
-         foreach (var prop in objType.GetProperties())
-            prop.SetValue(obj, GetValueParameter(parameters[$"@{prop.Name}"]));
-
-         end:
-
+         if (parameters.Any())
+         {
+            var objType = CreateClass(parameters);
+            obj = Activator.CreateInstance(objType);
+            foreach (var prop in objType.GetProperties())
+            {
+               prop.SetValue(obj, GetValueParameter(parameters[$"{prop.Name}"]));
+            }
+         }
          return obj;
       }
 
-      internal static Type CreateClass(IDictionary<string, object> parameters, string className = null)
+      internal static Type CreateClass(IDictionary<string, object> parameters, string className = "variables")
       {
          if (string.IsNullOrWhiteSpace(className) == false && Types.ContainsKey(className))
+         {
             return Types[className];
+         }
 
          var typeBuilder = ModuleBuilder.DefineType(className ?? Guid.NewGuid().ToString(), TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout, null);
          typeBuilder.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
          foreach (var parameter in parameters)
-            CreateProperty(typeBuilder, parameter.Key.Replace("@", ""), GetTypeParameter(parameter));
+            CreateProperty(typeBuilder, parameter.Key, GetTypeParameter(parameter));
          var type = typeBuilder.CreateTypeInfo().AsType();
          Types.TryAdd(type.FullName, type);
          return type;

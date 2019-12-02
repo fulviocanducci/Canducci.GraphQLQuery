@@ -1,9 +1,9 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.Internals;
+using Canducci.GraphQLQuery.Utils;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 
 namespace Canducci.GraphQLQuery.Extensions
 {
@@ -18,7 +18,7 @@ namespace Canducci.GraphQLQuery.Extensions
       }
 
       internal static StringBuilder Append<T>(this StringBuilder stringBuilder, Variables variables)
-         where T: Variables
+         where T : Variables
       {
          if (variables?.Count > 0)
          {
@@ -27,57 +27,51 @@ namespace Canducci.GraphQLQuery.Extensions
             IVariable variableLast = variables.LastOrDefault();
             foreach (IVariable variable in variables)
             {
-               stringBuilder.Append($"{Signals.DollarSign}{variable.Name}{Signals.Colon}{variable.Name}");
-               if (variable.Required)
-               {
-                  stringBuilder.Append(Signals.ExclamationPoint);
-               }
-               if (variable.ValueDefault != null)
-               {
-                  stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "{0}{1}", Signals.EqualSign, variable.ValueDefault));
-               }
+               stringBuilder.Append(variable.KeyParam);
                if (!variable.Equals(variableLast))
                {
                   stringBuilder.Append(Signals.Comma);
                }
             }
             stringBuilder.Append(Signals.ParenthesisClose);
+            stringBuilder.Append(Signals.BraceOpen);
          }
          return stringBuilder;
       }
-
+      //internal static StringBuilder Append<T>(this StringBuilder str, T variables)         
+      //   where T: Variables
+      //{
+      //   if (variables == null)
+      //   {
+      //      return str;
+      //   }
+      //   return str.Append(variables.Values());
+      //}
       internal static StringBuilder Append<T>(this StringBuilder str, T values)
-         where T: List<KeyValuePair<string, object>>
+         where T: Dictionary<string, object>
       {
-         if (values.Count > 0)
+         if (values?.Count > 0)
          {
             str.Append(Signals.Comma);
             str.Append(Signals.QuotationMark);
             str.Append(Signals.Variables);
             str.Append(Signals.QuotationMark);
             str.Append(Signals.Colon);
-            str.Append(JsonSerializer.Serialize(values, typeof(IList<KeyValuePair<string, object>>)));
+            str.Append(Convert.ToJsonString
+               (
+                  VariablesObjectBuilder.CreateObjectWithValues(values)
+               )
+            );
          }
          return str;
       }
 
       internal static StringBuilder Append<T>(this StringBuilder stringBuilder, IList<T> queryTypes)
          where T : IQueryType
-      {
-         stringBuilder.Append(Signals.QuotationMark);
-         Dictionary<string, object> variables = new Dictionary<string, object>();
+      {         
          foreach (IQueryType queryType in queryTypes)
          {
-            stringBuilder.Append<Variables>(queryType?.Variables);
-            stringBuilder.Append(Signals.BraceOpen);
             stringBuilder.Append(queryType.Alias, queryType.Name);
-            if (queryType.Variables?.Count > 0)
-            {
-               stringBuilder.Append(Signals.ParenthesisOpen);
-               queryType.Variables.AppendStringBuilder(stringBuilder);
-               stringBuilder.Append(Signals.ParenthesisClose);
-               variables.AddRange(queryType.Variables.Values());
-            }
             if (queryType?.Arguments?.Count > 0)
             {
                stringBuilder.Append(Signals.ParenthesisOpen);
@@ -91,7 +85,7 @@ namespace Canducci.GraphQLQuery.Extensions
                foreach (IField field in queryType.Fields)
                {
                   if (field.QueryType != null)
-                  {
+                  {                     
                      stringBuilder.Append<IQueryType>(new IQueryType[1] { field.QueryType });
                   }
                   else
@@ -105,11 +99,10 @@ namespace Canducci.GraphQLQuery.Extensions
                }
             }
             stringBuilder.Append(Signals.BraceClose);
-            stringBuilder.Append(Signals.BraceClose);            
          }
-         stringBuilder.Append(Signals.QuotationMark);
-         //stringBuilder.Append<List<KeyValuePair<string, object>>>(variables);
+                           
          return stringBuilder;
       }
+      
    }
 }

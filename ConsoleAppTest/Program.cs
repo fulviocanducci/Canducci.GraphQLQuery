@@ -1,6 +1,6 @@
 ﻿using Canducci.GraphQLQuery;
 using Canducci.GraphQLQuery.MSTest.Models;
-using System.Globalization;
+using System;
 
 namespace ConsoleAppTest
 {
@@ -9,6 +9,43 @@ namespace ConsoleAppTest
       static void Main(string[] args)
       {
 
+         TypeQL typeQL = new TypeQL(
+            new Variables(
+               "getStates",
+               new Variable("id", 1, true, 0)
+            ),
+            new QueryType("state_find",
+               new Fields(
+                  new Field("id"),
+                  new Field("uf"),
+                  new Field(
+                     new QueryType("country",
+                        new Fields(
+                           new Field("id"),
+                           new Field("name")
+                        )
+                     )
+                  )
+               ),
+               new Arguments(new Argument("id", 11))
+            ),
+            new QueryType("state_find", "d",
+               new Fields(
+                  new Field("id"),
+                  new Field("uf"),
+                  new Field(
+                     new QueryType("country", 
+                        new Fields(
+                           new Field("id"),
+                           new Field("name")
+                        )
+                     )
+                  )
+               ),               
+               new Arguments(new Argument("id", 12))
+            )            
+         );
+         System.Console.WriteLine(typeQL);
 
          //Car car = new Car
          //{
@@ -49,20 +86,19 @@ namespace ConsoleAppTest
          //);
          //System.Console.WriteLine(typeQL);
 
-         TypeQL typeQL = new TypeQL(
-            new QueryType("state_find",
-               "data",
-               new Fields(
-                  new Field("id"),
-                  new Field("uf")
-               )
-               //,
-               //new Variables("",
-               //   new Variable("id", 1, true, 0)
-               //)
-            )
-         );
-         System.Console.WriteLine(typeQL);
+         //TypeQL typeQL = new TypeQL(
+         //   new QueryType("state_find",
+         //      "data",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf")
+         //      ),
+         //      new Variables("getStateFind",
+         //         new Variable("id", 1, true, 0)                  
+         //      )
+         //   )
+         //);
+         //System.Console.WriteLine(typeQL);
 
 
          //TypeQL typeQL = new TypeQL(
@@ -165,16 +201,16 @@ namespace ConsoleAppTest
          //TypeQL typeQL = new TypeQL(
          //  new QueryType(
          //    "car_add",
-         //    new Arguments(
-         //      new Argument("car", car)
-         //    ),
          //    new Fields(
          //      new Field("id"),
          //      new Field("title"),
          //      new Field("purchase"),
          //      new Field("value"),
          //      new Field("active")
-         //    )
+         //    ),
+         //    new Arguments(
+         //      new Argument("input", car)
+         //    )             
          //  )
          //);
          //System.Console.WriteLine(typeQL);
@@ -240,7 +276,7 @@ namespace ConsoleAppTest
          //    "item_add",
          //    "",
          //    new Arguments(
-         //      new Argument("id",1),
+         //      new Argument("id", 1),
          //      new Argument("name", "Maria")
          //    ),
          //    new Fields(

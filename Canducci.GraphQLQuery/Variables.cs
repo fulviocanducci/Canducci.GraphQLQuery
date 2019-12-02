@@ -1,12 +1,12 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.Internals;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 
 namespace Canducci.GraphQLQuery
 {
-   public class Variables: List<IVariable>
+   public class Variables : List<IVariable>
    {
       public string QueryName { get; }
       public Variables(string queryName, params IVariable[] variables)
@@ -14,25 +14,30 @@ namespace Canducci.GraphQLQuery
          AddRange(variables);
          QueryName = queryName;
       }
-
       internal void AppendStringBuilder(StringBuilder str)
       {
-         foreach (IVariable variable in this)
+         if (Count > 0)
          {
-            str.Append(variable.Name);
-            str.Append(Signals.Colon);
-            str.Append(Signals.DollarSign);
-            str.Append(variable.Name);
-            if (!variable.Equals(this.LastOrDefault()))
+            str.Append(Signals.ParenthesisOpen);
+            foreach (IVariable variable in this)
             {
-               str.Append(Signals.Comma);
+               str.Append(variable.KeyArgument);
+               if (!variable.Equals(this.LastOrDefault()))
+               {
+                  str.Append(Signals.Comma);
+               }
             }
+            str.Append(Signals.ParenthesisClose);
          }
       }
-
-      internal IList<KeyValuePair<string, object>> Values()
+      internal Dictionary<string, object> Values()
       {
-         return this.Select(x => new KeyValuePair<string, object>(x.Name, x.Value)).ToList();
-      }      
+         Dictionary<string, object> dic = new Dictionary<string, object>();
+         foreach (var item in this)
+         {
+            dic.Add(item.Name, item.Value);
+         }
+         return dic;
+      }
    }
 }

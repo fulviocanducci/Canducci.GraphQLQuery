@@ -1,5 +1,7 @@
 ﻿using Canducci.GraphQLQuery.Extensions;
 using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.Internals;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Canducci.GraphQLQuery
@@ -7,8 +9,14 @@ namespace Canducci.GraphQLQuery
    public class TypeQL : ITypeQL
    {
       public IQueryType[] QueryTypes { get; private set; }
+      public Variables Variables { get; private set; } = null;
       public TypeQL(params IQueryType[] queryTypes)
       {
+         QueryTypes = queryTypes;
+      }
+      public TypeQL(Variables variables, params IQueryType[] queryTypes)
+      {
+         Variables = variables;
          QueryTypes = queryTypes;
       }
       public string ToStringJson()
@@ -18,8 +26,14 @@ namespace Canducci.GraphQLQuery
          stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append(Signals.Query);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append(Signals.Colon);                  
+         stringBuilder.Append(Signals.Colon);
+         stringBuilder.Append(Signals.QuotationMark);
+         stringBuilder.Append<Variables>(Variables);
+         if (Variables == null) stringBuilder.Append(Signals.BraceOpen);
          stringBuilder.Append<IQueryType>(QueryTypes);
+         stringBuilder.Append(Signals.BraceClose);
+         stringBuilder.Append(Signals.QuotationMark);
+         stringBuilder.Append<Dictionary<string, object>>(Variables?.Values());
          stringBuilder.Append(Signals.BraceClose);
          return stringBuilder.ToString();
       }

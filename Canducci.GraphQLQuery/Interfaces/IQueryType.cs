@@ -5,7 +5,6 @@
       string Name { get; }
       string Alias { get; }
       Arguments Arguments { get; }
-      Fields Fields { get; }
-      Variables Variables { get; }
+      Fields Fields { get; }      
    }
 }

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Canducci.GraphQLQuery
+namespace Canducci.GraphQLQuery.Internals
 {
    internal class Rules : List<IRule>, IDisposable
    {

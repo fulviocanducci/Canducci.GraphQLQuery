@@ -4,6 +4,6 @@
    {
       string Name { get; }
       string Alias { get; }
-      IQueryType QueryType { get; set; }
+      IQueryType QueryType { get; }
    }
 }

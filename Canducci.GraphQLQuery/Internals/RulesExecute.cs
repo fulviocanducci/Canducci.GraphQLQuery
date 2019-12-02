@@ -2,8 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 using System.Text;
-
-namespace Canducci.GraphQLQuery
+namespace Canducci.GraphQLQuery.Internals
 {
    internal sealed class RulesExecute: IDisposable
    {

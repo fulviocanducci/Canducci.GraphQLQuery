@@ -3,6 +3,7 @@
    public interface ITypeQL: System.IDisposable
    {      
       IQueryType[] QueryTypes { get; }
+      Variables Variables { get; }
       string ToStringJson();
    }
 }
