@@ -21,6 +21,12 @@ namespace Canducci.GraphQLQuery
          Value = value;
          Rule = Rules.Instance.Rule(value?.GetType());
       }
+      public Argument(Parameter parameter)
+      {
+         Name = parameter.Name;
+         Value = parameter;
+         Rule = Rules.Instance.Rule(typeof(Parameter));
+      }
       public string Convert()
       {
          return Rule.Convert(Value);

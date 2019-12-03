@@ -34,21 +34,12 @@ namespace Canducci.GraphQLQuery.Extensions
                }
             }
             stringBuilder.Append(Signals.ParenthesisClose);
-            stringBuilder.Append(Signals.BraceOpen);
          }
+         stringBuilder.Append(Signals.BraceOpen);
          return stringBuilder;
       }
-      //internal static StringBuilder Append<T>(this StringBuilder str, T variables)         
-      //   where T: Variables
-      //{
-      //   if (variables == null)
-      //   {
-      //      return str;
-      //   }
-      //   return str.Append(variables.Values());
-      //}
       internal static StringBuilder Append<T>(this StringBuilder str, T values)
-         where T: Dictionary<string, object>
+         where T : Dictionary<string, object>
       {
          if (values?.Count > 0)
          {
@@ -68,7 +59,7 @@ namespace Canducci.GraphQLQuery.Extensions
 
       internal static StringBuilder Append<T>(this StringBuilder stringBuilder, IList<T> queryTypes)
          where T : IQueryType
-      {         
+      {
          foreach (IQueryType queryType in queryTypes)
          {
             stringBuilder.Append(queryType.Alias, queryType.Name);
@@ -85,7 +76,7 @@ namespace Canducci.GraphQLQuery.Extensions
                foreach (IField field in queryType.Fields)
                {
                   if (field.QueryType != null)
-                  {                     
+                  {
                      stringBuilder.Append<IQueryType>(new IQueryType[1] { field.QueryType });
                   }
                   else
@@ -100,9 +91,9 @@ namespace Canducci.GraphQLQuery.Extensions
             }
             stringBuilder.Append(Signals.BraceClose);
          }
-                           
+
          return stringBuilder;
       }
-      
+
    }
 }

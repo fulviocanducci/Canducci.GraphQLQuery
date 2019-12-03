@@ -6,6 +6,15 @@ namespace Canducci.GraphQLQuery.Internals
 {
    internal sealed class RulesExecute: IDisposable
    {
+      public string GetFormatParameterAction(object value)
+      {
+         if (value != null && value is Parameter parameter)
+         {
+            return string.Format(CultureInfo.InvariantCulture, "${0}", parameter.Name);
+         }
+         return string.Empty;
+
+      }
       public string GetFormatNullAction(object value = null)
       {
          if (value == null)

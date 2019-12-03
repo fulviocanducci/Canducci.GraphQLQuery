@@ -9,6 +9,7 @@ namespace Canducci.GraphQLQuery.Internals
       public RulesExecute Execute { get; private set; } = new RulesExecute();
       public Rules()
       {
+         Add(new Rule(typeof(Parameter), Format.FormatDefault, Execute.GetFormatParameterAction));
          Add(new Rule(null, Format.FormatNull, Execute.GetFormatNullAction));
          Add(new Rule(typeof(ushort), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(short), Format.FormatNumber, Execute.GetFormatNumberAction));
@@ -27,7 +28,7 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatDateTimeAction));
          Add(new Rule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
          Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBoolAction));
-         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
+         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));         
       }
       public IRule Rule(Type type)
       {

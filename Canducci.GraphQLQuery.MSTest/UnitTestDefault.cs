@@ -14,7 +14,7 @@ namespace Canducci.GraphQLQuery.MSTest
          return new TypeQL(queryTypes);
       }
 
-      [TestMethod]      
+      [TestMethod]
       public void TestArgument()
       {
          IArgument argumentNumber = new Argument("id", 1);
@@ -26,6 +26,7 @@ namespace Canducci.GraphQLQuery.MSTest
          IArgument argumentGuid = new Argument("guid", Guid.Empty);
          IArgument argumentBool = new Argument("active", true);
          IArgument argumentNull = new Argument("null", null);
+         IArgument argumentParameter = new Argument(new Parameter("id"));
 
          Assert.AreEqual("1", argumentNumber.Convert());
          Assert.AreEqual("125.00", argumentDecimal.Convert());
@@ -36,6 +37,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.Convert());
          Assert.AreEqual("true", argumentBool.Convert());
          Assert.AreEqual("null", argumentNull.Convert());
+         Assert.AreEqual("$id", argumentParameter.Convert());
       }
 
       [TestMethod]
@@ -50,6 +52,8 @@ namespace Canducci.GraphQLQuery.MSTest
          IArgument argumentGuid = new Argument("guid", Guid.Empty);
          IArgument argumentBool = new Argument("active", true);
          IArgument argumentNull = new Argument("null", null);
+         IArgument argumentParameter = new Argument(new Parameter("id"));
+
 
          Assert.AreEqual("id:1", argumentNumber.KeyValue);
          Assert.AreEqual("value:125.00", argumentDecimal.KeyValue);
@@ -60,9 +64,9 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("guid:\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.KeyValue);
          Assert.AreEqual("active:true", argumentBool.KeyValue);
          Assert.AreEqual("null:null", argumentNull.KeyValue);
+         Assert.AreEqual("id:$id", argumentParameter.KeyValue);
       }
-
-
+      
       [TestMethod]
       public void TestPeopleWithFieldsIdName()
       {
@@ -76,6 +80,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var typeQLTest = TypeQLTest(queryType);
          Assert.AreEqual("{\"query\":\"{peoples{id,name}}\"}", typeQLTest.ToStringJson());
       }
+
       [TestMethod]
       public void TestPeopleFindParamIdFieldsIdName()
       {
@@ -92,6 +97,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var typeQLTest = TypeQLTest(queryType);
          Assert.AreEqual("{\"query\":\"{people_find(id:1){id,name}}\"}", typeQLTest.ToStringJson());
       }
+
       [TestMethod]
       public void TestPeopleAddParamIdNameFieldsIdName()
       {
@@ -112,6 +118,7 @@ namespace Canducci.GraphQLQuery.MSTest
              typeQLTest.ToStringJson()
          );
       }
+
       [TestMethod]
       public void TestCarAdd()
       {
@@ -125,7 +132,7 @@ namespace Canducci.GraphQLQuery.MSTest
          };
          TypeQL typeQL = new TypeQL(
            new QueryType(
-             "car_add",             
+             "car_add",
              new Fields(
                new Field("id"),
                new Field("title"),
@@ -139,6 +146,7 @@ namespace Canducci.GraphQLQuery.MSTest
          string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14 23:54:18\\\",value:10000.00,active:true}){id,title,purchase,value,active}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
+
       [TestMethod]
       public void TestCarEdit()
       {
@@ -246,13 +254,52 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(expect, typeQL);
       }
 
+
+      [TestMethod]
+      public void TestMultipleGraphQL()
+      {
+         TypeQL typeQL = new TypeQL(
+            new QueryType("state_find",
+               new Fields(
+                  new Field("id"),
+                  new Field("uf"),
+                  new Field(
+                     new QueryType("country",
+                        new Fields(
+                           new Field("id"),
+                           new Field("name")
+                        )
+                     )
+                  )
+               ),
+               new Arguments(new Argument("id", 11))
+            ),
+            new QueryType("state_find", "d",
+               new Fields(
+                  new Field("id"),
+                  new Field("uf"),
+                  new Field(
+                     new QueryType("country",
+                        new Fields(
+                           new Field("id"),
+                           new Field("name")
+                        )
+                     )
+                  )
+               ),
+               new Arguments(new Argument("id", 12))
+            )
+         );
+         string expect = "{\"query\":\"{state_find(id:11){id,uf,country{id,name}}d:state_find(id:12){id,uf,country{id,name}}}\"}";
+         Assert.AreEqual(expect, typeQL);
+      }
+
       [TestMethod]
       public void TestMultipleGraphQLWithVariables()
       {
          TypeQL typeQL = new TypeQL(
-            new Variables(
-               "getStates",
-               new Variable("id", 1, true, 0)
+            new Variables("getStates", 
+               new Variable("id", 11, true, 0)
             ),
             new QueryType("state_find",
                new Fields(
@@ -267,18 +314,27 @@ namespace Canducci.GraphQLQuery.MSTest
                      )
                   )
                ),
-               new Arguments(
-                  new Argument("id",1 )
-               )               
+               new Arguments(new Argument(new Parameter("id")))
             ),
             new QueryType("countries",
                new Fields(
                   new Field("id"),
-                  new Field("name")
-               )
+                  new Field("name"),
+                  new Field(
+                     new QueryType("state",
+                        new Fields(
+                           new Field("id"),
+                           new Field("uf")
+                        )
+                     )
+                  )
+               ),
+               new Arguments(                  
+                  new Argument("load", true)
+              )
             )
          );
-         string expect = "{\"query\":\"query getStates($id:Int){state_find(id:$id){id,uf,country{id,name}}countries{id,name}}\",\"variables\":{\"id\":11}}";
+         string expect = "{\"query\":\"query getStates($id:Int!=0){state_find(id:$id){id,uf,country{id,name}}countries(load:true){id,name,state{id,uf}}}\",\"variables\":{\"id\":11}}";
          Assert.AreEqual(expect, typeQL);
       }
    }

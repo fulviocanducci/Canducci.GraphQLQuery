@@ -39,5 +39,10 @@ namespace Canducci.GraphQLQuery
          }
          return dic;
       }
+
+      public static implicit operator Dictionary<string, object>(Variables variables)
+      {
+         return variables?.Values();
+      }
    }
 }

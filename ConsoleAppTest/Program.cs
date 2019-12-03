@@ -8,12 +8,7 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-
-         TypeQL typeQL = new TypeQL(
-            new Variables(
-               "getStates",
-               new Variable("id", 1, true, 0)
-            ),
+         TypeQL typeQL = new TypeQL(           
             new QueryType("state_find",
                new Fields(
                   new Field("id"),
@@ -34,18 +29,57 @@ namespace ConsoleAppTest
                   new Field("id"),
                   new Field("uf"),
                   new Field(
-                     new QueryType("country", 
+                     new QueryType("country",
                         new Fields(
                            new Field("id"),
                            new Field("name")
                         )
                      )
                   )
-               ),               
+               ),
                new Arguments(new Argument("id", 12))
-            )            
+            )
          );
          System.Console.WriteLine(typeQL);
+
+
+         //TypeQL typeQL = new TypeQL(
+         //   new Variables(
+         //      "getStates",
+         //      new Variable("id", 1, true, 0)
+         //   ),
+         //   new QueryType("state_find",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf"),
+         //         new Field(
+         //            new QueryType("country",
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("name")
+         //               )
+         //            )
+         //         )
+         //      ),
+         //      new Arguments(new Argument(new Parameter("id")))
+         //   ),
+         //   new QueryType("state_find", "d",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf"),
+         //         new Field(
+         //            new QueryType("country", 
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("name")
+         //               )
+         //            )
+         //         )
+         //      ),               
+         //      new Arguments(new Argument("id", 12))
+         //   )            
+         //);
+         //System.Console.WriteLine(typeQL);
 
          //Car car = new Car
          //{

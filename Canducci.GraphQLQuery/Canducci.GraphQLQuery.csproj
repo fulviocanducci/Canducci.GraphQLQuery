@@ -3,14 +3,14 @@
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.0.1.9</Version>
+    <Version>0.0.2.0</Version>
     <Authors>Fulvio Cezar Canducci Dias</Authors>
     <Description>GraphQL Query</Description>
     <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>GraphQL Query JSON</PackageTags>
-    <PackageReleaseNotes>Improvements, better performance, clean code, Bug class Signal Resolved</PackageReleaseNotes>
+    <PackageReleaseNotes>Add Variables</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/fulviocanducci/Canducci.GraphQLQuery/master/logo/logo.png</PackageIconUrl>
   </PropertyGroup>

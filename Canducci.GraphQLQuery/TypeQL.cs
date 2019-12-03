@@ -28,12 +28,11 @@ namespace Canducci.GraphQLQuery
          stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append(Signals.Colon);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append<Variables>(Variables);
-         if (Variables == null) stringBuilder.Append(Signals.BraceOpen);
+         stringBuilder.Append<Variables>(Variables);         
          stringBuilder.Append<IQueryType>(QueryTypes);
          stringBuilder.Append(Signals.BraceClose);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append<Dictionary<string, object>>(Variables?.Values());
+         stringBuilder.Append<Dictionary<string, object>>(Variables);
          stringBuilder.Append(Signals.BraceClose);
          return stringBuilder.ToString();
       }
