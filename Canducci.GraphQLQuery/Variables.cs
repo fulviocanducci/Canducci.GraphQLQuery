@@ -35,7 +35,10 @@ namespace Canducci.GraphQLQuery
          Dictionary<string, object> dic = new Dictionary<string, object>();
          foreach (var item in this)
          {
-            dic.Add(item.Name, item.Value);
+            if (!dic.ContainsKey(item.Name))
+            {
+               dic.Add(item.Name, item.Value);
+            }
          }
          return dic;
       }

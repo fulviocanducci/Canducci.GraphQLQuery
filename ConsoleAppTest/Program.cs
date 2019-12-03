@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery;
 using Canducci.GraphQLQuery.MSTest.Models;
+using Models;
 using System;
 
 namespace ConsoleAppTest
@@ -8,31 +9,56 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-         Car car = new Car
-         {
-            Active = true,
-            Purchase = DateTime.ParseExact("1999-01-02 01:01:01",@"yyyy-MM-dd HH:mm:ss", null),
-            Title = "title",
-            Value = 15000M
-         };
+         Source source = new Source();
          TypeQL typeQL = new TypeQL(
-               new Variables("getCars",
-                  new Variable("input", car, "car_input")
+            new Variables("getSource",
+               new Variable("input", source, "source_input")
+            ),
+            new QueryType("source_add",
+               new Fields(
+                  new Field("id"),
+                  new Field("name"),
+                  new Field("value"),
+                  new Field("active"),
+                  new Field("created")
                ),
-               new QueryType("car_add",
-                  new Fields(
-                     new Field("id"),
-                     new Field("title"),
-                     new Field("purchase"),
-                     new Field("value"),
-                     new Field("active")
-                  ),
-                  new Arguments(
-                     new Argument(new Parameter("input"))
+               new Arguments(
+                  new Argument(
+                     new Parameter("input")
                   )
                )
-            );
-         System.Console.WriteLine(typeQL);
+            )
+         );
+
+         Console.WriteLine(typeQL);
+
+         #region test
+         //Car car = new Car
+         //{
+         //   Active = true,
+         //   Purchase = DateTime.ParseExact("1999-01-02 01:01:01",@"yyyy-MM-dd HH:mm:ss", null),
+         //   Title = "title",
+         //   Value = 15000M
+         //};
+         //TypeQL typeQL = new TypeQL(
+         //      new Variables("getCars",
+         //         new Variable("input", car, "car_input"),
+         //         new Variable("id",1)
+         //      ),
+         //      new QueryType("car_add",
+         //         new Fields(
+         //            new Field("id"),
+         //            new Field("title"),
+         //            new Field("purchase"),
+         //            new Field("value"),
+         //            new Field("active")
+         //         ),
+         //         new Arguments(
+         //            new Argument(new Parameter("input"))
+         //         )
+         //      )
+         //   );
+         //System.Console.WriteLine(typeQL);
 
          //TypeQL typeQL = new TypeQL(           
          //   new QueryType("state_find",
@@ -353,6 +379,8 @@ namespace ConsoleAppTest
          //var result1 = Nullable.GetUnderlyingType(typeof(DateTime?));
 
          //System.Console.WriteLine(default(Guid));
+         #endregion
+
          #endregion
 
       }

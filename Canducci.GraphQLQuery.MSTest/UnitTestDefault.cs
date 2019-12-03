@@ -6,7 +6,7 @@ using System;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
-   [TestClass]
+   [TestClass]   
    public class UnitTestDefault
    {
       public TypeQL TypeQLTest(params QueryType[] queryTypes)
@@ -66,7 +66,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("null:null", argumentNull.KeyValue);
          Assert.AreEqual("id:$id", argumentParameter.KeyValue);
       }
-      
+
       [TestMethod]
       public void TestPeopleWithFieldsIdName()
       {
@@ -233,6 +233,7 @@ namespace Canducci.GraphQLQuery.MSTest
          string expect = "{\"query\":\"{item_add(item:{id:null,title:\\\"Item\\\",updated:null}){id,title,updated}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
+      
       [TestMethod]
       public void TestItemsGuidEmptyValueAndNullFields()
       {
@@ -253,8 +254,7 @@ namespace Canducci.GraphQLQuery.MSTest
          string expect = "{\"query\":\"{item_add(item:{id:\\\"00000000-0000-0000-0000-000000000000\\\",title:\\\"Item\\\",updated:null}){id,title,updated}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
-
-
+      
       [TestMethod]
       public void TestMultipleGraphQL()
       {
@@ -294,11 +294,11 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(expect, typeQL);
       }
 
-      [TestMethod]
+      [TestMethod]      
       public void TestMultipleGraphQLWithVariables()
       {
          TypeQL typeQL = new TypeQL(
-            new Variables("getStates", 
+            new Variables("getStates",
                new Variable("id", 11, true, 0)
             ),
             new QueryType("state_find",
@@ -329,7 +329,7 @@ namespace Canducci.GraphQLQuery.MSTest
                      )
                   )
                ),
-               new Arguments(                  
+               new Arguments(
                   new Argument("load", true)
               )
             )
@@ -338,34 +338,57 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(expect, typeQL);
       }
 
-      public void Test1 ()
+      [TestMethod]
+      public void TestParamFullNullable()
       {
-         Car car = new Car
-         {
-            Active = true,
-            Purchase = DateTime.ParseExact("1999-01-02 01:01:01", @"yyyy-MM-dd HH:mm:ss", null),
-            Title = "title",
-            Value = 15000M
-         };
          TypeQL typeQL = new TypeQL(
-               new Variables("getCars",
-                  new Variable("input", car, "car_input")
+            new QueryType("source_param_add",
+               new Fields(
+                  new Field("id"),
+                  new Field("name"),
+                  new Field("value"),
+                  new Field("active"),
+                  new Field("created")
                ),
-               new QueryType("car_add",
-                  new Fields(
-                     new Field("id"),
-                     new Field("title"),
-                     new Field("purchase"),
-                     new Field("value"),
-                     new Field("active")
-                  ),
-                  new Arguments(
-                     new Argument(new Parameter("input"))
+               new Arguments(
+                  new Argument("id", null),
+                  new Argument("name", null),
+                  new Argument("value", null),
+                  new Argument("active", null),
+                  new Argument("created", null)
+               )
+            )
+         );
+
+         string expected = "{\"query\":\"{source_param_add(id:null,name:null,value:null,active:null,created:null){id,name,value,active,created}}\"}";
+         Assert.AreEqual(expected, typeQL.ToStringJson());
+      }
+
+      [TestMethod]      
+      public void TestVariablesNullable()
+      {
+         Source source = new Source();
+         TypeQL typeQL = new TypeQL(
+            new Variables("getSource",
+               new Variable("input", source, "source_input")
+            ),
+            new QueryType("source_add",
+               new Fields(
+                  new Field("id"),
+                  new Field("name"),
+                  new Field("value"),
+                  new Field("active"),
+                  new Field("created")
+               ),
+               new Arguments(
+                  new Argument(
+                     new Parameter("input")
                   )
                )
-            );
-         string expect = "{\"query\":\"query getCars($input:car_input){car_add(input:$input){id,title,purchase,value,active}}\",\"variables\":{\"input\":{\"id\":0,\"title\":\"title\",\"purchase\":\"1999-01-02T01:01:01\",\"value\":15000,\"active\":true}}}";
-         Assert.AreEqual(expect, typeQL);
-      }
+            )
+         );
+         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null}}}";
+         Assert.AreEqual(expected, typeQL.ToStringJson());
+      }      
    }
 }

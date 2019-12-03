@@ -43,16 +43,19 @@ namespace Canducci.GraphQLQuery.Extensions
       {
          if (values?.Count > 0)
          {
-            str.Append(Signals.Comma);
-            str.Append(Signals.QuotationMark);
-            str.Append(Signals.Variables);
-            str.Append(Signals.QuotationMark);
-            str.Append(Signals.Colon);
-            str.Append(Convert.ToJsonString
-               (
-                  VariablesObjectBuilder.CreateObjectWithValues(values)
-               )
-            );
+            using (VariablesObjectBuilder variablesObjectBuilder = VariablesObjectBuilder.Create())
+            {
+               str.Append(Signals.Comma);
+               str.Append(Signals.QuotationMark);
+               str.Append(Signals.Variables);
+               str.Append(Signals.QuotationMark);
+               str.Append(Signals.Colon);
+               str.Append(Convert.ToJsonString
+                  (
+                     variablesObjectBuilder.CreateObjectWithValues(values)
+                  )
+               );
+            }
          }
          return str;
       }

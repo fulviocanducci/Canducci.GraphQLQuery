@@ -6,23 +6,34 @@ using System.Reflection.Emit;
 using System.Linq;
 namespace Canducci.GraphQLQuery.Utils
 {
-   internal class VariablesObjectBuilder
+   internal class VariablesObjectBuilder: IDisposable
    {
-      const MethodAttributes METHOD_ATTRIBUTES = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
+      const MethodAttributes METHOD_ATTRIBUTES = 
+         MethodAttributes.Public | 
+         MethodAttributes.SpecialName | 
+         MethodAttributes.HideBySig;
 
-      private static readonly ModuleBuilder ModuleBuilder;
-      private static readonly ConcurrentDictionary<string, Type> Types = new ConcurrentDictionary<string, Type>();
+      private ModuleBuilder ModuleBuilder;
+      private ConcurrentDictionary<string, Type> Types =
+         new ConcurrentDictionary<string, Type>();
 
-      static VariablesObjectBuilder()
+      public static VariablesObjectBuilder Create()
       {
-         var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("Canducci.GraphQL"), AssemblyBuilderAccess.RunAndCollect);
+         var variablesObjectBuilder = new VariablesObjectBuilder();
+         return variablesObjectBuilder;
+      }
+      public VariablesObjectBuilder()
+      {
+         var assemblyBuilder = AssemblyBuilder
+               .DefineDynamicAssembly(new AssemblyName("Canducci.GraphQL"), 
+                  AssemblyBuilderAccess.RunAndCollect);
          ModuleBuilder = assemblyBuilder.DefineDynamicModule("MainModule");
       }
 
-      public static object CreateObjectWithValues(IDictionary<string, object> parameters)
+      public object CreateObjectWithValues(IDictionary<string, object> parameters)
       {
          object obj = null;
-         if (parameters.Any())
+         if (parameters != null && parameters.Any())
          {
             var objType = CreateClass(parameters);
             obj = Activator.CreateInstance(objType);
@@ -34,7 +45,7 @@ namespace Canducci.GraphQLQuery.Utils
          return obj;
       }
 
-      internal static Type CreateClass(IDictionary<string, object> parameters, string className = "variables")
+      internal Type CreateClass(IDictionary<string, object> parameters, string className = "variables")
       {
          if (string.IsNullOrWhiteSpace(className) == false && Types.ContainsKey(className))
          {
@@ -50,15 +61,15 @@ namespace Canducci.GraphQLQuery.Utils
          return type;
       }
 
-      internal static Type GetTypeParameter(KeyValuePair<string, object> parameter)
+      internal Type GetTypeParameter(KeyValuePair<string, object> parameter)
       {         
          return parameter.Value.GetType();
       }
-      internal static object GetValueParameter(object value)
+      internal object GetValueParameter(object value)
       {
          return value;
       }
-      private static PropertyBuilder CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
+      private PropertyBuilder CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
       {
          var fieldBuilder = typeBuilder.DefineField("_" + propertyName, propertyType, FieldAttributes.Private);
 
@@ -69,7 +80,7 @@ namespace Canducci.GraphQLQuery.Utils
          return propBuilder;
       }
 
-      private static MethodBuilder DefineSet(TypeBuilder typeBuilder, FieldBuilder fieldBuilder, PropertyBuilder propBuilder)
+      private MethodBuilder DefineSet(TypeBuilder typeBuilder, FieldBuilder fieldBuilder, PropertyBuilder propBuilder)
           => DefineMethod(typeBuilder, $"set_{propBuilder.Name}", null, new[] { propBuilder.PropertyType }, il =>
           {
              il.Emit(OpCodes.Ldarg_0);
@@ -78,7 +89,7 @@ namespace Canducci.GraphQLQuery.Utils
              il.Emit(OpCodes.Ret);
           });
 
-      private static MethodBuilder DefineGet(TypeBuilder typeBuilder, FieldBuilder fieldBuilder, PropertyBuilder propBuilder)
+      private MethodBuilder DefineGet(TypeBuilder typeBuilder, FieldBuilder fieldBuilder, PropertyBuilder propBuilder)
           => DefineMethod(typeBuilder, $"get_{propBuilder.Name}", propBuilder.PropertyType, Type.EmptyTypes, il =>
           {
              il.Emit(OpCodes.Ldarg_0);
@@ -86,14 +97,19 @@ namespace Canducci.GraphQLQuery.Utils
              il.Emit(OpCodes.Ret);
           });
 
-      private static MethodBuilder DefineMethod(TypeBuilder typeBuilder, string methodName, Type propertyType, Type[] parameterTypes, Action<ILGenerator> bodyWriter)
+      private MethodBuilder DefineMethod(TypeBuilder typeBuilder, string methodName, Type propertyType, Type[] parameterTypes, Action<ILGenerator> bodyWriter)
       {
          var methodBuilder = typeBuilder.DefineMethod(methodName, METHOD_ATTRIBUTES, propertyType, parameterTypes);
          bodyWriter(methodBuilder.GetILGenerator());
          return methodBuilder;
       }
+      public Type GetTypeFromName(string className) => Types.ContainsKey(className) ? Types[className] : null;
 
-      public static Type GetTypeFromName(string className)
-          => Types.ContainsKey(className) ? Types[className] : null;
+      public void Dispose()
+      {
+         ModuleBuilder = null;
+         Types = null;
+         GC.SuppressFinalize(this);
+      }
    }
 }
