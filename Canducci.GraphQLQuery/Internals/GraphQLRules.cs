@@ -26,12 +26,17 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(char), Format.FormatText, Execute.GetFormatStringAction));
          Add(new Rule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatStringAction));
          Add(new Rule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatStringAction));
-         Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBooleanAction));         
+         Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBooleanAction));
+         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
       }
 
       public IRule Rule(Type type)
       {
-         IRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();         
+         IRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();
+         if (rule == null && type.IsClass && typeof(string) != type)
+         {
+            rule = this.Where(x => x.Format == Format.FormatClass).FirstOrDefault();
+         }
          if (rule == null)
          {
             throw new NullReferenceException("Type Error or Inexistent");

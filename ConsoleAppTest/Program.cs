@@ -8,39 +8,65 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-         TypeQL typeQL = new TypeQL(           
-            new QueryType("state_find",
-               new Fields(
-                  new Field("id"),
-                  new Field("uf"),
-                  new Field(
-                     new QueryType("country",
-                        new Fields(
-                           new Field("id"),
-                           new Field("name")
-                        )
-                     )
-                  )
+         Car car = new Car
+         {
+            Active = true,
+            Purchase = DateTime.ParseExact("1999-01-02 01:01:01",@"yyyy-MM-dd HH:mm:ss", null),
+            Title = "title",
+            Value = 15000M
+         };
+         TypeQL typeQL = new TypeQL(
+               new Variables("getCars",
+                  new Variable("input", car)
                ),
-               new Arguments(new Argument("id", 11))
-            ),
-            new QueryType("state_find", "d",
-               new Fields(
-                  new Field("id"),
-                  new Field("uf"),
-                  new Field(
-                     new QueryType("country",
-                        new Fields(
-                           new Field("id"),
-                           new Field("name")
-                        )
-                     )
+               new QueryType("car_add",
+                  new Fields(
+                     new Field("id"),
+                     new Field("title"),
+                     new Field("purchase"),
+                     new Field("value"),
+                     new Field("active")
+                  ),
+                  new Arguments(
+                     new Argument(new Parameter("input"))
                   )
-               ),
-               new Arguments(new Argument("id", 12))
-            )
-         );
+               )
+            );
          System.Console.WriteLine(typeQL);
+
+         //TypeQL typeQL = new TypeQL(           
+         //   new QueryType("state_find",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf"),
+         //         new Field(
+         //            new QueryType("country",
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("name")
+         //               )
+         //            )
+         //         )
+         //      ),
+         //      new Arguments(new Argument("id", 11))
+         //   ),
+         //   new QueryType("state_find", "d",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf"),
+         //         new Field(
+         //            new QueryType("country",
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("name")
+         //               )
+         //            )
+         //         )
+         //      ),
+         //      new Arguments(new Argument("id", 12))
+         //   )
+         //);
+         //System.Console.WriteLine(typeQL);
 
 
          //TypeQL typeQL = new TypeQL(

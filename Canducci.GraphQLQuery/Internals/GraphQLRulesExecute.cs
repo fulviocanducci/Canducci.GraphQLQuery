@@ -3,6 +3,10 @@ namespace Canducci.GraphQLQuery.Internals
 {
    internal class GraphQLRulesExecute : IDisposable
    {
+      public string GetFormatClassAction(object value = null)
+      {
+         return $"{value}";
+      }
       public string GetFormatIntAction(object value = null)
       {
          return "Int";
