@@ -17,7 +17,7 @@ namespace ConsoleAppTest
          };
          TypeQL typeQL = new TypeQL(
                new Variables("getCars",
-                  new Variable("input", car)
+                  new Variable("input", car, "car_input")
                ),
                new QueryType("car_add",
                   new Fields(

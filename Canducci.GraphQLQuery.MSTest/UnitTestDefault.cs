@@ -337,5 +337,35 @@ namespace Canducci.GraphQLQuery.MSTest
          string expect = "{\"query\":\"query getStates($id:Int!=0){state_find(id:$id){id,uf,country{id,name}}countries(load:true){id,name,state{id,uf}}}\",\"variables\":{\"id\":11}}";
          Assert.AreEqual(expect, typeQL);
       }
+
+      public void Test1 ()
+      {
+         Car car = new Car
+         {
+            Active = true,
+            Purchase = DateTime.ParseExact("1999-01-02 01:01:01", @"yyyy-MM-dd HH:mm:ss", null),
+            Title = "title",
+            Value = 15000M
+         };
+         TypeQL typeQL = new TypeQL(
+               new Variables("getCars",
+                  new Variable("input", car, "car_input")
+               ),
+               new QueryType("car_add",
+                  new Fields(
+                     new Field("id"),
+                     new Field("title"),
+                     new Field("purchase"),
+                     new Field("value"),
+                     new Field("active")
+                  ),
+                  new Arguments(
+                     new Argument(new Parameter("input"))
+                  )
+               )
+            );
+         string expect = "{\"query\":\"query getCars($input:car_input){car_add(input:$input){id,title,purchase,value,active}}\",\"variables\":{\"input\":{\"id\":0,\"title\":\"title\",\"purchase\":\"1999-01-02T01:01:01\",\"value\":15000,\"active\":true}}}";
+         Assert.AreEqual(expect, typeQL);
+      }
    }
 }

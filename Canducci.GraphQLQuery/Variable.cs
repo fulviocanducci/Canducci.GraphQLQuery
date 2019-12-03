@@ -10,18 +10,29 @@ namespace Canducci.GraphQLQuery
       {
          Name = name;
          Value = value;
+         NameType = null;
+         Required = required;
+         ValueDefault = valueDefault;
+         Rule = GraphQLRules.Instance.Rule(value.GetType());
+      }
+      public Variable(string name, object value, string nameType, bool required = false, object valueDefault = null)
+      {
+         Name = name;
+         Value = value;
+         NameType = nameType;
          Required = required;
          ValueDefault = valueDefault;
          Rule = GraphQLRules.Instance.Rule(value.GetType());
       }
       public string Name { get; }
       public object Value { get; }
+      public string NameType { get; }
       public object ValueDefault { get; }
       public bool Required { get; }
       public IRule Rule { get; }
       public string Convert()
       {
-         return Rule.Convert(null);
+         return Rule.Convert(NameType);
       }
       public string KeyParam
       {

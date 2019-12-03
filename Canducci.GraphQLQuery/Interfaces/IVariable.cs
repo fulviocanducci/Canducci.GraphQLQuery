@@ -3,6 +3,7 @@
    public interface IVariable
    {
       string Name { get; }
+      string NameType { get; }
       object Value { get; }
       object ValueDefault { get; }
       bool Required { get; }
