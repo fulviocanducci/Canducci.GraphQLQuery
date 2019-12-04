@@ -3,7 +3,7 @@
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.0.2.5</Version>
+    <Version>0.0.2.6</Version>
     <Authors>Fulvio Cezar Canducci Dias</Authors>
     <Description>GraphQL Query</Description>
     <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
@@ -12,10 +12,18 @@
     <PackageTags>GraphQL Query JSON</PackageTags>
     <PackageReleaseNotes>VariableValueDefault &amp; Format Default DateTime and Timespan</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://raw.githubusercontent.com/fulviocanducci/Canducci.GraphQLQuery/master/logo/logo.png</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <AssemblyVersion>0.0.2.6</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Reflection.Emit" Version="4.6.0" />
     <PackageReference Include="System.Text.Json" Version="4.6.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\logo\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>  
 </Project>

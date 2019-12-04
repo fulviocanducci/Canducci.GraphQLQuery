@@ -4,6 +4,7 @@ using Canducci.GraphQLQuery.VariablesValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
 using System;
+using System.Globalization;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
@@ -33,7 +34,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("125.00", argumentDecimal.Convert());
          Assert.AreEqual("300.1", argumentFloat.Convert());
          Assert.AreEqual("\\\"Souza\\\"", argumentString.Convert());
-         Assert.AreEqual("\\\"1970-01-01T00:00:00Z\\\"", argumentDateTime.Convert());
+         Assert.AreEqual("\\\"1970-01-01T00:00:00.000Z\\\"", argumentDateTime.Convert());
          Assert.AreEqual("\\\"10:00:00\\\"", argumentTimeSpan.Convert());
          Assert.AreEqual("\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.Convert());
          Assert.AreEqual("true", argumentBool.Convert());
@@ -113,7 +114,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("value:125.00", argumentDecimal.KeyValue);
          Assert.AreEqual("value:300.1", argumentFloat.KeyValue);
          Assert.AreEqual("name:\\\"Souza\\\"", argumentString.KeyValue);
-         Assert.AreEqual("date:\\\"1970-01-01T00:00:00Z\\\"", argumentDateTime.KeyValue);
+         Assert.AreEqual("date:\\\"1970-01-01T00:00:00.000Z\\\"", argumentDateTime.KeyValue);
          Assert.AreEqual("time:\\\"10:00:00\\\"", argumentTimeSpan.KeyValue);
          Assert.AreEqual("guid:\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.KeyValue);
          Assert.AreEqual("active:true", argumentBool.KeyValue);
@@ -168,7 +169,7 @@ namespace Canducci.GraphQLQuery.MSTest
 
          var typeQLTest = TypeQLTest(queryType);
          Assert.AreEqual(
-           "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01T00:00:00Z\\\",active:true,value:0,hours:\\\"14:25:00\\\"}){id,name}}\"}",
+           "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01T00:00:00.000Z\\\",active:true,value:0,hours:\\\"14:25:00\\\"}){id,name}}\"}",
              typeQLTest.ToStringJson()
          );
       }
@@ -197,7 +198,7 @@ namespace Canducci.GraphQLQuery.MSTest
              new Arguments(new Argument("car", car))
            )
          );
-         string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18Z\\\",value:10000.00,active:true}){id,title,purchase,value,active}}\"}";
+         string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18.000Z\\\",value:10000.00,active:true}){id,title,purchase,value,active}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
 
@@ -225,7 +226,7 @@ namespace Canducci.GraphQLQuery.MSTest
              new Arguments(new Argument("car", car))
            )
          );
-         string expect = "{\"query\":\"{car_edit(car:{id:1,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18Z\\\",value:11000.00,active:true}){id,title,purchase,value,active}}\"}";
+         string expect = "{\"query\":\"{car_edit(car:{id:1,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18.000Z\\\",value:11000.00,active:true}){id,title,purchase,value,active}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
 
