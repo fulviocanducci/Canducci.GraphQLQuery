@@ -27,7 +27,7 @@ namespace Canducci.GraphQLQuery.Extensions
             IVariable variableLast = variables.LastOrDefault();
             foreach (IVariable variable in variables)
             {
-               stringBuilder.Append(variable.KeyParam);
+               stringBuilder.Append(variable.GetKeyParam());
                if (!variable.Equals(variableLast))
                {
                   stringBuilder.Append(Signals.Comma);

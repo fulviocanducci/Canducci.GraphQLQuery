@@ -21,7 +21,7 @@ namespace Canducci.GraphQLQuery
             str.Append(Signals.ParenthesisOpen);
             foreach (IVariable variable in this)
             {
-               str.Append(variable.KeyArgument);
+               str.Append(variable.GetKeyArgument());
                if (!variable.Equals(this.LastOrDefault()))
                {
                   str.Append(Signals.Comma);

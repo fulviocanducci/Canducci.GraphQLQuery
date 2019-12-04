@@ -1,10 +1,9 @@
 ﻿using System;
-
 namespace Canducci.GraphQLQuery.VariablesValueTypes
 {
    public abstract class VariableValueDefault
    {
-      public virtual string Value { get; set; }
+      public string Value { get; protected set; }
 
       public static implicit operator VariableValueDefault(int value)
       {

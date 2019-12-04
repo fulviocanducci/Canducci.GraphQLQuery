@@ -1,5 +1,4 @@
-﻿using Canducci.GraphQLQuery.Interfaces;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace Canducci.GraphQLQuery.VariablesValueTypes
 {

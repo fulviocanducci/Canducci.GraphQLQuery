@@ -4,7 +4,7 @@ using Canducci.GraphQLQuery.Internals;
 
 namespace Canducci.GraphQLQuery
 {
-   public class Rule : IRule
+   public sealed class Rule : IRule
    {
       public Type TypeArgument { get; private set; }
       public Format Format { get; private set; }

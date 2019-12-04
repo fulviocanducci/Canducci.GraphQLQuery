@@ -36,27 +36,20 @@ namespace Canducci.GraphQLQuery
       {
          return Rule.Convert(NameType);
       }
-      public string KeyParam
+      public string GetKeyParam()
       {
-         get
-         {
-            return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}{5}",
-               Signals.DollarSign,
-               Name,
-               Signals.Colon,
-               Convert(),
-               Required ? Signals.ExclamationPoint : "",
-               VariableValueDefault != null ? $"{Signals.EqualSign}{VariableValueDefault.Value}" : ""
-            );
-         }
+         return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}{5}",
+            Signals.DollarSign,
+            Name,
+            Signals.Colon,
+            Convert(),
+            Required ? Signals.ExclamationPoint : "",
+            VariableValueDefault != null ? $"{Signals.EqualSign}{VariableValueDefault.Value}" : ""
+         );
       }
-
-      public string KeyArgument
+      public string GetKeyArgument()
       {
-         get
-         {
-            return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}", Name, Signals.DollarSign, Name);
-         }
+         return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}", Name, Signals.DollarSign, Name);
       }
 
    }

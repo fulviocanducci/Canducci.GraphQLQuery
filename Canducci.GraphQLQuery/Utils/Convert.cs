@@ -1,5 +1,4 @@
-﻿using System.Text.Encodings.Web;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Canducci.GraphQLQuery.Utils
 {
@@ -8,9 +7,9 @@ namespace Canducci.GraphQLQuery.Utils
       public static string ToJsonString<T>(T value)
       {
          return JsonSerializer.Serialize(value, new JsonSerializerOptions
-         {            
+         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
          }); ;
       }
-   }   
+   }
 }

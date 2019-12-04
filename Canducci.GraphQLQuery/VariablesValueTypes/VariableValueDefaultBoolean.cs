@@ -1,5 +1,4 @@
-﻿using Canducci.GraphQLQuery.Interfaces;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace Canducci.GraphQLQuery.VariablesValueTypes
 {
@@ -8,7 +7,7 @@ namespace Canducci.GraphQLQuery.VariablesValueTypes
       public VariableValueDefaultBoolean(bool value)
       {
          Value = string.Format(CultureInfo.InvariantCulture, value.ToString().ToLowerInvariant());
-      } 
+      }
    }
 }
 

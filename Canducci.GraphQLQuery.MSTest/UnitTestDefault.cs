@@ -50,16 +50,16 @@ namespace Canducci.GraphQLQuery.MSTest
          IVariable variableBoolean = new Variable("active", true);
          IVariable variableObject = new Variable("car", new Car(), "input");
 
-         Assert.AreEqual("$id:Int", variableInt.KeyParam);
-         Assert.AreEqual("id:$id", variableInt.KeyArgument);
-         Assert.AreEqual("$name:String", variableString.KeyParam);
-         Assert.AreEqual("name:$name", variableString.KeyArgument);
-         Assert.AreEqual("$value:Float", variableFloat.KeyParam);
-         Assert.AreEqual("value:$value", variableFloat.KeyArgument);
-         Assert.AreEqual("$active:Boolean", variableBoolean.KeyParam);
-         Assert.AreEqual("active:$active", variableBoolean.KeyArgument);
-         Assert.AreEqual("$car:input", variableObject.KeyParam);
-         Assert.AreEqual("car:$car", variableObject.KeyArgument);
+         Assert.AreEqual("$id:Int", variableInt.GetKeyParam());
+         Assert.AreEqual("id:$id", variableInt.GetKeyArgument());
+         Assert.AreEqual("$name:String", variableString.GetKeyParam());
+         Assert.AreEqual("name:$name", variableString.GetKeyArgument());
+         Assert.AreEqual("$value:Float", variableFloat.GetKeyParam());
+         Assert.AreEqual("value:$value", variableFloat.GetKeyArgument());
+         Assert.AreEqual("$active:Boolean", variableBoolean.GetKeyParam());
+         Assert.AreEqual("active:$active", variableBoolean.GetKeyArgument());
+         Assert.AreEqual("$car:input", variableObject.GetKeyParam());
+         Assert.AreEqual("car:$car", variableObject.GetKeyArgument());
       }
 
       [TestMethod]
@@ -71,11 +71,11 @@ namespace Canducci.GraphQLQuery.MSTest
          IVariable variableBoolean = new Variable("active", true, true);
          IVariable variableObject = new Variable("car", new Car(), "input", true);
 
-         Assert.AreEqual("$id:Int!", variableInt.KeyParam);         
-         Assert.AreEqual("$name:String!", variableString.KeyParam);         
-         Assert.AreEqual("$value:Float!", variableFloat.KeyParam);         
-         Assert.AreEqual("$active:Boolean!", variableBoolean.KeyParam);         
-         Assert.AreEqual("$car:input!", variableObject.KeyParam);         
+         Assert.AreEqual("$id:Int!", variableInt.GetKeyParam());         
+         Assert.AreEqual("$name:String!", variableString.GetKeyParam());         
+         Assert.AreEqual("$value:Float!", variableFloat.GetKeyParam());         
+         Assert.AreEqual("$active:Boolean!", variableBoolean.GetKeyParam());         
+         Assert.AreEqual("$car:input!", variableObject.GetKeyParam());         
       }
 
       [TestMethod]
@@ -87,11 +87,11 @@ namespace Canducci.GraphQLQuery.MSTest
          IVariable variableFloat = new Variable("value", 100F, false, 0);
          IVariable variableBoolean = new Variable("active", true, false, false);
 
-         Assert.AreEqual("$car:input=null", variableObject.KeyParam);
-         Assert.AreEqual("$id:Int=0", variableInt.KeyParam);
-         Assert.AreEqual("$name:String=n", variableString.KeyParam);
-         Assert.AreEqual("$value:Float=0", variableFloat.KeyParam);
-         Assert.AreEqual("$active:Boolean=false", variableBoolean.KeyParam);
+         Assert.AreEqual("$car:input=null", variableObject.GetKeyParam());
+         Assert.AreEqual("$id:Int=0", variableInt.GetKeyParam());
+         Assert.AreEqual("$name:String=n", variableString.GetKeyParam());
+         Assert.AreEqual("$value:Float=0", variableFloat.GetKeyParam());
+         Assert.AreEqual("$active:Boolean=false", variableBoolean.GetKeyParam());
       }
 
       [TestMethod]

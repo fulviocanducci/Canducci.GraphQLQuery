@@ -1,6 +1,6 @@
 ﻿namespace Canducci.GraphQLQuery.Internals
 {
-   internal sealed class Formats
+   internal class Formats
    {
       public const string DateTime = "yyyy-MM-ddTHH:mm:ssZ";
       public const string Timespan = @"hh\:mm\:ss";

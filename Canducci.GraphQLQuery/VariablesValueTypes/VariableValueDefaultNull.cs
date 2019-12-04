@@ -1,6 +1,4 @@
-﻿using Canducci.GraphQLQuery.Interfaces;
-
-namespace Canducci.GraphQLQuery.VariablesValueTypes
+﻿namespace Canducci.GraphQLQuery.VariablesValueTypes
 {
    public class VariableValueDefaultNull : VariableValueDefault
    {

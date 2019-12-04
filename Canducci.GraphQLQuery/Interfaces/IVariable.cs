@@ -11,7 +11,7 @@ namespace Canducci.GraphQLQuery.Interfaces
       bool Required { get; }
       IRule Rule { get; }
       string Convert();
-      string KeyParam { get; }
-      string KeyArgument { get; }
+      string GetKeyParam();
+      string GetKeyArgument();
    }
 }
