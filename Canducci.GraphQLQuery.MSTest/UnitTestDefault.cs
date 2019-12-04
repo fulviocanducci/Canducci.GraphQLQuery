@@ -1,5 +1,6 @@
 using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.MSTest.Models;
+using Canducci.GraphQLQuery.VariablesValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
 using System;
@@ -14,8 +15,8 @@ namespace Canducci.GraphQLQuery.MSTest
          return new TypeQL(queryTypes);
       }
 
-      [TestMethod]
-      public void TestArgument()
+      [TestMethod]      
+      public void TestArguments()
       {
          IArgument argumentNumber = new Argument("id", 1);
          IArgument argumentDecimal = new Argument("value", 125.00M);
@@ -32,12 +33,65 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("125.00", argumentDecimal.Convert());
          Assert.AreEqual("300.1", argumentFloat.Convert());
          Assert.AreEqual("\\\"Souza\\\"", argumentString.Convert());
-         Assert.AreEqual("\\\"1970-01-01 00:00:00\\\"", argumentDateTime.Convert());
+         Assert.AreEqual("\\\"1970-01-01T00:00:00Z\\\"", argumentDateTime.Convert());
          Assert.AreEqual("\\\"10:00:00\\\"", argumentTimeSpan.Convert());
          Assert.AreEqual("\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.Convert());
          Assert.AreEqual("true", argumentBool.Convert());
          Assert.AreEqual("null", argumentNull.Convert());
          Assert.AreEqual("$id", argumentParameter.Convert());
+      }
+
+      [TestMethod]
+      public void TestVariables()
+      {
+         IVariable variableInt = new Variable("id", 1);
+         IVariable variableString = new Variable("name", "name");
+         IVariable variableFloat = new Variable("value", 100F);
+         IVariable variableBoolean = new Variable("active", true);
+         IVariable variableObject = new Variable("car", new Car(), "input");
+
+         Assert.AreEqual("$id:Int", variableInt.KeyParam);
+         Assert.AreEqual("id:$id", variableInt.KeyArgument);
+         Assert.AreEqual("$name:String", variableString.KeyParam);
+         Assert.AreEqual("name:$name", variableString.KeyArgument);
+         Assert.AreEqual("$value:Float", variableFloat.KeyParam);
+         Assert.AreEqual("value:$value", variableFloat.KeyArgument);
+         Assert.AreEqual("$active:Boolean", variableBoolean.KeyParam);
+         Assert.AreEqual("active:$active", variableBoolean.KeyArgument);
+         Assert.AreEqual("$car:input", variableObject.KeyParam);
+         Assert.AreEqual("car:$car", variableObject.KeyArgument);
+      }
+
+      [TestMethod]
+      public void TestVariablesRequired()
+      {
+         IVariable variableInt = new Variable("id", 1, true);
+         IVariable variableString = new Variable("name", "name", true);
+         IVariable variableFloat = new Variable("value", 100F, true);
+         IVariable variableBoolean = new Variable("active", true, true);
+         IVariable variableObject = new Variable("car", new Car(), "input", true);
+
+         Assert.AreEqual("$id:Int!", variableInt.KeyParam);         
+         Assert.AreEqual("$name:String!", variableString.KeyParam);         
+         Assert.AreEqual("$value:Float!", variableFloat.KeyParam);         
+         Assert.AreEqual("$active:Boolean!", variableBoolean.KeyParam);         
+         Assert.AreEqual("$car:input!", variableObject.KeyParam);         
+      }
+
+      [TestMethod]
+      public void TestVariablesDefaultValue()
+      {
+         IVariable variableObject = new Variable("car", new Car(), "input", false, VariableValue.Null);
+         IVariable variableInt = new Variable("id", 1, false, 0);
+         IVariable variableString = new Variable("name", "name", false, "n");
+         IVariable variableFloat = new Variable("value", 100F, false, 0);
+         IVariable variableBoolean = new Variable("active", true, false, false);
+
+         Assert.AreEqual("$car:input=null", variableObject.KeyParam);
+         Assert.AreEqual("$id:Int=0", variableInt.KeyParam);
+         Assert.AreEqual("$name:String=n", variableString.KeyParam);
+         Assert.AreEqual("$value:Float=0", variableFloat.KeyParam);
+         Assert.AreEqual("$active:Boolean=false", variableBoolean.KeyParam);
       }
 
       [TestMethod]
@@ -59,7 +113,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("value:125.00", argumentDecimal.KeyValue);
          Assert.AreEqual("value:300.1", argumentFloat.KeyValue);
          Assert.AreEqual("name:\\\"Souza\\\"", argumentString.KeyValue);
-         Assert.AreEqual("date:\\\"1970-01-01 00:00:00\\\"", argumentDateTime.KeyValue);
+         Assert.AreEqual("date:\\\"1970-01-01T00:00:00Z\\\"", argumentDateTime.KeyValue);
          Assert.AreEqual("time:\\\"10:00:00\\\"", argumentTimeSpan.KeyValue);
          Assert.AreEqual("guid:\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.KeyValue);
          Assert.AreEqual("active:true", argumentBool.KeyValue);
@@ -114,7 +168,7 @@ namespace Canducci.GraphQLQuery.MSTest
 
          var typeQLTest = TypeQLTest(queryType);
          Assert.AreEqual(
-           "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01 00:00:00\\\",active:true,value:0,hours:\\\"14:25:00\\\"}){id,name}}\"}",
+           "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01T00:00:00Z\\\",active:true,value:0,hours:\\\"14:25:00\\\"}){id,name}}\"}",
              typeQLTest.ToStringJson()
          );
       }
@@ -143,7 +197,7 @@ namespace Canducci.GraphQLQuery.MSTest
              new Arguments(new Argument("car", car))
            )
          );
-         string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14 23:54:18\\\",value:10000.00,active:true}){id,title,purchase,value,active}}\"}";
+         string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18Z\\\",value:10000.00,active:true}){id,title,purchase,value,active}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
 
@@ -171,7 +225,7 @@ namespace Canducci.GraphQLQuery.MSTest
              new Arguments(new Argument("car", car))
            )
          );
-         string expect = "{\"query\":\"{car_edit(car:{id:1,title:\\\"Car 1\\\",purchase:\\\"2019-08-14 23:54:18\\\",value:11000.00,active:true}){id,title,purchase,value,active}}\"}";
+         string expect = "{\"query\":\"{car_edit(car:{id:1,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18Z\\\",value:11000.00,active:true}){id,title,purchase,value,active}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
 
@@ -299,7 +353,7 @@ namespace Canducci.GraphQLQuery.MSTest
       {
          TypeQL typeQL = new TypeQL(
             new Variables("getStates",
-               new Variable("id", 11, true, 0)
+               new Variable("id", 11, true, new VariableValueDefaultInt(0))
             ),
             new QueryType("state_find",
                new Fields(

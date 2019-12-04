@@ -3,14 +3,14 @@
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.0.2.3</Version>
+    <Version>0.0.2.5</Version>
     <Authors>Fulvio Cezar Canducci Dias</Authors>
     <Description>GraphQL Query</Description>
     <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>GraphQL Query JSON</PackageTags>
-    <PackageReleaseNotes>Add Variables</PackageReleaseNotes>
+    <PackageReleaseNotes>VariableValueDefault &amp; Format Default DateTime and Timespan</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/fulviocanducci/Canducci.GraphQLQuery/master/logo/logo.png</PackageIconUrl>
   </PropertyGroup>

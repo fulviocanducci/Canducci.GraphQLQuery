@@ -37,11 +37,11 @@ namespace Canducci.GraphQLQuery.Internals
       }
       public string GetFormatDateTimeAction(object value)
       {
-         return string.Format(CultureInfo.DefaultThreadCurrentCulture, "{0}{1}{2}{3}{4}", Signals.Backslashes, Signals.QuotationMark, ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"), Signals.Backslashes, Signals.QuotationMark);
+         return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", Signals.Backslashes, Signals.QuotationMark, ((DateTime)value).ToString(Formats.DateTime), Signals.Backslashes, Signals.QuotationMark);
       }
       public string GetFormatTimeSpanAction(object value)
       {
-         return string.Format(CultureInfo.DefaultThreadCurrentCulture, "{0}{1}{2}{3}{4}", Signals.Backslashes, Signals.QuotationMark, ((TimeSpan)value).ToString(@"hh\:mm\:ss"), Signals.Backslashes, Signals.QuotationMark);
+         return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", Signals.Backslashes, Signals.QuotationMark, ((TimeSpan)value).ToString(Formats.Timespan), Signals.Backslashes, Signals.QuotationMark);
       }
       public string GetFormatClassAction(object value)
       {

@@ -1,5 +1,7 @@
 ﻿using System;
 using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.Internals;
+
 namespace Canducci.GraphQLQuery
 {
    public class Rule : IRule

@@ -17,7 +17,7 @@ namespace Canducci.GraphQLQuery.Internals
       }
       public string GetFormatStringAction(object value = null)
       {
-         return "Float";
+         return "String";
       }
       public string GetFormatBooleanAction(object value = null)
       {

@@ -94,9 +94,7 @@ namespace Canducci.GraphQLQuery.Extensions
             }
             stringBuilder.Append(Signals.BraceClose);
          }
-
          return stringBuilder;
       }
-
    }
 }
