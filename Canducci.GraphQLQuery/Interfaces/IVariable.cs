@@ -9,7 +9,7 @@ namespace Canducci.GraphQLQuery.Interfaces
       object Value { get; }
       VariableValueDefault VariableValueDefault { get; }
       bool Required { get; }
-      IRule Rule { get; }
+      IGraphQLRule GraphQLRule { get; }
       string Convert();
       string GetKeyParam();
       string GetKeyArgument();

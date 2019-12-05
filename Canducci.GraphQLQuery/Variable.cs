@@ -12,7 +12,7 @@ namespace Canducci.GraphQLQuery
       public string NameType { get; }
       public VariableValueDefault VariableValueDefault { get; }
       public bool Required { get; }
-      public IRule Rule { get; }
+      public IGraphQLRule GraphQLRule { get; }
       public Variable(string name, object value, bool required = false, VariableValueDefault variableValueDefault = null)
       {
          Name = name;
@@ -20,7 +20,7 @@ namespace Canducci.GraphQLQuery
          NameType = null;
          Required = required;
          VariableValueDefault = variableValueDefault;
-         Rule = GraphQLRules.Instance.Rule(value.GetType());
+         GraphQLRule = GraphQLRules.Instance.Rule(value.GetType());
       }
       public Variable(string name, object value, string nameType, bool required = false, VariableValueDefault variableValueDefault = null)
       {
@@ -29,12 +29,12 @@ namespace Canducci.GraphQLQuery
          NameType = nameType;
          Required = required;
          VariableValueDefault = variableValueDefault;
-         Rule = GraphQLRules.Instance.Rule(value.GetType());
+         GraphQLRule = GraphQLRules.Instance.Rule(value.GetType());
       }
 
       public string Convert()
-      {
-         return Rule.Convert(NameType);
+      {         
+         return GraphQLRule.Convert() ?? NameType;
       }
       public string GetKeyParam()
       {

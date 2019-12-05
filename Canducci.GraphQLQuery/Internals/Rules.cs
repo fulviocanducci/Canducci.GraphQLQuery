@@ -6,11 +6,13 @@ namespace Canducci.GraphQLQuery.Internals
 {
    internal class Rules : List<IRule>, IDisposable
    {
-      public RulesExecute Execute { get; private set; } = new RulesExecute();
+      public readonly RulesExecute Execute;
       public Rules()
       {
+         Execute = new RulesExecute();
          Add(new Rule(typeof(Parameter), Format.FormatDefault, Execute.GetFormatParameterAction));
          Add(new Rule(null, Format.FormatNull, Execute.GetFormatNullAction));
+         
          Add(new Rule(typeof(ushort), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(short), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(uint), Format.FormatNumber, Execute.GetFormatNumberAction));
@@ -19,15 +21,19 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(long), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(sbyte), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(byte), Format.FormatNumber, Execute.GetFormatNumberAction));
+         
          Add(new Rule(typeof(float), Format.FormatNumber, Execute.GetFormatNumberAction));
-         Add(new Rule(typeof(decimal), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(double), Format.FormatNumber, Execute.GetFormatNumberAction));
+         
+         Add(new Rule(typeof(decimal), Format.FormatNumber, Execute.GetFormatNumberAction));
+         
          Add(new Rule(typeof(string), Format.FormatText, Execute.GetFormatTextAction));
          Add(new Rule(typeof(Guid), Format.FormatText, Execute.GetFormatTextAction));
          Add(new Rule(typeof(char), Format.FormatText, Execute.GetFormatTextAction));
          Add(new Rule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatDateTimeAction));
          Add(new Rule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
          Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBoolAction));
+
          Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));         
       }
       public IRule Rule(Type type)

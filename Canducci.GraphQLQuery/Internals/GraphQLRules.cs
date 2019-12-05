@@ -2,37 +2,41 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace Canducci.GraphQLQuery.Internals
 {
-   internal class GraphQLRules : List<IRule>, IDisposable
+   internal class GraphQLRules : List<IGraphQLRule>, IDisposable
    {
-      public GraphQLRulesExecute Execute = new GraphQLRulesExecute();
+      public readonly GraphQLRulesExecute Execute;
       public GraphQLRules()
-      {         
-         Add(new Rule(typeof(ushort), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(short), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(uint), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(int), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(ulong), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(long), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(sbyte), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(byte), Format.FormatNumber, Execute.GetFormatIntAction));
-         Add(new Rule(typeof(float), Format.FormatNumber, Execute.GetFormatNumberAction));
-         Add(new Rule(typeof(decimal), Format.FormatNumber, Execute.GetFormatNumberAction));
-         Add(new Rule(typeof(double), Format.FormatNumber, Execute.GetFormatNumberAction));
-         Add(new Rule(typeof(string), Format.FormatText, Execute.GetFormatStringAction));
-         Add(new Rule(typeof(Guid), Format.FormatText, Execute.GetFormatStringAction));
-         Add(new Rule(typeof(char), Format.FormatText, Execute.GetFormatStringAction));
-         Add(new Rule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatStringAction));
-         Add(new Rule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatStringAction));
-         Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBooleanAction));
-         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
+      {
+         Execute = new GraphQLRulesExecute();
+         Add(new GraphQLRule(typeof(ushort), Format.FormatNumber, Execute.GetFormatIntAction));
+         Add(new GraphQLRule(typeof(short), Format.FormatNumber, Execute.GetFormatIntAction));
+         Add(new GraphQLRule(typeof(uint), Format.FormatNumber, Execute.GetFormatIntAction));
+         Add(new GraphQLRule(typeof(int), Format.FormatNumber, Execute.GetFormatIntAction));
+         Add(new GraphQLRule(typeof(ulong), Format.FormatNumber, Execute.GetFormatIntAction));
+         Add(new GraphQLRule(typeof(long), Format.FormatNumber, Execute.GetFormatIntAction));
+         Add(new GraphQLRule(typeof(sbyte), Format.FormatNumber, Execute.GetFormatIntAction));
+         Add(new GraphQLRule(typeof(byte), Format.FormatNumber, Execute.GetFormatIntAction));
+
+         Add(new GraphQLRule(typeof(float), Format.FormatNumber, Execute.GetFormatNumberAction));
+         Add(new GraphQLRule(typeof(double), Format.FormatNumber, Execute.GetFormatNumberAction));
+         
+         Add(new GraphQLRule(typeof(decimal), Format.FormatNumber, Execute.GetFormatDecimalAction));
+         
+         Add(new GraphQLRule(typeof(string), Format.FormatText, Execute.GetFormatStringAction));
+         Add(new GraphQLRule(typeof(Guid), Format.FormatText, Execute.GetFormatStringAction));
+         Add(new GraphQLRule(typeof(char), Format.FormatText, Execute.GetFormatStringAction));
+         Add(new GraphQLRule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatDateTimeAction));
+         Add(new GraphQLRule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
+         Add(new GraphQLRule(typeof(bool), Format.FormatDefault, Execute.GetFormatBooleanAction));
+         
+         Add(new GraphQLRule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
       }
 
-      public IRule Rule(Type type)
+      public IGraphQLRule Rule(Type type)
       {
-         IRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();
+         IGraphQLRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();
          if (rule == null && type.IsClass && typeof(string) != type)
          {
             rule = this.Where(x => x.Format == Format.FormatClass).FirstOrDefault();

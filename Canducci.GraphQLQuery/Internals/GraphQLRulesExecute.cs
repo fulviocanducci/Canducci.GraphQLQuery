@@ -3,28 +3,43 @@ namespace Canducci.GraphQLQuery.Internals
 {
    internal class GraphQLRulesExecute : IDisposable
    {
-      public string GetFormatClassAction(object value = null)
+      public string GetFormatClassAction()
       {
-         return $"{value}";
+         return null;
       }
-      public string GetFormatIntAction(object value = null)
+      public string GetFormatIntAction()
       {
          return "Int";
       }
-      public string GetFormatNumberAction(object value = null)
+      public string GetFormatDecimalAction()
+      {
+         return "Decimal";
+      }
+      public string GetFormatNumberAction()
       {
          return "Float";
       }
-      public string GetFormatStringAction(object value = null)
+      public string GetFormatStringAction()
       {
          return "String";
       }
-      public string GetFormatBooleanAction(object value = null)
+      public string GetFormatBooleanAction()
       {
          return "Boolean";
       }
-
-      public string GetFormatIDAction(object value = null)
+      public string GetFormatDateAction()
+      {
+         return "Date";
+      }
+      public string GetFormatDateTimeAction()
+      {
+         return "DateTime";
+      }
+      public string GetFormatTimeSpanAction()
+      {
+         return "TimeSpan";
+      }
+      public string GetFormatIDAction()
       {
          return "ID";
       }
