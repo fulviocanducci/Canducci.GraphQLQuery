@@ -4,7 +4,6 @@ using Canducci.GraphQLQuery.VariablesValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
 using System;
-using System.Globalization;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
@@ -12,114 +11,8 @@ namespace Canducci.GraphQLQuery.MSTest
    public class UnitTestDefault
    {
       public TypeQL TypeQLTest(params QueryType[] queryTypes)
-      {
+      {         
          return new TypeQL(queryTypes);
-      }
-
-      [TestMethod]      
-      public void TestArguments()
-      {
-         IArgument argumentNumber = new Argument("id", 1);
-         IArgument argumentDecimal = new Argument("value", 125.00M);
-         IArgument argumentFloat = new Argument("value", 300.1F);
-         IArgument argumentString = new Argument("name", "Souza");
-         IArgument argumentDateTime = new Argument("date", DateTime.Parse("01/01/1970"));
-         IArgument argumentTimeSpan = new Argument("time", TimeSpan.Parse("10:00:00"));
-         IArgument argumentGuid = new Argument("guid", Guid.Empty);
-         IArgument argumentBool = new Argument("active", true);
-         IArgument argumentNull = new Argument("null", null);
-         IArgument argumentParameter = new Argument(new Parameter("id"));
-
-         Assert.AreEqual("1", argumentNumber.Convert());
-         Assert.AreEqual("125.00", argumentDecimal.Convert());
-         Assert.AreEqual("300.1", argumentFloat.Convert());
-         Assert.AreEqual("\\\"Souza\\\"", argumentString.Convert());
-         Assert.AreEqual("\\\"1970-01-01T00:00:00.000Z\\\"", argumentDateTime.Convert());
-         Assert.AreEqual("\\\"10:00:00\\\"", argumentTimeSpan.Convert());
-         Assert.AreEqual("\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.Convert());
-         Assert.AreEqual("true", argumentBool.Convert());
-         Assert.AreEqual("null", argumentNull.Convert());
-         Assert.AreEqual("$id", argumentParameter.Convert());
-      }
-
-      [TestMethod]
-      public void TestVariables()
-      {
-         IVariable variableInt = new Variable("id", 1);
-         IVariable variableString = new Variable("name", "name");
-         IVariable variableFloat = new Variable("value", 100F);
-         IVariable variableBoolean = new Variable("active", true);
-         IVariable variableObject = new Variable("car", new Car(), "input");
-
-         Assert.AreEqual("$id:Int", variableInt.GetKeyParam());
-         Assert.AreEqual("id:$id", variableInt.GetKeyArgument());
-         Assert.AreEqual("$name:String", variableString.GetKeyParam());
-         Assert.AreEqual("name:$name", variableString.GetKeyArgument());
-         Assert.AreEqual("$value:Float", variableFloat.GetKeyParam());
-         Assert.AreEqual("value:$value", variableFloat.GetKeyArgument());
-         Assert.AreEqual("$active:Boolean", variableBoolean.GetKeyParam());
-         Assert.AreEqual("active:$active", variableBoolean.GetKeyArgument());
-         Assert.AreEqual("$car:input", variableObject.GetKeyParam());
-         Assert.AreEqual("car:$car", variableObject.GetKeyArgument());
-      }
-
-      [TestMethod]
-      public void TestVariablesRequired()
-      {
-         IVariable variableInt = new Variable("id", 1, true);
-         IVariable variableString = new Variable("name", "name", true);
-         IVariable variableFloat = new Variable("value", 100F, true);
-         IVariable variableBoolean = new Variable("active", true, true);
-         IVariable variableObject = new Variable("car", new Car(), "input", true);
-
-         Assert.AreEqual("$id:Int!", variableInt.GetKeyParam());         
-         Assert.AreEqual("$name:String!", variableString.GetKeyParam());         
-         Assert.AreEqual("$value:Float!", variableFloat.GetKeyParam());         
-         Assert.AreEqual("$active:Boolean!", variableBoolean.GetKeyParam());         
-         Assert.AreEqual("$car:input!", variableObject.GetKeyParam());         
-      }
-
-      [TestMethod]
-      public void TestVariablesDefaultValue()
-      {
-         IVariable variableObject = new Variable("car", new Car(), "input", false, VariableValue.Null);
-         IVariable variableInt = new Variable("id", 1, false, 0);
-         IVariable variableString = new Variable("name", "name", false, "n");
-         IVariable variableFloat = new Variable("value", 100F, false, 0);
-         IVariable variableBoolean = new Variable("active", true, false, false);
-
-         Assert.AreEqual("$car:input=null", variableObject.GetKeyParam());
-         Assert.AreEqual("$id:Int=0", variableInt.GetKeyParam());
-         Assert.AreEqual("$name:String=n", variableString.GetKeyParam());
-         Assert.AreEqual("$value:Float=0", variableFloat.GetKeyParam());
-         Assert.AreEqual("$active:Boolean=false", variableBoolean.GetKeyParam());
-      }
-
-      [TestMethod]
-      public void TestArgumentKeyValue()
-      {
-         IArgument argumentNumber = new Argument("id", 1);
-         IArgument argumentDecimal = new Argument("value", 125.00M);
-         IArgument argumentFloat = new Argument("value", 300.1F);
-         IArgument argumentString = new Argument("name", "Souza");
-         IArgument argumentDateTime = new Argument("date", DateTime.Parse("01/01/1970"));
-         IArgument argumentTimeSpan = new Argument("time", TimeSpan.Parse("10:00:00"));
-         IArgument argumentGuid = new Argument("guid", Guid.Empty);
-         IArgument argumentBool = new Argument("active", true);
-         IArgument argumentNull = new Argument("null", null);
-         IArgument argumentParameter = new Argument(new Parameter("id"));
-
-
-         Assert.AreEqual("id:1", argumentNumber.KeyValue);
-         Assert.AreEqual("value:125.00", argumentDecimal.KeyValue);
-         Assert.AreEqual("value:300.1", argumentFloat.KeyValue);
-         Assert.AreEqual("name:\\\"Souza\\\"", argumentString.KeyValue);
-         Assert.AreEqual("date:\\\"1970-01-01T00:00:00.000Z\\\"", argumentDateTime.KeyValue);
-         Assert.AreEqual("time:\\\"10:00:00\\\"", argumentTimeSpan.KeyValue);
-         Assert.AreEqual("guid:\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.KeyValue);
-         Assert.AreEqual("active:true", argumentBool.KeyValue);
-         Assert.AreEqual("null:null", argumentNull.KeyValue);
-         Assert.AreEqual("id:$id", argumentParameter.KeyValue);
       }
 
       [TestMethod]

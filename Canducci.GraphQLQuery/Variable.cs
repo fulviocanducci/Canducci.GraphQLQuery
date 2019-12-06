@@ -12,7 +12,7 @@ namespace Canducci.GraphQLQuery
       public string NameType { get; }
       public VariableValueDefault VariableValueDefault { get; }
       public bool Required { get; }
-      public IGraphQLRule GraphQLRule { get; }
+      internal IGraphQLRule GraphQLRule { get; }
       public Variable(string name, object value, bool required = false, VariableValueDefault variableValueDefault = null)
       {
          Name = name;

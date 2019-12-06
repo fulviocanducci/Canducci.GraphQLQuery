@@ -1,4 +1,4 @@
-﻿namespace Canducci.GraphQLQuery.Internals
+﻿namespace Canducci.GraphQLQuery
 {
    public enum Format
    {

@@ -6,7 +6,7 @@ namespace Canducci.GraphQLQuery
       public string Name { get; }
       public string Alias { get; }
       public IQueryType QueryType { get; }
-      public Field(string name) : this(name, "") { }
+      public Field(string name) : this(name, null) { }
       public Field(string name, string alias)
       {
          Name = name;

@@ -1,11 +1,8 @@
-﻿using Canducci.GraphQLQuery.Internals;
-using System;
+﻿using System;
 namespace Canducci.GraphQLQuery.Interfaces
 {
-   public interface IGraphQLRule
-   {
-      Type TypeArgument { get; }
-      Format Format { get; }
+   internal interface IGraphQLRule: IRuleBase
+   {      
       Func<string> Convert { get; set; }
    }
 }

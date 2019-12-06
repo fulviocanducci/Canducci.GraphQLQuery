@@ -10,6 +10,7 @@ namespace Canducci.GraphQLQuery.Internals
       public GraphQLRules()
       {
          Execute = new GraphQLRulesExecute();
+
          Add(new GraphQLRule(typeof(ushort), Format.FormatNumber, Execute.GetFormatIntAction));
          Add(new GraphQLRule(typeof(short), Format.FormatNumber, Execute.GetFormatIntAction));
          Add(new GraphQLRule(typeof(uint), Format.FormatNumber, Execute.GetFormatIntAction));
@@ -21,16 +22,18 @@ namespace Canducci.GraphQLQuery.Internals
 
          Add(new GraphQLRule(typeof(float), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new GraphQLRule(typeof(double), Format.FormatNumber, Execute.GetFormatNumberAction));
-         
+
          Add(new GraphQLRule(typeof(decimal), Format.FormatNumber, Execute.GetFormatDecimalAction));
-         
+
          Add(new GraphQLRule(typeof(string), Format.FormatText, Execute.GetFormatStringAction));
          Add(new GraphQLRule(typeof(Guid), Format.FormatText, Execute.GetFormatStringAction));
          Add(new GraphQLRule(typeof(char), Format.FormatText, Execute.GetFormatStringAction));
+
          Add(new GraphQLRule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatDateTimeAction));
          Add(new GraphQLRule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
+
          Add(new GraphQLRule(typeof(bool), Format.FormatDefault, Execute.GetFormatBooleanAction));
-         
+
          Add(new GraphQLRule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
       }
 
@@ -47,8 +50,10 @@ namespace Canducci.GraphQLQuery.Internals
          }
          return rule;
       }
+
       public void Dispose()
       {
+         Execute?.Dispose();
          GC.SuppressFinalize(this);
       }
 

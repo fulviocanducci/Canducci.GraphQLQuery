@@ -7,7 +7,7 @@ namespace Canducci.GraphQLQuery
    {
       public string Name { get; }
       public object Value { get; }
-      public IRule Rule { get; }
+      internal IRule Rule { get; }
       public string KeyValue
       {
          get

@@ -10,9 +10,10 @@ namespace Canducci.GraphQLQuery.Internals
       public Rules()
       {
          Execute = new RulesExecute();
+
          Add(new Rule(typeof(Parameter), Format.FormatDefault, Execute.GetFormatParameterAction));
          Add(new Rule(null, Format.FormatNull, Execute.GetFormatNullAction));
-         
+
          Add(new Rule(typeof(ushort), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(short), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(uint), Format.FormatNumber, Execute.GetFormatNumberAction));
@@ -21,12 +22,12 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(long), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(sbyte), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(byte), Format.FormatNumber, Execute.GetFormatNumberAction));
-         
+
          Add(new Rule(typeof(float), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(double), Format.FormatNumber, Execute.GetFormatNumberAction));
-         
+
          Add(new Rule(typeof(decimal), Format.FormatNumber, Execute.GetFormatNumberAction));
-         
+
          Add(new Rule(typeof(string), Format.FormatText, Execute.GetFormatTextAction));
          Add(new Rule(typeof(Guid), Format.FormatText, Execute.GetFormatTextAction));
          Add(new Rule(typeof(char), Format.FormatText, Execute.GetFormatTextAction));
@@ -34,8 +35,9 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
          Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBoolAction));
 
-         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));         
+         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
       }
+      
       public IRule Rule(Type type)
       {
          IRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();
@@ -49,6 +51,7 @@ namespace Canducci.GraphQLQuery.Internals
          }
          return rule;
       }
+
       public void Dispose()
       {
          Execute?.Dispose();

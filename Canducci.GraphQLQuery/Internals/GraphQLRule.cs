@@ -1,10 +1,9 @@
-﻿using System;
-using Canducci.GraphQLQuery.Interfaces;
-using Canducci.GraphQLQuery.Internals;
+﻿using Canducci.GraphQLQuery.Interfaces;
+using System;
 
 namespace Canducci.GraphQLQuery
 {
-   public sealed class GraphQLRule : IGraphQLRule
+   internal sealed class GraphQLRule : IGraphQLRule
    {
       public Type TypeArgument { get; private set; }
       public Format Format { get; private set; }
