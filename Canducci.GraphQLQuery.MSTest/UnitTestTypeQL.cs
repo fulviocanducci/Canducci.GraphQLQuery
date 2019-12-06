@@ -1,5 +1,7 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models;
+using System;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
@@ -84,6 +86,38 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsTrue(typeQL0.Variables.Count == 1);
          string expected0 = "{\"query\":\"query get($load:Boolean){states{id,uf,contries{id,name}}contries{id,name}}\",\"variables\":{\"load\":true}}";
          Assert.AreEqual(expected0, typeQL0.ToStringJson());
+      }
+
+      [TestMethod]
+      public void TestConvertTimeSpan()
+      {
+         Source source = new Source()
+         {
+            Time = TimeSpan.Parse("13:02:00")
+         };
+         TypeQL typeQL = new TypeQL(
+            new Variables("getSource",
+               new Variable("input", source, "source_input")
+            ),
+            new QueryType("source_add",
+               new Fields(
+                  new Field("id"),
+                  new Field("name"),
+                  new Field("value"),
+                  new Field("active"),
+                  new Field("created"),
+                  new Field("time")
+               ),
+               new Arguments(
+                  new Argument(
+                     new Parameter("input")
+                  )
+               )
+            )
+         );
+
+         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":\"13:02:00\"}}}";
+         Assert.AreEqual(expected, typeQL.ToStringJson());
       }
    }
 }

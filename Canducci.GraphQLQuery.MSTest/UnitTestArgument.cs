@@ -11,11 +11,15 @@ namespace Canducci.GraphQLQuery.MSTest
       [TestMethod]
       public void TestArgument()
       {
-         IArgument argument = new Argument("id", 1);         
+         IArgument argumentId = new Argument("id", 1);
+         IArgument argumentTime = new Argument("time", TimeSpan.Parse("03:03:25"));
          IArgument argumentParameter = new Argument(new Parameter("id"));
 
-         Assert.AreEqual(argument.Name, "id");
-         Assert.AreEqual(argument.Value, 1);
+         Assert.AreEqual(argumentId.Name, "id");
+         Assert.AreEqual(argumentId.Value, 1);
+
+         Assert.AreEqual(argumentTime.Name, "time");
+         Assert.AreEqual(argumentTime.Value, TimeSpan.Parse("03:03:25"));
 
          Assert.IsInstanceOfType(argumentParameter.Value, typeof(Parameter));
          Assert.AreEqual(((Parameter)argumentParameter.Value).Name, "id");
@@ -28,7 +32,7 @@ namespace Canducci.GraphQLQuery.MSTest
          IArgument argumentDecimal = new Argument("value", 125.00M);
          IArgument argumentFloat = new Argument("value", 300.1F);
          IArgument argumentString = new Argument("name", "Paul");
-         IArgument argumentDateTime = new Argument("date", DateTime.Parse("01/01/1970"));
+         IArgument argumentDateTime = new Argument("date", DateTime.Parse("1970-01-01"));
          IArgument argumentTimeSpan = new Argument("time", TimeSpan.Parse("10:00:00"));
          IArgument argumentGuid = new Argument("guid", Guid.Empty);
          IArgument argumentBool = new Argument("active", true);

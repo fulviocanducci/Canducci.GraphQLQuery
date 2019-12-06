@@ -9,7 +9,10 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-         Source source = new Source();
+         Source source = new Source()
+         {
+            Time = TimeSpan.Parse("13:02:00")
+         };
          TypeQL typeQL = new TypeQL(
             new Variables("getSource",
                new Variable("input", source, "source_input")

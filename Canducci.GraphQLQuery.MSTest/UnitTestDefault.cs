@@ -296,19 +296,21 @@ namespace Canducci.GraphQLQuery.MSTest
                   new Field("name"),
                   new Field("value"),
                   new Field("active"),
-                  new Field("created")
+                  new Field("created"),
+                  new Field("time")
                ),
                new Arguments(
                   new Argument("id", null),
                   new Argument("name", null),
                   new Argument("value", null),
                   new Argument("active", null),
-                  new Argument("created", null)
+                  new Argument("created", null),
+                  new Argument("time", null)
                )
             )
          );
 
-         string expected = "{\"query\":\"{source_param_add(id:null,name:null,value:null,active:null,created:null){id,name,value,active,created}}\"}";
+         string expected = "{\"query\":\"{source_param_add(id:null,name:null,value:null,active:null,created:null,time:null){id,name,value,active,created,time}}\"}";
          Assert.AreEqual(expected, typeQL.ToStringJson());
       }
 
@@ -326,7 +328,8 @@ namespace Canducci.GraphQLQuery.MSTest
                   new Field("name"),
                   new Field("value"),
                   new Field("active"),
-                  new Field("created")
+                  new Field("created"),
+                  new Field("time")
                ),
                new Arguments(
                   new Argument(
@@ -335,7 +338,7 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null}}}";
+         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":\"00:00:00\"}}}";
          Assert.AreEqual(expected, typeQL.ToStringJson());
       }      
    }

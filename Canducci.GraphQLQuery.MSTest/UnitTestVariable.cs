@@ -2,6 +2,7 @@
 using Canducci.GraphQLQuery.MSTest.Models;
 using Canducci.GraphQLQuery.VariablesValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
@@ -17,12 +18,14 @@ namespace Canducci.GraphQLQuery.MSTest
          IVariable variableFloat = new Variable("value", 100F);
          IVariable variableBoolean = new Variable("active", true);
          IVariable variableObject = new Variable("car", new Car(), "input");
+         IVariable variableTimeSpan = new Variable("time", TimeSpan.Parse("13:00:00"));
          IVariable variableDefaultValue = new Variable("id", 2, "id", true, 0);
 
          Assert.AreEqual("id", variableInt.Name);
          Assert.AreEqual(null, variableInt.NameType);
          Assert.AreEqual(false, variableInt.Required);
          Assert.AreEqual(null, variableInt.VariableValueDefault);
+         Assert.AreEqual(TimeSpan.Parse("13:00:00"), variableTimeSpan.Value);
 
          Assert.AreEqual("id", variableDefaultValue.Name);
          Assert.AreEqual("id", variableDefaultValue.NameType);
