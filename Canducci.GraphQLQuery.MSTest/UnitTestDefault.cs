@@ -76,7 +76,8 @@ namespace Canducci.GraphQLQuery.MSTest
             Title = "Car 1",
             Purchase = DateTime.Parse("2019-08-14 23:54:18"),
             Value = 10000.00M,
-            Active = true
+            Active = true,
+            Time = null
          };
          TypeQL typeQL = new TypeQL(
            new QueryType(
@@ -86,12 +87,13 @@ namespace Canducci.GraphQLQuery.MSTest
                new Field("title"),
                new Field("purchase"),
                new Field("value"),
-               new Field("active")
+               new Field("active"),
+               new Field("time")
              ),
              new Arguments(new Argument("car", car))
            )
          );
-         string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18.000Z\\\",value:10000.00,active:true}){id,title,purchase,value,active}}\"}";
+         string expect = "{\"query\":\"{car_add(car:{id:0,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18.000Z\\\",value:10000.00,active:true,time:null}){id,title,purchase,value,active,time}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
 
@@ -104,7 +106,8 @@ namespace Canducci.GraphQLQuery.MSTest
             Title = "Car 1",
             Purchase = DateTime.Parse("2019-08-14 23:54:18"),
             Value = 11000.00M,
-            Active = true
+            Active = true,
+            Time = null
          };
          TypeQL typeQL = new TypeQL(
            new QueryType(
@@ -114,12 +117,13 @@ namespace Canducci.GraphQLQuery.MSTest
                new Field("title"),
                new Field("purchase"),
                new Field("value"),
-               new Field("active")
+               new Field("active"),
+               new Field("time")
              ),
              new Arguments(new Argument("car", car))
            )
          );
-         string expect = "{\"query\":\"{car_edit(car:{id:1,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18.000Z\\\",value:11000.00,active:true}){id,title,purchase,value,active}}\"}";
+         string expect = "{\"query\":\"{car_edit(car:{id:1,title:\\\"Car 1\\\",purchase:\\\"2019-08-14T23:54:18.000Z\\\",value:11000.00,active:true,time:null}){id,title,purchase,value,active,time}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
 

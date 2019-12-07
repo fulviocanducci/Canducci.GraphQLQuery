@@ -9,30 +9,55 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-         Source source = new Source()
+         //Source source = new Source()
+         //{
+         //   Time = TimeSpan.Parse("13:02:00")
+         //};
+         //TypeQL typeQL = new TypeQL(
+         //   new Variables("getSource",
+         //      new Variable("input", source, "source_input")
+         //   ),
+         //   new QueryType("source_add",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("name"),
+         //         new Field("value"),
+         //         new Field("active"),
+         //         new Field("created")
+         //      ),
+         //      new Arguments(
+         //         new Argument(
+         //            new Parameter("input")
+         //         )
+         //      )
+         //   )
+         //);
+         Car car = new Car
          {
-            Time = TimeSpan.Parse("13:02:00")
+            Active = true,
+            Purchase = DateTime.ParseExact("1999-01-02 01:01:01", @"yyyy-MM-dd HH:mm:ss", null),
+            Title = "title",
+            Value = 15000M,
+            Time = TimeSpan.Parse("13:12:00")
          };
          TypeQL typeQL = new TypeQL(
-            new Variables("getSource",
-               new Variable("input", source, "source_input")
-            ),
-            new QueryType("source_add",
-               new Fields(
-                  new Field("id"),
-                  new Field("name"),
-                  new Field("value"),
-                  new Field("active"),
-                  new Field("created")
+               new Variables("getCars",
+                  new Variable("input", car, "car_input", true)
                ),
-               new Arguments(
-                  new Argument(
-                     new Parameter("input")
+               new QueryType("car_add",
+                  new Fields(
+                     new Field("id"),
+                     new Field("title"),
+                     new Field("purchase"),
+                     new Field("value"),
+                     new Field("active"),
+                     new Field("time")
+                  ),
+                  new Arguments(
+                     new Argument(new Parameter("input"))
                   )
                )
-            )
-         );
-
+            );
          Console.WriteLine(typeQL);
 
          #region test

@@ -8,7 +8,7 @@
     <Description>GraphQL Query</Description>
     <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
+    <RepositoryType>GIT</RepositoryType>
     <PackageTags>GraphQL Query JSON</PackageTags>
     <PackageReleaseNotes>VariableValueDefault &amp; Format Default DateTime and Timespan</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

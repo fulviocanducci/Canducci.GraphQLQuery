@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Version>0.0.1</Version>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageIconUrl />
+    <Description>GraphQLQuery CustomTypes (TimeSpan)</Description>
+    <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageTags>GraphQL Custom Types</PackageTags>
+    <PackageReleaseNotes>GraphQLQuery CustomTypes (TimeSpan)</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HotChocolate.Types" Version="10.2.0" />
+    <PackageReference Include="HotChocolate.Language" Version="10.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\logo\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
