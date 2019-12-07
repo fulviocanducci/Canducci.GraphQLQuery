@@ -3,12 +3,12 @@ mono: none
 dotnet: 2.0.0
 solution: Canducci.GraphQL.sln
 install:
-  - dotnet restore Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj
   - dotnet restore Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj
   - dotnet restore Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj
-  - dotnet restore Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj
-script:
   - dotnet restore Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj  
+  - dotnet restore Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj
+script:    
   - dotnet restore Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj
   - dotnet restore Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj
+  - dotnet restore Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj  
   - dotnet restore Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj

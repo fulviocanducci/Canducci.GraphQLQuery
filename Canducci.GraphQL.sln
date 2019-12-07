@@ -13,12 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{85DD6576-9E8C-45F4-B60C-21E08A9ECA0F}"
 	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canducci.GraphQLQuery.CustomTypes", "Canducci.GraphQLQuery.CustomTypes\Canducci.GraphQLQuery.CustomTypes.csproj", "{5A10ECB7-F5C4-4098-A104-10FFF33523D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Canducci.GraphQLQuery.CustomTypes", "Canducci.GraphQLQuery.CustomTypes\Canducci.GraphQLQuery.CustomTypes.csproj", "{5A10ECB7-F5C4-4098-A104-10FFF33523D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canducci.GraphQLQuery.CustomTypes.MSTest", "Canducci.GraphQLQuery.CustomTypes.MSTest\Canducci.GraphQLQuery.CustomTypes.MSTest.csproj", "{51A6C0CC-728A-4E61-8817-DABC3AF39D0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Canducci.GraphQLQuery.CustomTypes.MSTest", "Canducci.GraphQLQuery.CustomTypes.MSTest\Canducci.GraphQLQuery.CustomTypes.MSTest.csproj", "{51A6C0CC-728A-4E61-8817-DABC3AF39D0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
