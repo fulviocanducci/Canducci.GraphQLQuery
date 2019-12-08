@@ -1,6 +1,4 @@
 ﻿using Canducci.GraphQLQuery;
-using Canducci.GraphQLQuery.MSTest.Models;
-using Models;
 using System;
 
 namespace ConsoleAppTest
@@ -9,6 +7,29 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
+         var _a = new Any("any", new string[] { "100", "200" });
+         var _i = new ID("id", new string[] { "100", "200" });
+         var _u = new Uri("http://localhost");
+         TypeQL typeQL = new TypeQL(
+            new Variables("get",
+               new Variable("id", _i),
+               new Variable("any", _a),
+               new Variable("uri", _u),
+               new Variable("code", 100)
+            ),
+            new QueryType("items",
+               new Fields(new Field("about")),
+               new Arguments(
+                  new Argument(new Parameter("id")),
+                  new Argument(new Parameter("any")),
+                  new Argument(new Parameter("code")),
+                  new Argument(new Parameter("uri"))
+               )
+            )
+         );
+
+         Console.WriteLine(typeQL);
+
          //Source source = new Source()
          //{
          //   Time = TimeSpan.Parse("13:02:00")
@@ -32,33 +53,33 @@ namespace ConsoleAppTest
          //      )
          //   )
          //);
-         Car car = new Car
-         {
-            Active = true,
-            Purchase = DateTime.ParseExact("1999-01-02 01:01:01", @"yyyy-MM-dd HH:mm:ss", null),
-            Title = "title",
-            Value = 15000M,
-            Time = TimeSpan.Parse("13:12:00")
-         };
-         TypeQL typeQL = new TypeQL(
-               new Variables("getCars",
-                  new Variable("input", car, "car_input", true)
-               ),
-               new QueryType("car_add",
-                  new Fields(
-                     new Field("id"),
-                     new Field("title"),
-                     new Field("purchase"),
-                     new Field("value"),
-                     new Field("active"),
-                     new Field("time")
-                  ),
-                  new Arguments(
-                     new Argument(new Parameter("input"))
-                  )
-               )
-            );
-         Console.WriteLine(typeQL);
+         //Car car = new Car
+         //{
+         //   Active = true,
+         //   Purchase = DateTime.ParseExact("1999-01-02 01:01:01", @"yyyy-MM-dd HH:mm:ss", null),
+         //   Title = "title",
+         //   Value = 15000M,
+         //   Time = TimeSpan.Parse("13:12:00")
+         //};
+         //TypeQL typeQL = new TypeQL(
+         //      new Variables("getCars",
+         //         new Variable("input", car, "car_input", true)
+         //      ),
+         //      new QueryType("car_add",
+         //         new Fields(
+         //            new Field("id"),
+         //            new Field("title"),
+         //            new Field("purchase"),
+         //            new Field("value"),
+         //            new Field("active"),
+         //            new Field("time")
+         //         ),
+         //         new Arguments(
+         //            new Argument(new Parameter("input"))
+         //         )
+         //      )
+         //   );
+         //Console.WriteLine(typeQL);
 
          #region test
          //Car car = new Car

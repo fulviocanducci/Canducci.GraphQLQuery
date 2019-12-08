@@ -6,6 +6,33 @@ namespace Canducci.GraphQLQuery.Internals
 {
    internal sealed class RulesExecute: IDisposable
    {
+      public string GetFormatUrlAction(object value)
+      {
+         if (value != null && value is Uri url)
+         {
+            return string.Format(CultureInfo.InvariantCulture, "${0}", value);
+         }
+         return string.Empty;
+      }
+      public string GetFormatIDAction(object value)
+      {
+         if (value != null && value is ID id)
+         {
+            return string.Format(CultureInfo.InvariantCulture, "${0}", id.Name);
+         }
+         return string.Empty;
+      }
+
+      public string GetFormatAnyAction(object value)
+      {
+         if (value != null && value is Any any)
+         {
+            return string.Format(CultureInfo.InvariantCulture, "${0}", any.Name);
+         }
+         return string.Empty;
+
+      }
+
       public string GetFormatParameterAction(object value)
       {
          if (value != null && value is Parameter parameter)
@@ -15,6 +42,7 @@ namespace Canducci.GraphQLQuery.Internals
          return string.Empty;
 
       }
+
       public string GetFormatNullAction(object value = null)
       {
          if (value == null)
@@ -23,18 +51,32 @@ namespace Canducci.GraphQLQuery.Internals
          }
          return string.Format(CultureInfo.InvariantCulture, "{0}", value);
       }
+
       public string GetFormatNumberAction(object value)
       {
          return string.Format(CultureInfo.InvariantCulture, "{0}", value);
       }
+
       public string GetFormatBoolAction(object value)
       {
          return string.Format(CultureInfo.InvariantCulture, "{0}", value.ToString().ToLowerInvariant());
       }
-      public string GetFormatTextAction(object value)
+
+      public string GetFormatStringAction(object value)
       {
          return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", Signals.Backslashes, Signals.QuotationMark, value, Signals.Backslashes, Signals.QuotationMark);
       }
+
+      public string GetFormatCharAction(object value)
+      {
+         return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", Signals.Backslashes, Signals.QuotationMark, value, Signals.Backslashes, Signals.QuotationMark);
+      }
+
+      public string GetFormatGuidAction(object value)
+      {
+         return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", Signals.Backslashes, Signals.QuotationMark, value.ToString(), Signals.Backslashes, Signals.QuotationMark);
+      }
+
       public string GetFormatDateTimeAction(object value)
       {         
          return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", 
@@ -44,6 +86,7 @@ namespace Canducci.GraphQLQuery.Internals
             Signals.Backslashes, 
             Signals.QuotationMark);
       }
+
       public string GetFormatTimeSpanAction(object value)
       {
          return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", 
@@ -53,6 +96,7 @@ namespace Canducci.GraphQLQuery.Internals
             Signals.Backslashes, 
             Signals.QuotationMark);
       }
+
       public string GetFormatClassAction(object value)
       {
          Arguments arguments = new Arguments();

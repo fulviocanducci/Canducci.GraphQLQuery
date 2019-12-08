@@ -11,7 +11,7 @@ namespace Canducci.GraphQLQuery.Internals
       {
          Execute = new RulesExecute();
 
-         Add(new Rule(typeof(Parameter), Format.FormatDefault, Execute.GetFormatParameterAction));
+         Add(new Rule(typeof(Parameter), Format.FormatParameter, Execute.GetFormatParameterAction));
          Add(new Rule(null, Format.FormatNull, Execute.GetFormatNullAction));
 
          Add(new Rule(typeof(ushort), Format.FormatNumber, Execute.GetFormatNumberAction));
@@ -22,20 +22,25 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(long), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(sbyte), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(byte), Format.FormatNumber, Execute.GetFormatNumberAction));
-
          Add(new Rule(typeof(float), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(double), Format.FormatNumber, Execute.GetFormatNumberAction));
-
          Add(new Rule(typeof(decimal), Format.FormatNumber, Execute.GetFormatNumberAction));
 
-         Add(new Rule(typeof(string), Format.FormatText, Execute.GetFormatTextAction));
-         Add(new Rule(typeof(Guid), Format.FormatText, Execute.GetFormatTextAction));
-         Add(new Rule(typeof(char), Format.FormatText, Execute.GetFormatTextAction));
+         Add(new Rule(typeof(string), Format.FormatString, Execute.GetFormatStringAction));         
+         Add(new Rule(typeof(char), Format.FormatString, Execute.GetFormatCharAction));
+
+         Add(new Rule(typeof(Guid), Format.FormatGuid, Execute.GetFormatGuidAction));
+
          Add(new Rule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatDateTimeAction));
          Add(new Rule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
+
          Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBoolAction));
 
+         Add(new Rule(typeof(Uri), Format.FormatUrl, Execute.GetFormatUrlAction));
          Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
+
+         Add(new Rule(typeof(ID), Format.FormatID, Execute.GetFormatIDAction));
+         Add(new Rule(typeof(Any), Format.FormatAny, Execute.GetFormatAnyAction));
       }
       
       public IRule Rule(Type type)

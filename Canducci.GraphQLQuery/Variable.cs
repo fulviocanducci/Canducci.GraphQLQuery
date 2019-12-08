@@ -52,6 +52,25 @@ namespace Canducci.GraphQLQuery
          return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}", Name, Signals.DollarSign, Name);
       }
 
+      public object GetValue()
+      {
+         object value = Value;
+         switch(GraphQLRule.Format)
+         {
+            case Format.FormatID:
+               {
+                  value = ((ID)Value).Value;
+                  break;
+               }
+            case Format.FormatAny:
+               {
+                  value = ((Any)Value).Value;
+                  break;
+               }
+         }
+         return value;
+      }
+
    }
 }
 

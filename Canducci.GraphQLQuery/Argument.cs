@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
+using System;
 using System.Globalization;
 namespace Canducci.GraphQLQuery
 {
@@ -21,12 +22,32 @@ namespace Canducci.GraphQLQuery
          Value = value;
          Rule = Rules.Instance.Rule(value?.GetType());
       }
-      public Argument(Parameter parameter)
+      public Argument(Parameter value)
       {
-         Name = parameter.Name;
-         Value = parameter;
+         Name = value.Name;
+         Value = value;
          Rule = Rules.Instance.Rule(typeof(Parameter));
       }
+
+      //public Argument(ID id)
+      //{
+      //   Name = id.Name;
+      //   Value = id;
+      //   Rule = Rules.Instance.Rule(typeof(ID));
+      //}
+      //public Argument(Any any)
+      //{
+      //   Name = any.Name;
+      //   Value = any;
+      //   Rule = Rules.Instance.Rule(typeof(Any));
+      //}
+      //public Argument(string name, Uri url)
+      //{
+      //   Name = name;
+      //   Value = url;
+      //   Rule = Rules.Instance.Rule(typeof(Uri));
+      //}
+
       public string Convert()
       {
          return Rule.Convert(Value);

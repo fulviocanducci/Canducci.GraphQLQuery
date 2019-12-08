@@ -37,7 +37,8 @@ namespace Canducci.GraphQLQuery.MSTest
          IArgument argumentGuid = new Argument("guid", Guid.Empty);
          IArgument argumentBool = new Argument("active", true);
          IArgument argumentNull = new Argument("null", null);
-         IArgument argumentParameter = new Argument(new Parameter("id"));
+         
+         IArgument argumentParameter = new Argument(new Parameter("id"));        
 
          Assert.AreEqual("1", argumentNumber.Convert());
          Assert.AreEqual("125.00", argumentDecimal.Convert());
@@ -48,8 +49,10 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.Convert());
          Assert.AreEqual("true", argumentBool.Convert());
          Assert.AreEqual("null", argumentNull.Convert());
-         Assert.AreEqual("$id", argumentParameter.Convert());
+
+         Assert.AreEqual("$id", argumentParameter.Convert());         
       }
+
       [TestMethod]
       public void TestArgumentKeyValue()
       {
@@ -63,7 +66,6 @@ namespace Canducci.GraphQLQuery.MSTest
          IArgument argumentBool = new Argument("active", true);
          IArgument argumentNull = new Argument("null", null);
          IArgument argumentParameter = new Argument(new Parameter("id"));
-
          Assert.AreEqual("id:1", argumentNumber.KeyValue);
          Assert.AreEqual("value:125.00", argumentDecimal.KeyValue);
          Assert.AreEqual("value:300.1", argumentFloat.KeyValue);
@@ -73,7 +75,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("guid:\\\"00000000-0000-0000-0000-000000000000\\\"", argumentGuid.KeyValue);
          Assert.AreEqual("active:true", argumentBool.KeyValue);
          Assert.AreEqual("null:null", argumentNull.KeyValue);
-         Assert.AreEqual("id:$id", argumentParameter.KeyValue);
+         Assert.AreEqual("id:$id", argumentParameter.KeyValue);         
       }
    }
 }

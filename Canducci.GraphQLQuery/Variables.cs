@@ -37,7 +37,7 @@ namespace Canducci.GraphQLQuery
          {
             if (!dic.ContainsKey(item.Name))
             {
-               dic.Add(item.Name, item.Value);
+               dic.Add(item.Name, item.GetValue());
             }
          }
          return dic;

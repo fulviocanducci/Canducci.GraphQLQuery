@@ -5,10 +5,15 @@
       FormatNull,
       FormatDefault,
       FormatNumber,
-      FormatText,
+      FormatString,
       FormatDate,
       FormatDateTime,
       FormatTime,
       FormatClass,
+      FormatID,
+      FormatAny,
+      FormatParameter,
+      FormatGuid,
+      FormatUrl         
    }
 }

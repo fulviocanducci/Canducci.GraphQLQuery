@@ -1,7 +1,7 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using System;
 
-namespace Canducci.GraphQLQuery
+namespace Canducci.GraphQLQuery.Internals
 {
    internal sealed class GraphQLRule : IGraphQLRule
    {

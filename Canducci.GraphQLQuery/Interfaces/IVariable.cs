@@ -12,5 +12,6 @@ namespace Canducci.GraphQLQuery.Interfaces
       string Convert();
       string GetKeyParam();
       string GetKeyArgument();
+      object GetValue();
    }
 }
