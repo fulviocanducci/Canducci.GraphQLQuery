@@ -1,6 +1,6 @@
 ﻿namespace Canducci.GraphQLQuery
 {
-   public struct Parameter
+   public sealed class Parameter
    {
       public string Name { get; }
       public Parameter(string name)

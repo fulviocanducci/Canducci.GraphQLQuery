@@ -22,6 +22,7 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(long), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(sbyte), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(byte), Format.FormatNumber, Execute.GetFormatNumberAction));
+
          Add(new Rule(typeof(float), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(double), Format.FormatNumber, Execute.GetFormatNumberAction));
          Add(new Rule(typeof(decimal), Format.FormatNumber, Execute.GetFormatNumberAction));

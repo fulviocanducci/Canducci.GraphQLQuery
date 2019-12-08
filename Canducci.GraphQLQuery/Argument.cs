@@ -27,26 +27,7 @@ namespace Canducci.GraphQLQuery
          Name = value.Name;
          Value = value;
          Rule = Rules.Instance.Rule(typeof(Parameter));
-      }
-
-      //public Argument(ID id)
-      //{
-      //   Name = id.Name;
-      //   Value = id;
-      //   Rule = Rules.Instance.Rule(typeof(ID));
-      //}
-      //public Argument(Any any)
-      //{
-      //   Name = any.Name;
-      //   Value = any;
-      //   Rule = Rules.Instance.Rule(typeof(Any));
-      //}
-      //public Argument(string name, Uri url)
-      //{
-      //   Name = name;
-      //   Value = url;
-      //   Rule = Rules.Instance.Rule(typeof(Uri));
-      //}
+      }      
 
       public string Convert()
       {
