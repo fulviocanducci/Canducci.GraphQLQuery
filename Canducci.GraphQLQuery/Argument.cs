@@ -1,6 +1,5 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
-using System;
 using System.Globalization;
 namespace Canducci.GraphQLQuery
 {
