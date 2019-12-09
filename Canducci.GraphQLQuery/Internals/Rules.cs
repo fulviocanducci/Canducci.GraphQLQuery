@@ -7,9 +7,11 @@ namespace Canducci.GraphQLQuery.Internals
    internal class Rules : List<IRule>, IDisposable
    {
       public readonly RulesExecute Execute;
+      public Guid Identity { get; }
       public Rules()
       {
-         Execute = new RulesExecute();
+         Execute = new RulesExecute();         
+         Identity = Guid.NewGuid();
 
          Add(new Rule(typeof(Parameter), Format.FormatParameter, Execute.GetFormatParameterAction));
          Add(new Rule(null, Format.FormatNull, Execute.GetFormatNullAction));

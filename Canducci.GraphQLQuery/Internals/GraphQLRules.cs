@@ -7,10 +7,13 @@ namespace Canducci.GraphQLQuery.Internals
    internal class GraphQLRules : List<IGraphQLRule>, IDisposable
    {
       public readonly GraphQLRulesExecute Execute;
+      public Guid Identity { get; }
       public GraphQLRules()
       {
          Execute = new GraphQLRulesExecute();
          
+         Identity = Guid.NewGuid();
+
          Add(new GraphQLRule(typeof(int), Format.FormatNumber, Execute.GetFormatIntAction));
          Add(new GraphQLRule(typeof(uint), Format.FormatNumber, Execute.GetFormatIntAction));
 
@@ -20,7 +23,7 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new GraphQLRule(typeof(string), Format.FormatString, Execute.GetFormatStringAction));
          Add(new GraphQLRule(typeof(char), Format.FormatString, Execute.GetFormatStringAction));
          
-         Add(new GraphQLRule(typeof(bool), Format.FormatDefault, Execute.GetFormatBooleanAction));
+         Add(new GraphQLRule(typeof(bool), Format.FormatBool, Execute.GetFormatBooleanAction));
          
          Add(new GraphQLRule(typeof(ID), Format.FormatID, Execute.GetFormatIDAction));         
          

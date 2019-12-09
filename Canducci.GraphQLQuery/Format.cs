@@ -14,6 +14,7 @@
       FormatAny,
       FormatParameter,
       FormatGuid,
-      FormatUrl         
+      FormatUrl,
+      FormatBool
    }
 }
