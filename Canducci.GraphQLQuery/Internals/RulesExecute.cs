@@ -8,7 +8,7 @@ namespace Canducci.GraphQLQuery.Internals
    {
       public string GetFormatUrlAction(object value)
       {
-         if (value != null && value is Uri url)
+         if (value != null && value is Uri _)
          {
             return string.Format(CultureInfo.InvariantCulture, "${0}", value);
          }

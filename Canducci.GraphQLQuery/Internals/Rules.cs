@@ -37,7 +37,7 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(DateTime), Format.FormatDateTime, Execute.GetFormatDateTimeAction));
          Add(new Rule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
 
-         Add(new Rule(typeof(bool), Format.FormatDefault, Execute.GetFormatBoolAction));
+         Add(new Rule(typeof(bool), Format.FormatBool, Execute.GetFormatBoolAction));
 
          Add(new Rule(typeof(Uri), Format.FormatUrl, Execute.GetFormatUrlAction));
          Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));

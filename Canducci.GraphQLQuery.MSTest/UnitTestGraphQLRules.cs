@@ -4,6 +4,8 @@ using System;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
+
+
    [TestClass]
    public class UnitTestGraphQLRules
    {
@@ -213,8 +215,9 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsInstanceOfType(TestObject.TypeArgument, typeof(object).GetType());
          Assert.IsInstanceOfType(TestAny.TypeArgument, typeof(Any).GetType());
          Assert.IsInstanceOfType(TestBool.TypeArgument, typeof(bool).GetType());        
-
+         Assert.IsInstanceOfType(TestBool.Convert, typeof(Func<string>));
          Assert.AreEqual(Identity, GraphQLRules.Identity);
+
       }
 
       [TestMethod]
