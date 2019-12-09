@@ -7,6 +7,9 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
+
+
+
          var _a = new Any("any", new string[] { "100", "200" });
          var _i = new ID("id", new string[] { "100", "200" });
          var _u = new Uri("http://localhost");

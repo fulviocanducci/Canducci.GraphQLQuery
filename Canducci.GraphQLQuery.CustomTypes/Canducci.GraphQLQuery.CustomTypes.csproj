@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>0.0.1</Version>
+    <Version>0.0.1.1</Version>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
     <Description>GraphQLQuery CustomTypes (TimeSpan)</Description>
@@ -14,6 +14,7 @@
     <PackageReleaseNotes>GraphQLQuery CustomTypes (TimeSpan)</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Fulvio Cezar Canducci Dias</Authors>
   </PropertyGroup>
 
   <ItemGroup>
