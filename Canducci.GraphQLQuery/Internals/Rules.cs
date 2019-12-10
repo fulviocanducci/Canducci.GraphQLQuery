@@ -41,25 +41,29 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new Rule(typeof(bool), Format.FormatBool, Execute.GetFormatBoolAction));
 
          Add(new Rule(typeof(Uri), Format.FormatUrl, Execute.GetFormatUrlAction));
-         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
-
-         Add(new Rule(typeof(ID), Format.FormatID, Execute.GetFormatIDAction));
-         Add(new Rule(typeof(Any), Format.FormatAny, Execute.GetFormatAnyAction));
-
+         
          Add(new Rule(typeof(IEnumerable), Format.FormatIEnumerable, Execute.GetFormatIEnumerableAction));
          Add(new Rule(typeof(IEnumerable<>), Format.FormatIEnumerable, Execute.GetFormatIEnumerableAction));
+
+         Add(new Rule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
+         Add(new Rule(typeof(object), Format.FormatID, Execute.GetFormatIDAction));
+         Add(new Rule(typeof(object), Format.FormatAny, Execute.GetFormatAnyAction));
       }
-      
+
+      public IRule Rule(Format format)
+      {
+         return this.Where(x => x.Format == format).FirstOrDefault();
+      }
       public IRule Rule(Type type)
       {
          IRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();
          if (rule == null && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)))
          {
-            rule = this.Where(x => x.Format == Format.FormatIEnumerable).FirstOrDefault();
+            rule = Rule(Format.FormatIEnumerable);
          }
          else if (rule == null && type.IsClass && typeof(string) != type)
          {
-            rule = this.Where(x => x.Format == Format.FormatClass).FirstOrDefault();
+            rule = Rule(Format.FormatClass);
          }
          if (rule == null)
          {

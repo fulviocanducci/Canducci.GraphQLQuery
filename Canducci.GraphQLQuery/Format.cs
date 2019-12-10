@@ -2,8 +2,8 @@
 {
    public enum Format
    {
-      FormatNull,
       FormatDefault,
+      FormatNull,
       FormatNumber,
       FormatString,
       FormatDate,

@@ -23,9 +23,7 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new GraphQLRule(typeof(string), Format.FormatString, Execute.GetFormatStringAction));
          Add(new GraphQLRule(typeof(char), Format.FormatString, Execute.GetFormatStringAction));
          
-         Add(new GraphQLRule(typeof(bool), Format.FormatBool, Execute.GetFormatBooleanAction));
-         
-         Add(new GraphQLRule(typeof(ID), Format.FormatID, Execute.GetFormatIDAction));         
+         Add(new GraphQLRule(typeof(bool), Format.FormatBool, Execute.GetFormatBooleanAction));         
          
          Add(new GraphQLRule(typeof(byte), Format.FormatNumber, Execute.GetFormatByteAction));
          Add(new GraphQLRule(typeof(sbyte), Format.FormatNumber, Execute.GetFormatByteAction));
@@ -45,9 +43,14 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new GraphQLRule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
 
          Add(new GraphQLRule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
-         Add(new GraphQLRule(typeof(Any), Format.FormatAny, Execute.GetFormatAnyAction));
+         Add(new GraphQLRule(typeof(object), Format.FormatID, Execute.GetFormatIDAction));         
+         Add(new GraphQLRule(typeof(object), Format.FormatAny, Execute.GetFormatAnyAction));
       }
 
+      public IGraphQLRule Rule(Format format)
+      {
+         return this.Where(x => x.Format == format).FirstOrDefault();
+      }
       public IGraphQLRule Rule(Type type)
       {
          Type sourceType = type;
@@ -58,7 +61,7 @@ namespace Canducci.GraphQLQuery.Internals
          IGraphQLRule rule = this.Where(x => x.TypeArgument == sourceType).FirstOrDefault();
          if (rule == null && sourceType != null && type.IsClass && typeof(string) != sourceType)
          {
-            rule = this.Where(x => x.Format == Format.FormatClass).FirstOrDefault();
+            rule = Rule(Format.FormatClass);
          }         
          if (rule == null)
          {

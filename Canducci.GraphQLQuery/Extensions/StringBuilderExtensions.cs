@@ -40,7 +40,7 @@ namespace Canducci.GraphQLQuery.Extensions
          return stringBuilder;
       }
       internal static StringBuilder Append<T>(this StringBuilder str, T values)
-         where T : Dictionary<string, IVariableValue>
+         where T : IList<IVariableValue>
       {
          if (values?.Count > 0)
          {

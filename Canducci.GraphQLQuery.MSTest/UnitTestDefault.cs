@@ -324,7 +324,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Source source = new Source();
          TypeQL typeQL = new TypeQL(
             new Variables("getSource",
-               new Variable<object>("input", source, "source_input")
+               new Variable<object>("input", source, "source_input", format: Format.FormatClass)
             ),
             new QueryType("source_add",
                new Fields(

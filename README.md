@@ -162,7 +162,7 @@ Source source = new Source
 TypeQL typeQL = new TypeQL(
     new Variables(
         "getSourceAdd",
-        new Variable("input", source, "source_input", true)
+        new Variable<object>("input", source, "source_input", true)
     ),
     new QueryType(
         "source_add",
@@ -192,8 +192,8 @@ TypeQL typeQL = new TypeQL(
 ```c#
 TypeQL typeQL = new TypeQL(
     new Variables("getAll",
-        new Variable("state_id", 11),
-        new Variable("country_id", 1)
+        new Variable<int>("state_id", 11),
+        new Variable<int>("country_id", 1)
     ),
     new QueryType("state_find", "state",
         new Fields(

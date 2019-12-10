@@ -36,14 +36,14 @@ namespace Canducci.GraphQLQuery
             str.Append(Signals.ParenthesisClose);
          }
       }
-      internal Dictionary<string, IVariableValue> Values()
+      internal IList<IVariableValue> Values()
       {
-         Dictionary<string, IVariableValue> dic = new Dictionary<string, IVariableValue>();
+         IList<IVariableValue> dic = new List<IVariableValue>();
          foreach (var item in this)
          {
-            if (!dic.ContainsKey(item.Name))
+            if (!dic.Any(x => x.Name == item.Name))
             {
-               dic.Add(item.Name, new VariableValue(item?.GetValue(), item.VariableType));
+               dic.Add(new VariableValue(item.Name, item.GetValue(), item.VariableType));
             }
          }
          return dic;

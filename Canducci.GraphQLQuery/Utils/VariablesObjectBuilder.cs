@@ -21,8 +21,7 @@ namespace Canducci.GraphQLQuery.Utils
 
       public static VariablesObjectBuilder Create()
       {
-         var variablesObjectBuilder = new VariablesObjectBuilder();
-         return variablesObjectBuilder;
+         return new VariablesObjectBuilder();         
       }
       public VariablesObjectBuilder()
       {
@@ -32,7 +31,7 @@ namespace Canducci.GraphQLQuery.Utils
          ModuleBuilder = assemblyBuilder.DefineDynamicModule("MainModule");
       }
 
-      public object CreateObjectWithValues(IDictionary<string, IVariableValue> parameters)
+      public object CreateObjectWithValues(IList<IVariableValue> parameters)
       {
          object obj = null;
          if (parameters != null && parameters.Any())
@@ -41,13 +40,14 @@ namespace Canducci.GraphQLQuery.Utils
             obj = Activator.CreateInstance(objType);
             foreach (var prop in objType.GetProperties())
             {
-               prop.SetValue(obj, GetValueParameter(parameters[$"{prop.Name}"]));
+               var result = parameters.Where(x => x.Name == prop.Name).FirstOrDefault();
+               prop.SetValue(obj, result?.Value ?? null);
             }
          }
          return obj;
       }
 
-      internal Type CreateClass(IDictionary<string, IVariableValue> parameters, string className = "variables")
+      internal Type CreateClass(IList<IVariableValue> parameters, string className = "variables")
       {
          if (string.IsNullOrWhiteSpace(className) == false && Types.ContainsKey(className))
          {
@@ -57,20 +57,12 @@ namespace Canducci.GraphQLQuery.Utils
          var typeBuilder = ModuleBuilder.DefineType(className ?? Guid.NewGuid().ToString(), TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout, null);
          typeBuilder.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
          foreach (var parameter in parameters)
-            CreateProperty(typeBuilder, parameter.Key, GetTypeParameter(parameter));
+            CreateProperty(typeBuilder, parameter.Name, parameter.Type);
          var type = typeBuilder.CreateTypeInfo().AsType();
          Types.TryAdd(type.FullName, type);
          return type;
       }
 
-      internal Type GetTypeParameter(KeyValuePair<string, IVariableValue> parameter)
-      {
-         return parameter.Value.Type;
-      }
-      internal object GetValueParameter(IVariableValue value)
-      {
-         return value.Value;
-      }
       private PropertyBuilder CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
       {
          var fieldBuilder = typeBuilder.DefineField("_" + propertyName, propertyType, FieldAttributes.Private);

@@ -49,7 +49,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var TestString = Rules.Rule(typeof(string));
          var TestChar = Rules.Rule(typeof(char));
          var TestBool = Rules.Rule(typeof(bool));
-         var TestID = Rules.Rule(typeof(ID));
+         var TestID = Rules.Rule(Format.FormatID);
          var TestByte = Rules.Rule(typeof(byte));
          var TestSByte = Rules.Rule(typeof(sbyte));
          var TestUShort = Rules.Rule(typeof(ushort));
@@ -62,7 +62,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var TestGuid = Rules.Rule(typeof(Guid));
          var TestTimeSpan = Rules.Rule(typeof(TimeSpan));
          var TestObject = Rules.Rule(typeof(object));
-         var TestAny = Rules.Rule(typeof(Any));
+         var TestAny = Rules.Rule(Format.FormatAny);
 
          Assert.AreEqual("1", TestInt.Convert(1));
          Assert.AreEqual("1", TestUInt.Convert(1));
@@ -70,7 +70,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("1", TestFloat.Convert(1F));
          Assert.AreEqual(GetValue("A"), TestString.Convert("A"));
          Assert.AreEqual(GetValue("B"), TestChar.Convert("B"));
-         Assert.AreEqual("$id", TestID.Convert(new ID("id","1")));
+         Assert.AreEqual("$id", TestID.Convert("id"));
          Assert.AreEqual("1", TestSByte.Convert((byte)1));
          Assert.AreEqual("0", TestByte.Convert((byte)0));
          Assert.AreEqual("0", TestUShort.Convert((short)0));
@@ -83,7 +83,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(GetValue(Guid.Empty), TestGuid.Convert(Guid.Empty));
          Assert.AreEqual(GetValue(TimeSpan.MinValue.ToString(Formats.Timespan)), TestTimeSpan.Convert(TimeSpan.MinValue));
          Assert.AreEqual("id:1", TestObject.Convert(new { id = 1 }));
-         Assert.AreEqual("$any", TestAny.Convert(new Any("any", "[10,20]")));
+         Assert.AreEqual("$any", TestAny.Convert("any"));
          Assert.AreEqual("true", TestBool.Convert(true));
 
          Assert.AreEqual("null", RulesExecute.GetFormatNullAction(null));
@@ -93,7 +93,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(GetValue("A"), RulesExecute.GetFormatStringAction("A"));
          Assert.AreEqual(GetValue('a'), RulesExecute.GetFormatCharAction('a'));
          Assert.AreEqual(GetValue("B"), RulesExecute.GetFormatStringAction("B"));
-         Assert.AreEqual("$id", RulesExecute.GetFormatIDAction(new ID("id", "1")));
+         Assert.AreEqual("$id", RulesExecute.GetFormatIDAction("id"));
          Assert.AreEqual("1", RulesExecute.GetFormatNumberAction((byte)1));
          Assert.AreEqual("0", RulesExecute.GetFormatNumberAction((byte)0));
          Assert.AreEqual("0", RulesExecute.GetFormatNumberAction((short)0));
@@ -101,12 +101,12 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("1", RulesExecute.GetFormatNumberAction(1L));
          Assert.AreEqual("1", RulesExecute.GetFormatNumberAction(1L));
          Assert.AreEqual("1", RulesExecute.GetFormatNumberAction(1M));
-         Assert.AreEqual("$http://localhost/", RulesExecute.GetFormatUrlAction(new Uri("http://localhost")));
+         //Assert.AreEqual("$http://localhost/", RulesExecute.GetFormatUrlAction(new Uri("http://localhost")));
          Assert.AreEqual(GetValue(DateTime.MinValue.ToString(Formats.DateTime)), RulesExecute.GetFormatDateTimeAction(DateTime.MinValue));
          Assert.AreEqual(GetValue(Guid.Empty), RulesExecute.GetFormatGuidAction(Guid.Empty));
          Assert.AreEqual(GetValue(TimeSpan.MinValue.ToString(Formats.Timespan)), RulesExecute.GetFormatTimeSpanAction(TimeSpan.MinValue));
          Assert.AreEqual("id:1", RulesExecute.GetFormatClassAction(new { id = 1 }));
-         Assert.AreEqual("$any", RulesExecute.GetFormatAnyAction(new Any("any", "[10,20]")));
+         Assert.AreEqual("$any", RulesExecute.GetFormatAnyAction("any"));
          Assert.AreEqual("true", RulesExecute.GetFormatBoolAction(true));
 
          Assert.AreEqual(Format.FormatNumber, TestInt.Format);
@@ -137,7 +137,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsInstanceOfType(TestFloat.TypeArgument, typeof(float).GetType());
          Assert.IsInstanceOfType(TestString.TypeArgument, typeof(string).GetType());
          Assert.IsInstanceOfType(TestChar.TypeArgument, typeof(char).GetType());
-         Assert.IsInstanceOfType(TestID.TypeArgument, typeof(ID).GetType());
+         //Assert.IsInstanceOfType(TestID.TypeArgument, typeof(ID).GetType());
          Assert.IsInstanceOfType(TestSByte.TypeArgument, typeof(sbyte).GetType());
          Assert.IsInstanceOfType(TestByte.TypeArgument, typeof(byte).GetType());
          Assert.IsInstanceOfType(TestUShort.TypeArgument, typeof(ushort).GetType());
@@ -150,7 +150,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsInstanceOfType(TestGuid.TypeArgument, typeof(Guid).GetType());
          Assert.IsInstanceOfType(TestTimeSpan.TypeArgument, typeof(TimeSpan).GetType());
          Assert.IsInstanceOfType(TestObject.TypeArgument, typeof(object).GetType());
-         Assert.IsInstanceOfType(TestAny.TypeArgument, typeof(Any).GetType());
+         //Assert.IsInstanceOfType(TestAny.TypeArgument, typeof(Any).GetType());
          Assert.IsInstanceOfType(TestBool.TypeArgument, typeof(bool).GetType());
 
          Assert.AreEqual(Identity, Rules.Identity);

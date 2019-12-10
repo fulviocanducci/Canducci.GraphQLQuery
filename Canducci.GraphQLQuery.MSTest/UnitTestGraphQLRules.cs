@@ -41,7 +41,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var TestString = GraphQLRules.Rule(typeof(string));
          var TestChar = GraphQLRules.Rule(typeof(char));
          var TestBool = GraphQLRules.Rule(typeof(bool));
-         var TestID = GraphQLRules.Rule(typeof(ID));
+         var TestID = GraphQLRules.Rule(Format.FormatID);
          var TestByte = GraphQLRules.Rule(typeof(byte));
          var TestSByte = GraphQLRules.Rule(typeof(sbyte));
          var TestUShort = GraphQLRules.Rule(typeof(ushort));
@@ -54,7 +54,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var TestGuid = GraphQLRules.Rule(typeof(Guid));
          var TestTimeSpan = GraphQLRules.Rule(typeof(TimeSpan));
          var TestObject = GraphQLRules.Rule(typeof(object));
-         var TestAny = GraphQLRules.Rule(typeof(Any));
+         var TestAny = GraphQLRules.Rule(Format.FormatAny);
 
          Assert.AreEqual("Int", TestInt.Convert());
          Assert.AreEqual("Int", TestUInt.Convert());
@@ -106,7 +106,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsInstanceOfType(TestFloat.TypeArgument, typeof(float).GetType());
          Assert.IsInstanceOfType(TestString.TypeArgument, typeof(string).GetType());
          Assert.IsInstanceOfType(TestChar.TypeArgument, typeof(char).GetType());
-         Assert.IsInstanceOfType(TestID.TypeArgument, typeof(ID).GetType());
+         //Assert.IsInstanceOfType(TestID.TypeArgument, typeof(ID).GetType());
          Assert.IsInstanceOfType(TestSByte.TypeArgument, typeof(sbyte).GetType());
          Assert.IsInstanceOfType(TestByte.TypeArgument, typeof(byte).GetType());
          Assert.IsInstanceOfType(TestUShort.TypeArgument, typeof(ushort).GetType());
@@ -119,7 +119,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsInstanceOfType(TestGuid.TypeArgument, typeof(Guid).GetType());
          Assert.IsInstanceOfType(TestTimeSpan.TypeArgument, typeof(TimeSpan).GetType());
          Assert.IsInstanceOfType(TestObject.TypeArgument, typeof(object).GetType());
-         Assert.IsInstanceOfType(TestAny.TypeArgument, typeof(Any).GetType());
+         //Assert.IsInstanceOfType(TestAny.TypeArgument, typeof(Any).GetType());
          Assert.IsInstanceOfType(TestBool.TypeArgument, typeof(bool).GetType());
 
          Assert.AreEqual(Identity, GraphQLRules.Identity);
@@ -136,7 +136,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var TestString = new GraphQLRule(typeof(string), Format.FormatString, GraphQLRulesExecute.GetFormatStringAction);
          var TestChar = new GraphQLRule(typeof(char), Format.FormatString, GraphQLRulesExecute.GetFormatStringAction);
          var TestBool = new GraphQLRule(typeof(bool), Format.FormatBool, GraphQLRulesExecute.GetFormatBooleanAction);
-         var TestID = new GraphQLRule(typeof(ID), Format.FormatID, GraphQLRulesExecute.GetFormatIDAction);
+         var TestID = new GraphQLRule(typeof(object), Format.FormatID, GraphQLRulesExecute.GetFormatIDAction);
          var TestByte = new GraphQLRule(typeof(byte), Format.FormatNumber, GraphQLRulesExecute.GetFormatByteAction);
          var TestSByte = new GraphQLRule(typeof(sbyte), Format.FormatNumber, GraphQLRulesExecute.GetFormatByteAction);
          var TestUShort = new GraphQLRule(typeof(ushort), Format.FormatNumber, GraphQLRulesExecute.GetFormatShortAction);
@@ -149,7 +149,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var TestGuid = new GraphQLRule(typeof(Guid), Format.FormatGuid, GraphQLRulesExecute.GetFormatGuidAction);
          var TestTimeSpan = new GraphQLRule(typeof(TimeSpan), Format.FormatTime, GraphQLRulesExecute.GetFormatTimeSpanAction);
          var TestObject = new GraphQLRule(typeof(object), Format.FormatClass, GraphQLRulesExecute.GetFormatClassAction);
-         var TestAny = new GraphQLRule(typeof(Any), Format.FormatAny, GraphQLRulesExecute.GetFormatAnyAction);
+         var TestAny = new GraphQLRule(typeof(object), Format.FormatAny, GraphQLRulesExecute.GetFormatAnyAction);
 
          Assert.AreEqual("Int", TestInt.Convert());
          Assert.AreEqual("Int", TestUInt.Convert());
@@ -200,7 +200,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsInstanceOfType(TestFloat.TypeArgument, typeof(float).GetType());
          Assert.IsInstanceOfType(TestString.TypeArgument, typeof(string).GetType());
          Assert.IsInstanceOfType(TestChar.TypeArgument, typeof(char).GetType());
-         Assert.IsInstanceOfType(TestID.TypeArgument, typeof(ID).GetType());
+         //Assert.IsInstanceOfType(TestID.TypeArgument, typeof(ID).GetType());
          Assert.IsInstanceOfType(TestSByte.TypeArgument, typeof(sbyte).GetType());
          Assert.IsInstanceOfType(TestByte.TypeArgument, typeof(byte).GetType());
          Assert.IsInstanceOfType(TestUShort.TypeArgument, typeof(ushort).GetType());
@@ -213,7 +213,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.IsInstanceOfType(TestGuid.TypeArgument, typeof(Guid).GetType());
          Assert.IsInstanceOfType(TestTimeSpan.TypeArgument, typeof(TimeSpan).GetType());
          Assert.IsInstanceOfType(TestObject.TypeArgument, typeof(object).GetType());
-         Assert.IsInstanceOfType(TestAny.TypeArgument, typeof(Any).GetType());
+         //Assert.IsInstanceOfType(TestAny.TypeArgument, typeof(Any).GetType());
          Assert.IsInstanceOfType(TestBool.TypeArgument, typeof(bool).GetType());        
          Assert.IsInstanceOfType(TestBool.Convert, typeof(Func<string>));
          Assert.AreEqual(Identity, GraphQLRules.Identity);

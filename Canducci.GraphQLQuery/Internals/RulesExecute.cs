@@ -20,18 +20,18 @@ namespace Canducci.GraphQLQuery.Internals
       }
       public string GetFormatIDAction(object value)
       {
-         if (value != null && value is ID id)
+         if (value != null)
          {
-            return string.Format(CultureInfo.InvariantCulture, "${0}", id.Name);
+            return string.Format(CultureInfo.InvariantCulture, "${0}", value);
          }
          return string.Empty;
       }
 
       public string GetFormatAnyAction(object value)
       {
-         if (value != null && value is Any any)
+         if (value != null)
          {
-            return string.Format(CultureInfo.InvariantCulture, "${0}", any.Name);
+            return string.Format(CultureInfo.InvariantCulture, "${0}", value);
          }
          return string.Empty;
 

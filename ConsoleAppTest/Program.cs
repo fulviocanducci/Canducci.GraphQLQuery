@@ -9,52 +9,52 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-         TypeQL typeQL = new TypeQL(
-            new Variables(
-               "getSourceAdd",
-               new Variable<Guid?>("id", null),
-               new Variable<bool?>("active", null),
-               new Variable<DateTime?>("created", null),
-               new Variable<string>("name", "With Null"),
-               new Variable<TimeSpan?>("time", null),
-               new Variable<decimal?>("value", null)
-            ),
-            new QueryType(
-                 "source_param_add",
-                 new Fields(
-                    new Field("id"),
-                    new Field("active"),
-                    new Field("created"),
-                    new Field("name"),
-                    new Field("time"),
-                    new Field("value")
-                 ),
-                 new Arguments(
-                    new Argument("id", new object[] { new { name = "nome" } }),
-                    new Argument("active", new Parameter("active")),
-                    new Argument("created", new Parameter("created")),
-                    new Argument("name", new Parameter("name")),
-                    new Argument("time", new Parameter("time")),
-                    new Argument("value", new Parameter("value"))
-                 )
-             )
-         );
-
-
-
-         Source source = new Source
-         {
-            Id = null,
-            Active = null,
-            Created = null,
-            Name = "Source Null",
-            Time = null,
-            Value = null
-         };
          //TypeQL typeQL = new TypeQL(
          //   new Variables(
          //      "getSourceAdd",
-         //      new Variable<Source>("input", source, "source_input", true)
+         //      new Variable<Guid?>("id", null),
+         //      new Variable<bool?>("active", null),
+         //      new Variable<DateTime?>("created", null),
+         //      new Variable<string>("name", "With Null"),
+         //      new Variable<TimeSpan?>("time", null),
+         //      new Variable<decimal?>("value", null)
+         //   ),
+         //   new QueryType(
+         //        "source_param_add",
+         //        new Fields(
+         //           new Field("id"),
+         //           new Field("active"),
+         //           new Field("created"),
+         //           new Field("name"),
+         //           new Field("time"),
+         //           new Field("value")
+         //        ),
+         //        new Arguments(
+         //           new Argument("id", new Parameter("id")),
+         //           new Argument("active", new Parameter("active")),
+         //           new Argument("created", new Parameter("created")),
+         //           new Argument("name", new Parameter("name")),
+         //           new Argument("time", new Parameter("time")),
+         //           new Argument("value", new Parameter("value"))
+         //        )
+         //    )
+         //);
+
+
+
+         //Source source = new Source
+         //{
+         //   Id = null,
+         //   Active = null,
+         //   Created = null,
+         //   Name = "Source Null",
+         //   Time = TimeSpan.Parse("12:00:00"),
+         //   Value = 1500.15M
+         //};
+         //TypeQL typeQL = new TypeQL(
+         //   new Variables(
+         //      "getSourceAdd",
+         //      new Variable<Source>("input", source, "source_input", true, format: Format.FormatClass)
          //   ),
          //   new QueryType(
          //        "source_add",
@@ -132,6 +132,28 @@ namespace ConsoleAppTest
          //        new Arguments(new Argument("input", new Parameter("input")))
          //    )
          //);
+
+         TypeQL typeQL = new TypeQL(
+             new Variables("getAll",
+                 new Variable<int>("state_id", 11),
+                 new Variable<int>("country_id", 1)
+             ),
+             new QueryType("state_find", "state",
+                 new Fields(
+                     new Field("id"),
+                     new Field("uf")
+                 ),
+                 new Arguments(new Argument(new Parameter("id", "state_id")))
+             ),
+             new QueryType("country_find", "country",
+                 new Fields(
+                     new Field("id"),
+                     new Field("name")
+                 ),
+                 new Arguments(new Argument(new Parameter("id", "country_id")))
+             )
+         );
+
 
          Console.WriteLine(typeQL);
 

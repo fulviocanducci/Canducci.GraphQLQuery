@@ -33,7 +33,7 @@ namespace Canducci.GraphQLQuery
          stringBuilder.Append<IQueryType>(QueryTypes);
          stringBuilder.Append(Signals.BraceClose);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append<Dictionary<string, IVariableValue>>(Variables?.Values());
+         stringBuilder.Append<IList<IVariableValue>>(Variables?.Values());
          stringBuilder.Append(Signals.BraceClose);
          return stringBuilder.ToString();
       }

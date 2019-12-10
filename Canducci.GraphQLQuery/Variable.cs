@@ -9,7 +9,7 @@ namespace Canducci.GraphQLQuery
    {
       public Type VariableType { get; }
       public string Name { get; }
-      public T Value { get; }      
+      public T Value { get; }
       public string NameType { get; }
       public VariableValueDefault VariableValueDefault { get; }
       public bool Required { get; }
@@ -21,30 +21,33 @@ namespace Canducci.GraphQLQuery
             return Value;
          }
       }
-      public Variable(string name, T value, string nameType, bool required = false, VariableValueDefault variableValueDefault = null)
-         :this(name, value, required, variableValueDefault)
-      {         
+      public Variable(string name, T value, Format format)
+         : this(name, value, null, false, null, format) { }
+      public Variable(string name, T value, Format format, bool required)
+         : this(name, value, null, required, null, format) { }
+      public Variable(string name, T value, Format format, bool required, VariableValueDefault variableValueDefault)
+         : this(name, value, null, required, variableValueDefault, format) { }
+      public Variable(string name, T value, Format format, bool required, VariableValueDefault variableValueDefault, string nameType)
+         : this(name, value, nameType, required, variableValueDefault, format) { }
+
+      public Variable(string name, T value, string nameType, bool required = false, VariableValueDefault variableValueDefault = null, Format format = Format.FormatDefault)
+         : this(name, value, required, variableValueDefault, format)
+      {
          NameType = nameType;
       }
-      public Variable(string name, T value, bool required = false, VariableValueDefault variableValueDefault = null)
+      public Variable(string name, T value, bool required = false, VariableValueDefault variableValueDefault = null, Format format = Format.FormatDefault)
       {
          Type type = typeof(T);
          Name = name ?? throw new ArgumentNullException(nameof(name));
          Value = value;
-         VariableType = GetTypeVariableTypeOrObject(type);
-         GraphQLRule = GraphQLRules.Instance.Rule(type);         
+         VariableType = type;
+         GraphQLRule = format == Format.FormatDefault ? GraphQLRules.Instance.Rule(type) : GraphQLRules.Instance.Rule(format);
          Required = required;
-         VariableValueDefault = variableValueDefault;                  
+         VariableValueDefault = variableValueDefault;
          NameType = null;
       }
-      internal Type GetTypeVariableTypeOrObject(Type type)
-      {
-         return type == typeof(ID) || type == typeof(Any) 
-            ? (new object()).GetType()
-            : type;
-      }
       public string Convert()
-      {         
+      {
          return GraphQLRule.Convert() ?? NameType;
       }
       public string GetKeyParam()
@@ -64,23 +67,8 @@ namespace Canducci.GraphQLQuery
       }
       public object GetValue()
       {
-         object value = Value;
-         if (Format.FormatID == GraphQLRule.Format)
-         {
-            if (value is ID id)
-            {
-               value = id.Value;
-            }
-         } 
-         else if (Format.FormatAny == GraphQLRule.Format)
-         {
-            if (value is Any any)
-            {
-               value = any.Value;
-            }
-         }
-         return value;
-      }      
+         return Value;
+      }
    }
 }
 
