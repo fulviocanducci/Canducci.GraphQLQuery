@@ -50,8 +50,13 @@ namespace Canducci.GraphQLQuery.Internals
 
       public IGraphQLRule Rule(Type type)
       {
-         IGraphQLRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();
-         if (rule == null && type.IsClass && typeof(string) != type)
+         Type sourceType = type;
+         if (type.Name.Contains("Nullable") && type.GenericTypeArguments.Length == 1)
+         {
+            sourceType = type?.GenericTypeArguments[0];
+         }
+         IGraphQLRule rule = this.Where(x => x.TypeArgument == sourceType).FirstOrDefault();
+         if (rule == null && sourceType != null && type.IsClass && typeof(string) != sourceType)
          {
             rule = this.Where(x => x.Format == Format.FormatClass).FirstOrDefault();
          }         

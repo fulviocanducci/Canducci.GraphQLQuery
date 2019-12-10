@@ -1,6 +1,7 @@
 ﻿using Canducci.GraphQLQuery;
 using Models;
 using System;
+using System.Collections.Generic;
 
 namespace ConsoleAppTest
 {
@@ -8,19 +9,52 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-         //Source source = new Source
-         //{
-         //   Id = null,
-         //   Active = true,
-         //   Created = DateTime.Now,
-         //   Name = "Source 1",
-         //   Time = null,
-         //   Value = 1000M
-         //};
+         TypeQL typeQL = new TypeQL(
+            new Variables(
+               "getSourceAdd",
+               new Variable<Guid?>("id", null),
+               new Variable<bool?>("active", null),
+               new Variable<DateTime?>("created", null),
+               new Variable<string>("name", "With Null"),
+               new Variable<TimeSpan?>("time", null),
+               new Variable<decimal?>("value", null)
+            ),
+            new QueryType(
+                 "source_param_add",
+                 new Fields(
+                    new Field("id"),
+                    new Field("active"),
+                    new Field("created"),
+                    new Field("name"),
+                    new Field("time"),
+                    new Field("value")
+                 ),
+                 new Arguments(
+                    new Argument("id", new { name = "nome"}),
+                    new Argument("active", new Parameter("active")),
+                    new Argument("created", new Parameter("created")),
+                    new Argument("name", new Parameter("name")),
+                    new Argument("time", new Parameter("time")),
+                    new Argument("value", new Parameter("value"))
+                 )
+             )
+         );
+
+
+
+         Source source = new Source
+         {
+            Id = null,
+            Active = null,
+            Created = null,
+            Name = "Source Null",
+            Time = null,
+            Value = null
+         };
          //TypeQL typeQL = new TypeQL(
          //   new Variables(
          //      "getSourceAdd",
-         //      new Variable("input", source, "source_input", true)
+         //      new Variable<Source>("input", source, "source_input", true)
          //   ),
          //   new QueryType(
          //        "source_add",
@@ -33,6 +67,21 @@ namespace ConsoleAppTest
          //           new Field("value")
          //        ),
          //        new Arguments(new Argument("input", new Parameter("input")))
+         //    )
+         //);
+
+         //TypeQL typeQL = new TypeQL(
+         //   new QueryType(
+         //        "source_add",
+         //        new Fields(
+         //           new Field("id"),
+         //           new Field("active"),
+         //           new Field("created"),
+         //           new Field("name"),
+         //           new Field("time"),
+         //           new Field("value")
+         //        ),
+         //        new Arguments(new Argument("input", source))
          //    )
          //);
 
@@ -56,33 +105,33 @@ namespace ConsoleAppTest
          //      new Arguments(new Argument(new Parameter("id", "country_id")))
          //   )
          //);
-         Source source = new Source
-         {
-            Id = null,
-            Active = true,
-            Created = DateTime.Now,
-            Name = "Source 1",
-            Time = null,
-            Value = 1000M
-         };
-         TypeQL typeQL = new TypeQL(
-             new Variables(
-                 "getSourceAdd",
-                 new Variable("input", source, "source_input", true)
-             ),
-             new QueryType(
-                 "source_add",
-                 new Fields(
-                 new Field("id"),
-                 new Field("active"),
-                 new Field("created"),
-                 new Field("name"),
-                 new Field("time"),
-                 new Field("value")
-                 ),
-                 new Arguments(new Argument("input", new Parameter("input")))
-             )
-         );
+         //Source source = new Source
+         //{
+         //   Id = null,
+         //   Active = true,
+         //   Created = DateTime.Now,
+         //   Name = "Source 1",
+         //   Time = null,
+         //   Value = 1000M
+         //};
+         //TypeQL typeQL = new TypeQL(
+         //    new Variables(
+         //        "getSourceAdd",
+         //        new Variable("input", source, "source_input", true)
+         //    ),
+         //    new QueryType(
+         //        "source_add",
+         //        new Fields(
+         //        new Field("id"),
+         //        new Field("active"),
+         //        new Field("created"),
+         //        new Field("name"),
+         //        new Field("time"),
+         //        new Field("value")
+         //        ),
+         //        new Arguments(new Argument("input", new Parameter("input")))
+         //    )
+         //);
 
          Console.WriteLine(typeQL);
 

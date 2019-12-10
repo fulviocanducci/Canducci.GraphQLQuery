@@ -1,6 +1,7 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
 using Canducci.GraphQLQuery.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace Canducci.GraphQLQuery.Extensions
          return stringBuilder;
       }
       internal static StringBuilder Append<T>(this StringBuilder str, T values)
-         where T : Dictionary<string, object>
+         where T : Dictionary<string, IVariableValue>
       {
          if (values?.Count > 0)
          {
@@ -50,7 +51,7 @@ namespace Canducci.GraphQLQuery.Extensions
                str.Append(Signals.Variables);
                str.Append(Signals.QuotationMark);
                str.Append(Signals.Colon);
-               str.Append(Convert.ToJsonString
+               str.Append(Utils.Convert.ToJsonString
                   (
                      variablesObjectBuilder.CreateObjectWithValues(values)
                   )

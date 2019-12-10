@@ -13,13 +13,13 @@ namespace Canducci.GraphQLQuery.MSTest
       [TestMethod]
       public void TestVariable()
       {
-         IVariable variableInt = new Variable("id", 1);
-         IVariable variableString = new Variable("name", "name");
-         IVariable variableFloat = new Variable("value", 100F);
-         IVariable variableBoolean = new Variable("active", true);
-         IVariable variableObject = new Variable("car", new Car(), "input");
-         IVariable variableTimeSpan = new Variable("time", TimeSpan.Parse("13:00:00"));
-         IVariable variableDefaultValue = new Variable("id", 2, "id", true, 0);
+         IVariable variableInt = new Variable<int>("id", 1);
+         IVariable variableString = new Variable<string>("name", "name");
+         IVariable variableFloat = new Variable<float>("value", 100F);
+         IVariable variableBoolean = new Variable<bool>("active", true);
+         IVariable variableObject = new Variable<Car>("car", new Car(), "input");
+         IVariable variableTimeSpan = new Variable<TimeSpan>("time", TimeSpan.Parse("13:00:00"));
+         IVariable variableDefaultValue = new Variable<int>("id", 2, "id", true, 0);
 
          Assert.AreEqual("id", variableInt.Name);
          Assert.AreEqual(null, variableInt.NameType);
@@ -47,11 +47,11 @@ namespace Canducci.GraphQLQuery.MSTest
       [TestMethod]
       public void TestVariableRequired()
       {
-         IVariable variableInt = new Variable("id", 1, true);
-         IVariable variableString = new Variable("name", "name", true);
-         IVariable variableFloat = new Variable("value", 100F, true);
-         IVariable variableBoolean = new Variable("active", true, true);
-         IVariable variableObject = new Variable("car", new Car(), "input", true);
+         IVariable variableInt = new Variable<int>("id", 1, true);
+         IVariable variableString = new Variable<string>("name", "name", true);
+         IVariable variableFloat = new Variable<float>("value", 100F, true);
+         IVariable variableBoolean = new Variable<bool>("active", true, true);
+         IVariable variableObject = new Variable<Car>("car", new Car(), "input", true);
 
          Assert.AreEqual("$id:Int!", variableInt.GetKeyParam());
          Assert.AreEqual("$name:String!", variableString.GetKeyParam());
@@ -63,11 +63,11 @@ namespace Canducci.GraphQLQuery.MSTest
       [TestMethod]
       public void TestVariableDefaultValue()
       {
-         IVariable variableObject = new Variable("car", new Car(), "input", false, VariableValue.Null);
-         IVariable variableInt = new Variable("id", 1, false, 0);
-         IVariable variableString = new Variable("name", "name", false, "n");
-         IVariable variableFloat = new Variable("value", 100F, false, 0);
-         IVariable variableBoolean = new Variable("active", true, false, false);
+         IVariable variableObject = new Variable<Car>("car", new Car(), "input", false, VariableValue.Null);
+         IVariable variableInt = new Variable<int>("id", 1, false, 0);
+         IVariable variableString = new Variable<string>("name", "name", false, "n");
+         IVariable variableFloat = new Variable<float>("value", 100F, false, 0);
+         IVariable variableBoolean = new Variable<bool>("active", true, false, false);
 
          Assert.AreEqual("$car:input=null", variableObject.GetKeyParam());
          Assert.AreEqual("$id:Int=0", variableInt.GetKeyParam());

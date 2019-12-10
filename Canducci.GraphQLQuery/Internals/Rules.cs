@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 namespace Canducci.GraphQLQuery.Internals
@@ -44,12 +45,19 @@ namespace Canducci.GraphQLQuery.Internals
 
          Add(new Rule(typeof(ID), Format.FormatID, Execute.GetFormatIDAction));
          Add(new Rule(typeof(Any), Format.FormatAny, Execute.GetFormatAnyAction));
+
+         Add(new Rule(typeof(IEnumerable), Format.FormatIEnumerable, Execute.GetFormatIEnumerableAction));
+         Add(new Rule(typeof(IEnumerable<>), Format.FormatIEnumerable, Execute.GetFormatIEnumerableAction));
       }
       
       public IRule Rule(Type type)
       {
          IRule rule = this.Where(x => x.TypeArgument == type).FirstOrDefault();
-         if (rule == null && type.IsClass && typeof(string) != type)
+         if (rule == null && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)))
+         {
+            rule = this.Where(x => x.Format == Format.FormatIEnumerable).FirstOrDefault();
+         }
+         else if (rule == null && type.IsClass && typeof(string) != type)
          {
             rule = this.Where(x => x.Format == Format.FormatClass).FirstOrDefault();
          }

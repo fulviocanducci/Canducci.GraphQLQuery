@@ -251,7 +251,7 @@ namespace Canducci.GraphQLQuery.MSTest
       {
          TypeQL typeQL = new TypeQL(
             new Variables("getStates",
-               new Variable("id", 11, true, new VariableValueDefaultInt(0))
+               new Variable<int>("id", 11, true, new VariableValueDefaultInt(0))
             ),
             new QueryType("state_find",
                new Fields(
@@ -324,7 +324,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Source source = new Source();
          TypeQL typeQL = new TypeQL(
             new Variables("getSource",
-               new Variable("input", source, "source_input")
+               new Variable<object>("input", source, "source_input")
             ),
             new QueryType("source_add",
                new Fields(

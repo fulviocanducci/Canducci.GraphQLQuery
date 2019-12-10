@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Linq;
+using Canducci.GraphQLQuery.Interfaces;
+
 namespace Canducci.GraphQLQuery.Utils
 {
    internal class VariablesObjectBuilder: IDisposable
@@ -30,7 +32,7 @@ namespace Canducci.GraphQLQuery.Utils
          ModuleBuilder = assemblyBuilder.DefineDynamicModule("MainModule");
       }
 
-      public object CreateObjectWithValues(IDictionary<string, object> parameters)
+      public object CreateObjectWithValues(IDictionary<string, IVariableValue> parameters)
       {
          object obj = null;
          if (parameters != null && parameters.Any())
@@ -45,7 +47,7 @@ namespace Canducci.GraphQLQuery.Utils
          return obj;
       }
 
-      internal Type CreateClass(IDictionary<string, object> parameters, string className = "variables")
+      internal Type CreateClass(IDictionary<string, IVariableValue> parameters, string className = "variables")
       {
          if (string.IsNullOrWhiteSpace(className) == false && Types.ContainsKey(className))
          {
@@ -61,13 +63,13 @@ namespace Canducci.GraphQLQuery.Utils
          return type;
       }
 
-      internal Type GetTypeParameter(KeyValuePair<string, object> parameter)
-      {         
-         return parameter.Value.GetType();
-      }
-      internal object GetValueParameter(object value)
+      internal Type GetTypeParameter(KeyValuePair<string, IVariableValue> parameter)
       {
-         return value;
+         return parameter.Value.Type;
+      }
+      internal object GetValueParameter(IVariableValue value)
+      {
+         return value.Value;
       }
       private PropertyBuilder CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
       {

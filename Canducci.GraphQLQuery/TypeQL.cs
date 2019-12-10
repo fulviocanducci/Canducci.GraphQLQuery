@@ -1,6 +1,7 @@
 ﻿using Canducci.GraphQLQuery.Extensions;
 using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace Canducci.GraphQLQuery
          stringBuilder.Append<IQueryType>(QueryTypes);
          stringBuilder.Append(Signals.BraceClose);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append<Dictionary<string, object>>(Variables?.Values());
+         stringBuilder.Append<Dictionary<string, IVariableValue>>(Variables?.Values());
          stringBuilder.Append(Signals.BraceClose);
          return stringBuilder.ToString();
       }

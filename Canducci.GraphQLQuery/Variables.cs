@@ -36,22 +36,17 @@ namespace Canducci.GraphQLQuery
             str.Append(Signals.ParenthesisClose);
          }
       }
-      internal Dictionary<string, object> Values()
+      internal Dictionary<string, IVariableValue> Values()
       {
-         Dictionary<string, object> dic = new Dictionary<string, object>();
+         Dictionary<string, IVariableValue> dic = new Dictionary<string, IVariableValue>();
          foreach (var item in this)
          {
             if (!dic.ContainsKey(item.Name))
             {
-               dic.Add(item.Name, item.GetValue());
+               dic.Add(item.Name, new VariableValue(item?.GetValue(), item.VariableType));
             }
          }
          return dic;
-      }
-
-      public static implicit operator Dictionary<string, object>(Variables variables)
-      {
-         return variables?.Values();
       }
    }
 }

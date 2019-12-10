@@ -12,7 +12,7 @@ namespace Canducci.GraphQLQuery.MSTest
       public void TestTypeQL()
       {
          IQueryType queryType = new QueryType("name", new Fields(new Field("id")));
-         Variables variables = new Variables("get", new Variable("id", 1));
+         Variables variables = new Variables("get", new Variable<int>("id", 1));
          ITypeQL typeQL0 = new TypeQL(queryType);
          ITypeQL typeQL1 = new TypeQL(variables, queryType);
 
@@ -64,7 +64,7 @@ namespace Canducci.GraphQLQuery.MSTest
       [TestMethod]
       public void TestTypeQLMultipleQueryAndVariables()
       {
-         Variables variables = new Variables("get", new Variable("load", true));
+         Variables variables = new Variables("get", new Variable<bool>("load", true));
          IQueryType queryType0 = new QueryType("states", new Fields(
             new Field("id"),
             new Field("uf"),
@@ -97,7 +97,7 @@ namespace Canducci.GraphQLQuery.MSTest
          };
          TypeQL typeQL = new TypeQL(
             new Variables("getSource",
-               new Variable("input", source, "source_input")
+               new Variable<object>("input", source, "source_input")
             ),
             new QueryType("source_add",
                new Fields(

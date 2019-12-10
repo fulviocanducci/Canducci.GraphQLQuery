@@ -6,6 +6,10 @@ namespace Canducci.GraphQLQuery.Internals
 {
    internal sealed class RulesExecute: IDisposable
    {
+      public string GetFormatIEnumerableAction(object value)
+      {
+         return Utils.Convert.ToJsonString(value);
+      }
       public string GetFormatUrlAction(object value)
       {
          if (value != null && value is Uri _)
