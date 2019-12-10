@@ -21,23 +21,24 @@ __A Query Type Only__
 
 ```c#
 TypeQL typeQL = new TypeQL(
-  new QueryType(
-    "cars",
-    new Fields(
-      new Field("id"),
-      new Field("title"),
-      new Field("purchase"),
-      new Field("value"),
-      new Field("active")
+    new QueryType(
+        "sources",
+        new Fields(
+        new Field("id"),
+        new Field("name"),
+        new Field("value"),
+        new Field("created"),
+        new Field("active"),
+        new Field("time")
+        )
     )
-  )
 );
 ```
 
 ###### Result
 
 ```json
-{"query":"{cars{id,title,purchase,value,active}}"}
+{"query":"{sources{id,name,value,created,active,time}}"}
 ```
 
 #
@@ -48,25 +49,31 @@ __Multiple Query Type__
 
 ```c#
 TypeQL typeQL = new TypeQL(
-  new QueryType("states",
-      new Fields(
+    new QueryType(
+        "sources",
+        new Fields(
+        new Field("id"),
+        new Field("name"),
+        new Field("value"),
+        new Field("created"),
+        new Field("active"),
+        new Field("time")
+        )
+    ),
+    new QueryType(
+        "states",
+        new Fields(
         new Field("id"),
         new Field("uf")
-      )
-  ),
-  new QueryType("countries",
-      new Fields(
-        new Field("id"),
-        new Field("name")
-      )
-  )
+        )
+    )
 );
 ```
 
 ###### Example:
 
 ```json
-{"query":"{data:states{id,uf}countries{id,name}}"}
+{"query":"{sources{id,name,value,created,active,time}states{id,uf}}"}
 ```
 
 #
@@ -104,25 +111,27 @@ This type of argument, which is a complex type, is used for data creation and up
 ###### Code:
 
 ```C#
-Car car = new Car
+Source source = new Source
 {
-    Id = 0,
-    Title = "Example",
+    Id = null,
     Active = true,
-    Purchase = DateTime.ParseExact("1970-01-01 01:00:00", @"yyyy-MM-dd hh\:mm\:ss", CultureInfo.InvariantCulture),
+    Created = DateTime.Now,
+    Name = "Source 1",
+    Time = null,
     Value = 1000M
 };
 TypeQL typeQL = new TypeQL(
     new QueryType(
-        "car_add",
-        new Arguments(new Argument("car", car)),
+        "source_add",
         new Fields(
         new Field("id"),
-        new Field("title"),
-        new Field("purchase"),
-        new Field("value"),
-        new Field("active")
-        )
+        new Field("active"),
+        new Field("created"),
+        new Field("name"),
+        new Field("time"),
+        new Field("value")
+        ),
+        new Arguments(new Argument("input", source))
     )
 );
 ```
@@ -132,4 +141,46 @@ TypeQL typeQL = new TypeQL(
 
 ```json
 {"query":"{car_add(car:{id:0,title:\"Example\",purchase:\"1970-01-01 01:00:00\",value:1000,active:true}){id,title,purchase,value,active}}"}
+```
+
+__Query Type with Variables Complex Type Class__
+
+This complex type of variable is used for data creation and update operations, but can also be used for multi-parameter searches.
+
+###### Code:
+
+```
+Source source = new Source
+{
+    Id = null,
+    Active = true,
+    Created = DateTime.Now,
+    Name = "Source 1",
+    Time = null,
+    Value = 1000M
+};
+TypeQL typeQL = new TypeQL(
+    new Variables(
+        "getSourceAdd",
+        new Variable("input", source, "source_input", true)
+    ),
+    new QueryType(
+        "source_add",
+        new Fields(
+        new Field("id"),
+        new Field("active"),
+        new Field("created"),
+        new Field("name"),
+        new Field("time"),
+        new Field("value")
+        ),
+        new Arguments(new Argument("input", new Parameter("input")))
+    )
+);
+```
+
+###### Result:
+
+```
+{"query":"query getSourceAdd($input:source_input!){source_add(input:$input){id,active,created,name,time,value}}","variables":{"input":{"id":null,"name":"Source 1","value":1000,"created":"2019-12-09T20:52:30.3620293-03:00","active":true,"time":null}}}
 ```

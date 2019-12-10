@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Models
 {
@@ -11,6 +9,6 @@ namespace Models
       public decimal? Value { get; set; }
       public DateTime? Created { get; set; }
       public bool? Active { get; set; }
-      public TimeSpan Time { get; set; }
+      public TimeSpan? Time { get; set; }
    }
 }

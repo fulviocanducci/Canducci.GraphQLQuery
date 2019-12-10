@@ -1,4 +1,5 @@
 ﻿using Canducci.GraphQLQuery;
+using Models;
 using System;
 
 namespace ConsoleAppTest
@@ -7,31 +8,116 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
+         //Source source = new Source
+         //{
+         //   Id = null,
+         //   Active = true,
+         //   Created = DateTime.Now,
+         //   Name = "Source 1",
+         //   Time = null,
+         //   Value = 1000M
+         //};
+         //TypeQL typeQL = new TypeQL(
+         //   new Variables(
+         //      "getSourceAdd",
+         //      new Variable("input", source, "source_input", true)
+         //   ),
+         //   new QueryType(
+         //        "source_add",
+         //        new Fields(
+         //           new Field("id"),
+         //           new Field("active"),
+         //           new Field("created"),
+         //           new Field("name"),
+         //           new Field("time"),
+         //           new Field("value")
+         //        ),
+         //        new Arguments(new Argument("input", new Parameter("input")))
+         //    )
+         //);
 
-
-
-         var _a = new Any("any", new string[] { "100", "200" });
-         var _i = new ID("id", new string[] { "100", "200" });
-         var _u = new Uri("http://localhost");
          TypeQL typeQL = new TypeQL(
-            new Variables("get",
-               new Variable("id", _i),
-               new Variable("any", _a),
-               new Variable("uri", _u),
-               new Variable("code", 100)
+            new Variables("getAll",
+               new Variable("id", 11),
+               new Variable("id", 1)
             ),
-            new QueryType("items",
-               new Fields(new Field("about")),
-               new Arguments(
-                  new Argument(new Parameter("id")),
-                  new Argument(new Parameter("any")),
-                  new Argument(new Parameter("code")),
-                  new Argument(new Parameter("uri"))
-               )
+            new QueryType("state_find", "state",
+               new Fields(
+                  new Field("id"),
+                  new Field("uf")
+               ),
+               new Arguments(new Argument(new Parameter("id")))
+            ),
+            new QueryType("country_find", "country",
+               new Fields(
+                  new Field("id"),
+                  new Field("name")
+               ),
+               new Arguments(new Argument(new Parameter("id")))
             )
          );
 
+         //TypeQL typeQL = new TypeQL(
+         //     new QueryType(
+         //    "states",
+         //    "data", // <-alias
+         //     new Fields(
+         //            new Field("id", "_id"), // <-alias
+         //            new Field("uf", "_uf") // <-alias
+         //          )
+         //     )
+         //);
+         //TypeQL typeQL = new TypeQL(
+         //  new QueryType(
+         //    "sources",
+         //    new Fields(
+         //      new Field("id"),
+         //      new Field("name"),
+         //      new Field("value"),
+         //      new Field("created"),
+         //      new Field("active"),
+         //      new Field("time")
+         //    )
+         //  ),
+         //  new QueryType(
+         //    "states",
+         //    new Fields(
+         //      new Field("id"),
+         //      new Field("uf")
+         //    )
+         //  ),
+         //  new QueryType(
+         //    "cars",
+         //    new Fields(
+         //      new Field("id"),
+         //      new Field("title")
+         //    )
+         //  )
+         //);
          Console.WriteLine(typeQL);
+
+         //var _a = new Any("any", new string[] { "100", "200" });
+         //var _i = new ID("id", new string[] { "100", "200" });
+         //var _u = new Uri("http://localhost");
+         //TypeQL typeQL = new TypeQL(
+         //   new Variables("get",
+         //      new Variable("id", _i),
+         //      new Variable("any", _a),
+         //      new Variable("uri", _u),
+         //      new Variable("code", 100)
+         //   ),
+         //   new QueryType("items",
+         //      new Fields(new Field("about")),
+         //      new Arguments(
+         //         new Argument(new Parameter("id")),
+         //         new Argument(new Parameter("any")),
+         //         new Argument(new Parameter("code")),
+         //         new Argument(new Parameter("uri"))
+         //      )
+         //   )
+         //);
+
+         //Console.WriteLine(typeQL);
 
          //Source source = new Source()
          //{
