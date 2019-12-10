@@ -342,7 +342,7 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":\"00:00:00\"}}}";
+         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":null}}}";
          Assert.AreEqual(expected, typeQL.ToStringJson());
       }      
    }

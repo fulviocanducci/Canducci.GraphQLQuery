@@ -1,5 +1,7 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
+using Canducci.GraphQLQuery.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,10 @@ namespace Canducci.GraphQLQuery
       public string QueryName { get; }
       public Variables(string queryName, params IVariable[] variables)
       {
+         if (variables.Distinct(new VariableComparer()).Count() != variables.Count())
+         {
+            throw new Exception("Duplicate Variable names");
+         }
          AddRange(variables);
          QueryName = queryName;
       }

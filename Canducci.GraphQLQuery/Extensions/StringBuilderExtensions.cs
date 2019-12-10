@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 namespace Canducci.GraphQLQuery.Extensions
-{
+{   
    internal static class StringBuilderExtensions
    {
       internal static StringBuilder Append(this StringBuilder stringBuilder, string alias, string name)

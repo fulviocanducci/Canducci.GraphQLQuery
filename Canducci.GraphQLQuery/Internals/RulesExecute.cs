@@ -37,7 +37,7 @@ namespace Canducci.GraphQLQuery.Internals
       {
          if (value != null && value is Parameter parameter)
          {
-            return string.Format(CultureInfo.InvariantCulture, "${0}", parameter.Name);
+            return string.Format(CultureInfo.InvariantCulture, "${0}", parameter.Variable ?? parameter.Name);
          }
          return string.Empty;
 

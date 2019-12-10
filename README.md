@@ -149,7 +149,7 @@ This complex type of variable is used for data creation and update operations, b
 
 ###### Code:
 
-```
+```c#
 Source source = new Source
 {
     Id = null,
@@ -181,6 +181,38 @@ TypeQL typeQL = new TypeQL(
 
 ###### Result:
 
-```
+```json
 {"query":"query getSourceAdd($input:source_input!){source_add(input:$input){id,active,created,name,time,value}}","variables":{"input":{"id":null,"name":"Source 1","value":1000,"created":"2019-12-09T20:52:30.3620293-03:00","active":true,"time":null}}}
+```
+
+## Other
+
+###### Code:
+
+```c#
+TypeQL typeQL = new TypeQL(
+    new Variables("getAll",
+        new Variable("state_id", 11),
+        new Variable("country_id", 1)
+    ),
+    new QueryType("state_find", "state",
+        new Fields(
+            new Field("id"),
+            new Field("uf")
+        ),
+        new Arguments(new Argument(new Parameter("id", "state_id")))
+    ),
+    new QueryType("country_find", "country",
+        new Fields(
+            new Field("id"),
+            new Field("name")
+        ),
+        new Arguments(new Argument(new Parameter("id", "country_id")))
+    )
+);
+```
+###### Result:
+
+```json
+{"query":"query getAll($state_id:Int,$country_id:Int){state:state_find(id:$state_id){id,uf}country:country_find(id:$country_id){id,name}}","variables":{"state_id":11,"country_id":1}}
 ```

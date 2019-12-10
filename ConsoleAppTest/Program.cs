@@ -36,26 +36,56 @@ namespace ConsoleAppTest
          //    )
          //);
 
+         //TypeQL typeQL = new TypeQL(
+         //   new Variables("getAll",
+         //      new Variable("state_id", 11),
+         //      new Variable("country_id", 1)
+         //   ),
+         //   new QueryType("state_find", "state",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("uf")
+         //      ),
+         //      new Arguments(new Argument(new Parameter("id", "state_id")))
+         //   ),
+         //   new QueryType("country_find", "country",
+         //      new Fields(
+         //         new Field("id"),
+         //         new Field("name")
+         //      ),
+         //      new Arguments(new Argument(new Parameter("id", "country_id")))
+         //   )
+         //);
+         Source source = new Source
+         {
+            Id = null,
+            Active = true,
+            Created = DateTime.Now,
+            Name = "Source 1",
+            Time = null,
+            Value = 1000M
+         };
          TypeQL typeQL = new TypeQL(
-            new Variables("getAll",
-               new Variable("id", 11),
-               new Variable("id", 1)
-            ),
-            new QueryType("state_find", "state",
-               new Fields(
-                  new Field("id"),
-                  new Field("uf")
-               ),
-               new Arguments(new Argument(new Parameter("id")))
-            ),
-            new QueryType("country_find", "country",
-               new Fields(
-                  new Field("id"),
-                  new Field("name")
-               ),
-               new Arguments(new Argument(new Parameter("id")))
-            )
+             new Variables(
+                 "getSourceAdd",
+                 new Variable("input", source, "source_input", true)
+             ),
+             new QueryType(
+                 "source_add",
+                 new Fields(
+                 new Field("id"),
+                 new Field("active"),
+                 new Field("created"),
+                 new Field("name"),
+                 new Field("time"),
+                 new Field("value")
+                 ),
+                 new Arguments(new Argument("input", new Parameter("input")))
+             )
          );
+
+         Console.WriteLine(typeQL);
+
 
          //TypeQL typeQL = new TypeQL(
          //     new QueryType(
@@ -94,7 +124,6 @@ namespace ConsoleAppTest
          //    )
          //  )
          //);
-         Console.WriteLine(typeQL);
 
          //var _a = new Any("any", new string[] { "100", "200" });
          //var _i = new ID("id", new string[] { "100", "200" });
