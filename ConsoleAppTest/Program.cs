@@ -30,7 +30,7 @@ namespace ConsoleAppTest
                     new Field("value")
                  ),
                  new Arguments(
-                    new Argument("id", new { name = "nome"}),
+                    new Argument("id", new object[] { new { name = "nome" } }),
                     new Argument("active", new Parameter("active")),
                     new Argument("created", new Parameter("created")),
                     new Argument("name", new Parameter("name")),
