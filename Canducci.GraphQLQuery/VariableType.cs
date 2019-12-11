@@ -38,6 +38,7 @@ namespace Canducci.GraphQLQuery
             }
          }
       }
+
       public string Convert(string value)
       {
          if (string.IsNullOrEmpty(value))
