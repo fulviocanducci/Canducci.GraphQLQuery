@@ -1,6 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models;
 using System;
 
 namespace Canducci.GraphQLQuery.MSTest
@@ -93,6 +93,7 @@ namespace Canducci.GraphQLQuery.MSTest
       {
          Source source = new Source()
          {
+            Id = 0,
             Time = TimeSpan.Parse("13:02:00")
          };
          TypeQL typeQL = new TypeQL(
@@ -116,7 +117,7 @@ namespace Canducci.GraphQLQuery.MSTest
             )
          );
 
-         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":\"13:02:00\"}}}";
+         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":0,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":\"13:02:00\"}}}";
          Assert.AreEqual(expected, typeQL.ToStringJson());
       }
    }

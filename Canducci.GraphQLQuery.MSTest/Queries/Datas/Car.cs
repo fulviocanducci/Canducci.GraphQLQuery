@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Canducci.GraphQLQuery.MSTest.Models
+namespace Canducci.GraphQLQuery.MSTest.Queries.Datas
 {
    public class Car
    {

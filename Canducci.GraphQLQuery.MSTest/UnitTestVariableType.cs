@@ -1,6 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;

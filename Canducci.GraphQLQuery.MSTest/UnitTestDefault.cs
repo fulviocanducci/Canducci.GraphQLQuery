@@ -1,17 +1,15 @@
-using Canducci.GraphQLQuery.Interfaces;
-using Canducci.GraphQLQuery.MSTest.Models;
+using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using Canducci.GraphQLQuery.VariablesValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models;
 using System;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
-   [TestClass]   
+   [TestClass]
    public class UnitTestDefault
    {
       public TypeQL TypeQLTest(params QueryType[] queryTypes)
-      {         
+      {
          return new TypeQL(queryTypes);
       }
 
@@ -185,7 +183,7 @@ namespace Canducci.GraphQLQuery.MSTest
          string expect = "{\"query\":\"{item_add(item:{id:null,title:\\\"Item\\\",updated:null}){id,title,updated}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
-      
+
       [TestMethod]
       public void TestItemsGuidEmptyValueAndNullFields()
       {
@@ -206,7 +204,7 @@ namespace Canducci.GraphQLQuery.MSTest
          string expect = "{\"query\":\"{item_add(item:{id:\\\"00000000-0000-0000-0000-000000000000\\\",title:\\\"Item\\\",updated:null}){id,title,updated}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
-      
+
       [TestMethod]
       public void TestMultipleGraphQL()
       {
@@ -246,7 +244,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(expect, typeQL);
       }
 
-      [TestMethod]      
+      [TestMethod]
       public void TestMultipleGraphQLWithVariables()
       {
          TypeQL typeQL = new TypeQL(
@@ -318,7 +316,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(expected, typeQL.ToStringJson());
       }
 
-      [TestMethod]      
+      [TestMethod]
       public void TestVariablesNullable()
       {
          Source source = new Source();
@@ -342,8 +340,8 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":null,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":null}}}";
+         string expected = "{\"query\":\"query getSource($input:source_input){source_add(input:$input){id,name,value,active,created,time}}\",\"variables\":{\"input\":{\"id\":0,\"name\":null,\"value\":null,\"created\":null,\"active\":null,\"time\":null}}}";
          Assert.AreEqual(expected, typeQL.ToStringJson());
-      }      
+      }
    }
 }

@@ -20,8 +20,7 @@ namespace Canducci.GraphQLQuery
       {
          Variables = variables;
          QueryTypes = queryTypes;
-      }
-
+      }     
       public string ToStringJson()
       {
          StringBuilder stringBuilder = new StringBuilder();

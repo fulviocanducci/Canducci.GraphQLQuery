@@ -1,5 +1,5 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
-using Canducci.GraphQLQuery.MSTest.Models;
+using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using Canducci.GraphQLQuery.VariablesValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
