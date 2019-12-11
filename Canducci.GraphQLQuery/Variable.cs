@@ -2,6 +2,7 @@
 using Canducci.GraphQLQuery.Internals;
 using Canducci.GraphQLQuery.VariablesValueTypes;
 using System;
+using System.Collections;
 using System.Globalization;
 namespace Canducci.GraphQLQuery
 {
@@ -46,9 +47,28 @@ namespace Canducci.GraphQLQuery
          VariableValueDefault = variableValueDefault;
          NameType = null;
       }
+      internal string ConvertArrayType(Type type, string initial)
+      {
+         IGraphQLRule graphQLRuleTypeElement = GraphQLRules.Instance.Rule(type);
+         return graphQLRuleTypeElement.Format == Format.FormatClass
+            ? string.Format(initial, type.Name)
+            : string.Format(initial, graphQLRuleTypeElement.Convert());
+      }
       public string Convert()
       {
-         return GraphQLRule.Convert() ?? NameType;
+         string result = NameType ?? GraphQLRule.Convert();
+         if (NameType == null && Format.FormatIEnumerable == GraphQLRule.Format)
+         {
+            if (VariableType.IsArray)
+            {
+               result = ConvertArrayType(VariableType.GetElementType(), result);
+            } 
+            else if (typeof(IEnumerable).IsAssignableFrom(VariableType))
+            {               
+               result = ConvertArrayType(VariableType.GenericTypeArguments[0], result);
+            }
+         }
+         return result;
       }
       public string GetKeyParam()
       {

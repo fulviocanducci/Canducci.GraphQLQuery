@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 namespace Canducci.GraphQLQuery.Internals
@@ -42,6 +43,9 @@ namespace Canducci.GraphQLQuery.Internals
          Add(new GraphQLRule(typeof(Guid), Format.FormatGuid, Execute.GetFormatGuidAction));
          Add(new GraphQLRule(typeof(TimeSpan), Format.FormatTime, Execute.GetFormatTimeSpanAction));
 
+         Add(new GraphQLRule(typeof(IEnumerable), Format.FormatIEnumerable, Execute.GetFormatIEnumerableAction));
+         Add(new GraphQLRule(typeof(IEnumerable<>), Format.FormatIEnumerable, Execute.GetFormatIEnumerableAction));
+
          Add(new GraphQLRule(typeof(object), Format.FormatClass, Execute.GetFormatClassAction));
          Add(new GraphQLRule(typeof(object), Format.FormatID, Execute.GetFormatIDAction));         
          Add(new GraphQLRule(typeof(object), Format.FormatAny, Execute.GetFormatAnyAction));
@@ -59,7 +63,11 @@ namespace Canducci.GraphQLQuery.Internals
             sourceType = type?.GenericTypeArguments[0];
          }
          IGraphQLRule rule = this.Where(x => x.TypeArgument == sourceType).FirstOrDefault();
-         if (rule == null && sourceType != null && type.IsClass && typeof(string) != sourceType)
+         if (rule == null && (sourceType.IsArray || typeof(IEnumerable).IsAssignableFrom(sourceType)))
+         {
+            rule = Rule(Format.FormatIEnumerable);
+         } 
+         else if (rule == null && sourceType != null && type.IsClass && typeof(string) != sourceType)
          {
             rule = Rule(Format.FormatClass);
          }         

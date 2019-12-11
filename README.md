@@ -216,3 +216,25 @@ TypeQL typeQL = new TypeQL(
 ```json
 {"query":"query getAll($state_id:Int,$country_id:Int){state:state_find(id:$state_id){id,uf}country:country_find(id:$country_id){id,name}}","variables":{"state_id":11,"country_id":1}}
 ```
+
+###### Code:
+
+```c#
+TypeQL typeQL = new TypeQL(
+new QueryType(
+        "states_in",
+        new Fields(
+            new Field("id"),
+            new Field("uf")
+        ),
+        new Arguments(
+            new Argument("ids", new int[] { 11, 12, 13 }),
+            new Argument("load", false)
+        )
+    )
+);
+```
+###### Result:
+```json
+{"query":"{states_in(ids:[11,12,13],load:false){id,uf}}"}
+```

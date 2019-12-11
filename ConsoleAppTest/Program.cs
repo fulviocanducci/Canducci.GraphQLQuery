@@ -86,6 +86,49 @@ namespace ConsoleAppTest
          //);
 
          //TypeQL typeQL = new TypeQL(
+         //   new QueryType(
+         //        "states_in",
+         //        new Fields(
+         //           new Field("id"),
+         //           new Field("uf")
+         //        ),
+         //        new Arguments(
+         //           new Argument("ids", new int[] { 11, 12, 13 }),
+         //           new Argument("load", false)
+         //       )
+         //    )
+         //);
+         var ids = new List<int>();
+         ids.Add(11);
+         ids.Add(16);
+         //var ids = new Source[] { new Source(), new Source() };
+         TypeQL typeQL = new TypeQL(
+            new Variables("getStates",
+               new Variable<List<int>>("ids", ids),
+               new Variable<bool>("load", true)
+            ),
+            new QueryType(
+                 "states_in",
+                 new Fields(
+                    new Field("id"),
+                    new Field("uf"),
+                    new Field(
+                       new QueryType("country", 
+                        new Fields(
+                           new Field("id"),
+                           new Field("name")
+                           )
+                        )
+                    )
+                 ),
+                 new Arguments(
+                    new Argument(new Parameter("ids")),
+                    new Argument(new Parameter("load"))
+                )
+             )
+         );
+
+         //TypeQL typeQL = new TypeQL(
          //   new Variables("getAll",
          //      new Variable("state_id", 11),
          //      new Variable("country_id", 1)
@@ -133,26 +176,26 @@ namespace ConsoleAppTest
          //    )
          //);
 
-         TypeQL typeQL = new TypeQL(
-             new Variables("getAll",
-                 new Variable<int>("state_id", 11),
-                 new Variable<int>("country_id", 1)
-             ),
-             new QueryType("state_find", "state",
-                 new Fields(
-                     new Field("id"),
-                     new Field("uf")
-                 ),
-                 new Arguments(new Argument(new Parameter("id", "state_id")))
-             ),
-             new QueryType("country_find", "country",
-                 new Fields(
-                     new Field("id"),
-                     new Field("name")
-                 ),
-                 new Arguments(new Argument(new Parameter("id", "country_id")))
-             )
-         );
+         //TypeQL typeQL = new TypeQL(
+         //    new Variables("getAll",
+         //        new Variable<int>("state_id", 11),
+         //        new Variable<int>("country_id", 1)
+         //    ),
+         //    new QueryType("state_find", "state",
+         //        new Fields(
+         //            new Field("id"),
+         //            new Field("uf")
+         //        ),
+         //        new Arguments(new Argument(new Parameter("id", "state_id")))
+         //    ),
+         //    new QueryType("country_find", "country",
+         //        new Fields(
+         //            new Field("id"),
+         //            new Field("name")
+         //        ),
+         //        new Arguments(new Argument(new Parameter("id", "country_id")))
+         //    )
+         //);
 
 
          Console.WriteLine(typeQL);
