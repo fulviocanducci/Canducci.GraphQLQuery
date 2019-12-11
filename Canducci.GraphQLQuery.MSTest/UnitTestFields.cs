@@ -1,23 +1,53 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+
 namespace Canducci.GraphQLQuery.MSTest
 {
    [TestClass()]
    public class UnitTestFields
    {
       [TestMethod]
-      public void TestFields()
+      [ExpectedException(typeof(Exception))]      
+      public void TestFieldsDuplicateName()
       {
          IField field0 = new Field("name");
          IField field1 = new Field("name", "alias");
-         IField field2 = new Field(new QueryType("name", new Fields(new Field("name"))));
+         Fields fields = new Fields(
+            field0,
+            field1
+         );
+         Assert.IsTrue(fields.Count == 2);
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(Exception))]
+      public void TestFieldsQueryTypeDuplicateName()
+      {
+         IField field0 = new Field(new QueryType("name", new Fields(new Field("name"), new Field("name"))));
+         IField field1 = new Field(new QueryType("name", new Fields(new Field("year"), new Field("year"))));
+         Fields fields = new Fields(
+            field0,
+            field1
+         );
+         Assert.IsTrue(fields.Count == 2);
+      }
+
+      [TestMethod]
+      public void TestFields()
+      {
+         IField field0 = new Field("name");
+         IField field1 = new Field("created", "alias");
+         IField field2 = new Field(new QueryType("name", new Fields(new Field("name"), new Field("year"))));
+         IField field3 = new Field(new QueryType("name", new Fields(new Field("name"))));
          Fields fields = new Fields(
             field0,
             field1,
-            field2
+            field2,
+            field3
          );
 
-         Assert.IsTrue(fields.Count == 3);
+         Assert.IsTrue(fields.Count == 4);
          Assert.IsInstanceOfType(fields, typeof(Fields));
          Assert.IsInstanceOfType(fields[0], typeof(IField));
          Assert.IsInstanceOfType(fields[1], typeof(IField));
@@ -26,7 +56,7 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(fields[0].Name, "name");
          Assert.AreEqual(fields[0].Alias, null);
 
-         Assert.AreEqual(fields[1].Name, "name");
+         Assert.AreEqual(fields[1].Name, "created");
          Assert.AreEqual(fields[1].Alias, "alias");
 
          Assert.AreEqual(fields[2].Name, null);

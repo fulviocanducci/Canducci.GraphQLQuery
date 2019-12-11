@@ -5,7 +5,7 @@ namespace Canducci.GraphQLQuery.Interfaces
 {
    public interface IVariable
    {
-      Type VariableType { get; }
+      IVariableType VariableType { get; }
       string Name { get; }
       string NameType { get; }
       object Value { get; }

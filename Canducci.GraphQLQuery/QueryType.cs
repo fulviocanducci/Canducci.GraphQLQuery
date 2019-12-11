@@ -13,6 +13,7 @@ namespace Canducci.GraphQLQuery
          Name = name;
          Fields = fields;
       }     
+
       public QueryType(string name, Fields fields, Arguments arguments)
       {
          Name = name;

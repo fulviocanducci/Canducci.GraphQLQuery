@@ -66,7 +66,7 @@ namespace Canducci.GraphQLQuery.MSTest
          IArgument argumentBool = new Argument("active", true);
          IArgument argumentNull = new Argument("null", null);
          IArgument argumentParameter = new Argument(new Parameter("id"));
-         Assert.AreEqual("id:1", argumentNumber.KeyValue);
+         Assert.AreEqual("id:1", argumentNumber.KeyValue);         
          Assert.AreEqual("value:125.00", argumentDecimal.KeyValue);
          Assert.AreEqual("value:300.1", argumentFloat.KeyValue);
          Assert.AreEqual("name:\\\"Paul\\\"", argumentString.KeyValue);

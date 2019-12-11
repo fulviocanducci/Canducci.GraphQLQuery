@@ -82,6 +82,15 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual("$value:Float=0", variableFloat.GetKeyParam());
          Assert.AreEqual("$active:Boolean=false", variableBoolean.GetKeyParam());
          Assert.AreEqual("$id:ID=0", variableID.GetKeyParam());
+
+         Assert.AreEqual("input", variableObject.Convert());
+         Assert.AreEqual(variableObject.Value, variableObject.GetValue());
+
+         Assert.IsInstanceOfType(variableInt.VariableType.Type, typeof(int).GetType());
+         Assert.IsInstanceOfType(variableString.VariableType.Type, typeof(string).GetType());
+         Assert.IsInstanceOfType(variableFloat.VariableType.Type, typeof(float).GetType());
+         Assert.IsInstanceOfType(variableBoolean.VariableType.Type, typeof(bool).GetType());
+         Assert.IsInstanceOfType(variableID.VariableType.Type, typeof(object).GetType());
       }
 
    }

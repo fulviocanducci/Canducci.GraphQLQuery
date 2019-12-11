@@ -8,6 +8,7 @@ namespace Canducci.GraphQLQuery
       public string Name { get; }
       public object Value { get; }
       internal IRule Rule { get; }
+
       public string KeyValue
       {
          get
@@ -15,23 +16,26 @@ namespace Canducci.GraphQLQuery
             return GetKeyValue();
          }
       }
+
       public Argument(string name, object value)
       {
          Name = name;
          Value = value;
          Rule = Rules.Instance.Rule(value?.GetType());
       }
+
       public Argument(Parameter value)
       {
          Name = value.Name;
          Value = value;
          Rule = Rules.Instance.Rule(typeof(Parameter));
-      }      
+      }  
 
       public string Convert()
       {
          return Rule.Convert(Value);
       }
+
       private string GetKeyValue()
       {
          if (Rule.Format == Format.FormatClass)

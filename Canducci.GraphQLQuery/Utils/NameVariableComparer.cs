@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Canducci.GraphQLQuery.Utils
 {
-   internal class VariableComparer : IEqualityComparer<IVariable>
+   internal class NameVariableComparer : IEqualityComparer<IVariable>
    {
       public bool Equals(IVariable x, IVariable y)
       {
@@ -14,5 +14,8 @@ namespace Canducci.GraphQLQuery.Utils
       {
          return obj.Name.GetHashCode();
       }
+
+      internal static NameVariableComparer Create()
+         => new NameVariableComparer();
    }
 }

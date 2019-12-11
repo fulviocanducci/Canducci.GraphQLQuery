@@ -2,13 +2,12 @@
 using Canducci.GraphQLQuery.Internals;
 using Canducci.GraphQLQuery.VariablesValueTypes;
 using System;
-using System.Collections;
 using System.Globalization;
 namespace Canducci.GraphQLQuery
 {
    public class Variable<T> : IVariable<T>, IVariable
    {
-      public Type VariableType { get; }
+      public IVariableType VariableType { get; }
       public string Name { get; }
       public T Value { get; }
       public string NameType { get; }
@@ -22,54 +21,51 @@ namespace Canducci.GraphQLQuery
             return Value;
          }
       }
+
       public Variable(string name, T value, Format format)
          : this(name, value, null, false, null, format) { }
+
       public Variable(string name, T value, Format format, bool required)
          : this(name, value, null, required, null, format) { }
+
       public Variable(string name, T value, Format format, bool required, VariableValueDefault variableValueDefault)
          : this(name, value, null, required, variableValueDefault, format) { }
+
       public Variable(string name, T value, Format format, bool required, VariableValueDefault variableValueDefault, string nameType)
          : this(name, value, nameType, required, variableValueDefault, format) { }
+
 
       public Variable(string name, T value, string nameType, bool required = false, VariableValueDefault variableValueDefault = null, Format format = Format.FormatDefault)
          : this(name, value, required, variableValueDefault, format)
       {
          NameType = nameType;
       }
+
       public Variable(string name, T value, bool required = false, VariableValueDefault variableValueDefault = null, Format format = Format.FormatDefault)
       {
          Type type = typeof(T);
          Name = name ?? throw new ArgumentNullException(nameof(name));
          Value = value;
-         VariableType = type;
+         VariableType = new VariableType(type);
          GraphQLRule = format == Format.FormatDefault ? GraphQLRules.Instance.Rule(type) : GraphQLRules.Instance.Rule(format);
          Required = required;
          VariableValueDefault = variableValueDefault;
          NameType = null;
       }
-      internal string ConvertArrayType(Type type, string initial)
-      {
-         IGraphQLRule graphQLRuleTypeElement = GraphQLRules.Instance.Rule(type);
-         return graphQLRuleTypeElement.Format == Format.FormatClass
-            ? string.Format(initial, type.Name)
-            : string.Format(initial, graphQLRuleTypeElement.Convert());
-      }
+
       public string Convert()
       {
          string result = NameType ?? GraphQLRule.Convert();
          if (NameType == null && Format.FormatIEnumerable == GraphQLRule.Format)
          {
-            if (VariableType.IsArray)
-            {
-               result = ConvertArrayType(VariableType.GetElementType(), result);
-            } 
-            else if (typeof(IEnumerable).IsAssignableFrom(VariableType))
+            if (VariableType.IsArray || VariableType.IsIEnumerable)
             {               
-               result = ConvertArrayType(VariableType.GenericTypeArguments[0], result);
-            }
+               result = VariableType.Convert(result);
+            } 
          }
          return result;
       }
+
       public string GetKeyParam()
       {
          return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}{5}",
@@ -81,10 +77,12 @@ namespace Canducci.GraphQLQuery
             VariableValueDefault != null ? $"{Signals.EqualSign}{VariableValueDefault.Value}" : ""
          );
       }
+
       public string GetKeyArgument()
       {
          return string.Format(CultureInfo.InvariantCulture, "{0}:{1}{2}", Name, Signals.DollarSign, Name);
       }
+
       public object GetValue()
       {
          return Value;

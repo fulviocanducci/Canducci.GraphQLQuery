@@ -1,6 +1,6 @@
-﻿using Canducci.GraphQLQuery.Interfaces;
+﻿using Canducci.GraphQLQuery.Extensions;
+using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
-using Canducci.GraphQLQuery.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +13,14 @@ namespace Canducci.GraphQLQuery
       public string QueryName { get; }
       public Variables(string queryName, params IVariable[] variables)
       {
-         if (variables.Distinct(new VariableComparer()).Count() != variables.Count())
+         if (variables.DistinctName().Count() != variables.Count())
          {
             throw new Exception("Duplicate Variable names");
          }
          AddRange(variables);
          QueryName = queryName;
       }
+
       internal void AppendStringBuilder(StringBuilder str)
       {
          if (Count > 0)
@@ -36,6 +37,7 @@ namespace Canducci.GraphQLQuery
             str.Append(Signals.ParenthesisClose);
          }
       }
+
       internal IList<IVariableValue> Values()
       {
          IList<IVariableValue> dic = new List<IVariableValue>();
@@ -43,7 +45,7 @@ namespace Canducci.GraphQLQuery
          {
             if (!dic.Any(x => x.Name == item.Name))
             {
-               dic.Add(new VariableValue(item.Name, item.GetValue(), item.VariableType));
+               dic.Add(new VariableValue(item.Name, item.GetValue(), item.VariableType.Type));
             }
          }
          return dic;
