@@ -87,8 +87,7 @@ namespace Canducci.GraphQLQuery.MSTest
          );
          var text = typeQL.ToBodyJson();
          IExecutionResult result = QueryExecutor.Execute(text);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -111,8 +110,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var text = typeQL.ToBodyJson();
          var variables = typeQL.Variables.ToDictionary();
          IExecutionResult result = QueryExecutor.Execute(text, variables);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -141,8 +139,7 @@ namespace Canducci.GraphQLQuery.MSTest
          );
          var text = typeQL.ToBodyJson();         
          IExecutionResult result = QueryExecutor.Execute(text);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -180,8 +177,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var text = typeQL.ToBodyJson();
          var variables = typeQL.Variables.ToDictionary();
          IExecutionResult result = QueryExecutor.Execute(text, variables);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -209,8 +205,7 @@ namespace Canducci.GraphQLQuery.MSTest
          );
          var text = typeQL.ToBodyJson();         
          IExecutionResult result = QueryExecutor.Execute(text);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -242,8 +237,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var text = typeQL.ToBodyJson();
          var variables = typeQL.Variables.ToDictionary();
          IExecutionResult result = QueryExecutor.Execute(text, variables);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -268,8 +262,7 @@ namespace Canducci.GraphQLQuery.MSTest
          );
          var text = typeQL.ToBodyJson();         
          IExecutionResult result = QueryExecutor.Execute(text);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -298,8 +291,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var text = typeQL.ToBodyJson();
          var variables = typeQL.Variables.ToDictionary();
          IExecutionResult result = QueryExecutor.Execute(text, variables);
-         var json = result.ToJson();
-         Assert.IsTrue(true);
+         //var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
    }

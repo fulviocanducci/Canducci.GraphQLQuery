@@ -1,0 +1,13 @@
+﻿1>------ Rebuild All started: Project: Canducci.GraphQLQuery, Configuration: Release Any CPU ------
+2>------ Rebuild All started: Project: Canducci.GraphQLQuery.CustomTypes, Configuration: Release Any CPU ------
+2>Canducci.GraphQLQuery.CustomTypes -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery.CustomTypes\bin\Release\netstandard2.0\Canducci.GraphQLQuery.CustomTypes.dll
+2>Successfully created package 'C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery.CustomTypes\bin\Release\Canducci.GraphQLQuery.CustomTypes.0.0.1.1.nupkg'.
+3>------ Rebuild All started: Project: Canducci.GraphQLQuery.CustomTypes.MSTest, Configuration: Release Any CPU ------
+1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Release\netstandard2.0\Canducci.GraphQLQuery.dll
+3>Canducci.GraphQLQuery.CustomTypes.MSTest -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery.CustomTypes.MSTest\bin\Release\netcoreapp2.0\Canducci.GraphQLQuery.CustomTypes.MSTest.dll
+1>Successfully created package 'C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Release\Canducci.GraphQLQuery.0.0.3.1.nupkg'.
+4>------ Rebuild All started: Project: ConsoleAppTest, Configuration: Release Any CPU ------
+5>------ Rebuild All started: Project: Canducci.GraphQLQuery.MSTest, Configuration: Release Any CPU ------
+4>ConsoleAppTest -> C:\Users\fulvi\source\repos\Canducci.GraphQL\ConsoleAppTest\bin\Release\netcoreapp2.1\ConsoleAppTest.dll
+5>Canducci.GraphQLQuery.MSTest -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery.MSTest\bin\Release\netcoreapp2.0\Canducci.GraphQLQuery.MSTest.dll
+========== Rebuild All: 5 succeeded, 0 failed, 0 skipped ==========

@@ -3,19 +3,19 @@
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.0.3.0</Version>
+    <Version>0.0.3.1</Version>
     <Authors>Fulvio Cezar Canducci Dias</Authors>
     <Description>GraphQL Query</Description>
     <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>GraphQL Query JSON</PackageTags>
-    <PackageReleaseNotes>Add UnitTest Basic</PackageReleaseNotes>
+    <PackageReleaseNotes>GrapQL Test Server Local MsTest (Ok)</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl></PackageIconUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <AssemblyVersion>0.0.3.0</AssemblyVersion>
-    <FileVersion>0.0.3.0</FileVersion>
+    <AssemblyVersion>0.0.3.1</AssemblyVersion>
+    <FileVersion>0.0.3.1</FileVersion>
   </PropertyGroup>
   <ItemGroup>    
     <PackageReference Include="System.Reflection.Emit" Version="4.6.0" />

@@ -33,6 +33,7 @@ TypeQL typeQL = new TypeQL(
         )
     )
 );
+var json = typeQL.ToStringJson();
 ```
 
 ###### Result
@@ -68,6 +69,7 @@ TypeQL typeQL = new TypeQL(
         )
     )
 );
+var json = typeQL.ToStringJson();
 ```
 
 ###### Example:
@@ -93,6 +95,7 @@ TypeQL typeQL = new TypeQL(
           )
      )
 );
+var json = typeQL.ToStringJson();
 ```
 
 ###### Example:
@@ -134,6 +137,7 @@ TypeQL typeQL = new TypeQL(
         new Arguments(new Argument("input", source))
     )
 );
+var json = typeQL.ToStringJson();
 ```
 
 
@@ -177,6 +181,7 @@ TypeQL typeQL = new TypeQL(
         new Arguments(new Argument("input", new Parameter("input")))
     )
 );
+var json = typeQL.ToStringJson();
 ```
 
 ###### Result:
@@ -210,6 +215,7 @@ TypeQL typeQL = new TypeQL(
         new Arguments(new Argument(new Parameter("id", "country_id")))
     )
 );
+var json = typeQL.ToStringJson();
 ```
 ###### Result:
 
@@ -233,6 +239,7 @@ new QueryType(
         )
     )
 );
+var json = typeQL.ToStringJson();
 ```
 ###### Result:
 ```json

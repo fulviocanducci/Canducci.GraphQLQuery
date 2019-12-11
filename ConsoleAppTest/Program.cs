@@ -197,7 +197,7 @@ namespace ConsoleAppTest
          //);
 
 
-         Console.WriteLine(typeQL);
+         Console.WriteLine(typeQL.ToStringJson());
 
 
          //TypeQL typeQL = new TypeQL(
