@@ -21,6 +21,13 @@ namespace Canducci.GraphQLQuery
          Variables = variables;
          QueryTypes = queryTypes;
       }     
+
+      public string ToBodyJson()
+      {
+         StringBuilder stringBuilder = new StringBuilder();
+         stringBuilder.Append(Variables, QueryTypes);
+         return stringBuilder.ToString().Replace("\\", "");
+      }
       public string ToStringJson()
       {
          StringBuilder stringBuilder = new StringBuilder();
@@ -30,9 +37,7 @@ namespace Canducci.GraphQLQuery
          stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append(Signals.Colon);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append<Variables>(Variables);
-         stringBuilder.Append<IQueryType>(QueryTypes);
-         stringBuilder.Append(Signals.BraceClose);
+         stringBuilder.Append(Variables, QueryTypes);                  
          stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append<IList<IVariableValue>>(Variables?.Values());
          stringBuilder.Append(Signals.BraceClose);

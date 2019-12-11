@@ -38,6 +38,11 @@ namespace Canducci.GraphQLQuery
          }
       }
 
+      public Dictionary<string, object> ToDictionary()
+      {  
+         return this.ToDictionary(x => x.Name, y => y.GetValue());
+      }
+
       internal IList<IVariableValue> Values()
       {
          IList<IVariableValue> dic = new List<IVariableValue>();

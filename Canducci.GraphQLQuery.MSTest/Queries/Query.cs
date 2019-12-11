@@ -37,7 +37,7 @@ namespace Canducci.GraphQLQuery.MSTest.Queries
            .Resolver(context =>
            {
               Source source = context.Argument<Source>("input");
-              source.Id = Sources.Count == 0 ? 1 : Sources.LastOrDefault().Id;
+              source.Id = Sources.Count == 0 ? 1 : Sources.OrderBy(x => x.Id).LastOrDefault().Id;
               Sources.Add(source);
               return source;
            });
@@ -62,7 +62,7 @@ namespace Canducci.GraphQLQuery.MSTest.Queries
               TimeSpan? time = context.Argument<TimeSpan?>("time");
               if (id == 0)
               {
-                 id = Sources.Count == 0 ? 1 : Sources.LastOrDefault().Id;
+                 id = Sources.Count == 0 ? 1 : Sources.OrderBy(x => x.Id).LastOrDefault().Id;
               }
               Source source = new Source()
               {
@@ -122,6 +122,16 @@ namespace Canducci.GraphQLQuery.MSTest.Queries
                  count = Sources.Remove(source) ? 1 : 0;
               }
               return Remove.Create(count);
+           });
+
+         descriptor
+           .Field("source_in")
+           .Type<ListType<SourceType>>()
+           .Argument("id_in", x => { x.Type<ListType<IntType>>(); })
+           .Resolver(context =>
+           {
+              int[] id_in = context.Argument<int[]>("id_in");
+              return Sources.Where(x => id_in.Contains(x.Id)).ToList();
            });
       }
    }

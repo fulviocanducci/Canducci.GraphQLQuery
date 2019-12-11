@@ -8,31 +8,16 @@ using System.Text;
 
 namespace Canducci.GraphQLQuery.Extensions
 {
-
-   internal static class IFieldExtensions
-   {
-      internal static IEnumerable<IField> DistinctName(this IEnumerable<IField> fields)
-      {
-         return fields.Distinct(NameFieldComparer.Create());
-      }
-   }
-   internal static class IArgumentExtensions
-   {
-      internal static IEnumerable<IArgument> DistinctName(this IEnumerable<IArgument> arguments)
-      {
-         return arguments.Distinct(NameArgumentComparer.Create());
-      }
-   }
-
-   internal static class IVariableExtensions
-   {
-      internal static IEnumerable<IVariable> DistinctName(this IEnumerable<IVariable> variables)
-      {
-         return variables.Distinct(NameVariableComparer.Create());
-      }
-   }
    internal static class StringBuilderExtensions
    {
+      internal static StringBuilder Append(this StringBuilder stringBuilder, Variables variables, IQueryType[] queryTypes)
+      {
+         stringBuilder.Append<Variables>(variables);
+         stringBuilder.Append<IQueryType>(queryTypes);
+         stringBuilder.Append(Signals.BraceClose);
+         return stringBuilder;
+      }
+
       internal static StringBuilder Append(this StringBuilder stringBuilder, string alias, string name)
       {
          stringBuilder.Append(string.IsNullOrEmpty(alias)
