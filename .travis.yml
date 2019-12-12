@@ -1,14 +1,14 @@
+dist: xenial
 language: csharp
+os:
+  - linux
+  - osx
 mono: none
 dotnet: 2.0.0
 solution: Canducci.GraphQL.sln
-install:
-  - dotnet restore Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj -f netstandard2.0
-  - dotnet restore Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj -f netstandard2.0
-  - dotnet restore Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj -f netstandard2.0 
-  - dotnet restore Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj -f netstandard2.0
 script:    
-  - dotnet restore Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj -f netstandard2.0
-  - dotnet restore Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj -f netstandard2.0
-  - dotnet restore Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj -f netstandard2.0  
-  - dotnet restore Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj -f netstandard2.0
+  - dotnet restore
+  - dotnet build Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj -f netstandard2.0
+  - dotnet build Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj -f netstandard2.0
+  - dotnet test Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj -f netstandard2.0  
+  - dotnet test Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj -f netstandard2.0
