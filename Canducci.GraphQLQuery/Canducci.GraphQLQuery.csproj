@@ -1,25 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <TargetFrameworks>net461;net462;net47;netstandard2.0;netstandard2.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.0.3.1</Version>
+    <Version>0.0.4.0</Version>
     <Authors>Fulvio Cezar Canducci Dias</Authors>
     <Description>GraphQL Query</Description>
     <PackageProjectUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fulviocanducci/Canducci.GraphQLQuery</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>GraphQL Query JSON</PackageTags>
-    <PackageReleaseNotes>GrapQL Test Server Local MsTest (Ok)</PackageReleaseNotes>
+    <PackageReleaseNotes>Add NetFrameworks</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl></PackageIconUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <AssemblyVersion>0.0.3.1</AssemblyVersion>
-    <FileVersion>0.0.3.1</FileVersion>
+    <AssemblyVersion>0.0.4.0</AssemblyVersion>
+    <FileVersion>0.0.4.0</FileVersion>
   </PropertyGroup>
-  <ItemGroup>    
-    <PackageReference Include="System.Reflection.Emit" Version="4.6.0" />
-    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\logo\logo.png">

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>0.0.1.1</Version>
+    <TargetFrameworks>net461;net462;net47;netstandard2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
+    <Version>0.0.1.2</Version>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
     <Description>GraphQLQuery CustomTypes (TimeSpan)</Description>
