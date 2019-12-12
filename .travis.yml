@@ -4,11 +4,11 @@ mono: none
 dotnet: 3.1
 solution: Canducci.GraphQL.sln
 script:    
-  - cd Shoebox/Shoebox.Common dotnet restore Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj -f netstandard2.0
-  - cd Shoebox/Shoebox.Common dotnet restore Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj -f netstandard2.0
-  - cd Shoebox/Shoebox.Common dotnet restore Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj -f netstandard2.0
-  - cd Shoebox/Shoebox.Common dotnet restore Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj -f netstandard2.0
-  - cd Shoebox/Shoebox.Common dotnet build Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj -f netstandard2.0
-  - cd Shoebox/Shoebox.Common dotnet build Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj -f netstandard2.0
-  - cd Shoebox/Shoebox.Common dotnet test Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj -f netstandard2.0  
-  - cd Shoebox/Shoebox.Common dotnet test Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj -f netstandard2.0
+  - dotnet restore Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj
+  - dotnet restore Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj
+  - dotnet restore Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj
+  - dotnet restore Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj
+  - dotnet build Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj
+  - dotnet build Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj
+  - dotnet test Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj
+  - dotnet test Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj
