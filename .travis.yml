@@ -1,6 +1,7 @@
 dist: xenial
 language: csharp
-mono: none
+mono: 
+  - latest
 dotnet: 3.1
 solution: Canducci.GraphQL.sln
 script:    
