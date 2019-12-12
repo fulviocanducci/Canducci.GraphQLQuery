@@ -11,5 +11,5 @@ script:
   - dotnet restore -f netstandard2.0 Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj
   - dotnet build -f netstandard2.0 Canducci.GraphQLQuery/Canducci.GraphQLQuery.csproj
   - dotnet build -f netstandard2.0 Canducci.GraphQLQuery.CustomTypes/Canducci.GraphQLQuery.CustomTypes.csproj
-  - dotnet build -f netstandard2.0 Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj
-  - dotnet build -f netstandard2.0 Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj
+  - dotnet build -f netcoreapp2.0 Canducci.GraphQLQuery.MSTest/Canducci.GraphQLQuery.MSTest.csproj
+  - dotnet build -f netcoreapp2.0 Canducci.GraphQLQuery.CustomTypes.MSTest/Canducci.GraphQLQuery.CustomTypes.MSTest.csproj
