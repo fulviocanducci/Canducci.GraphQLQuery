@@ -1,7 +1,6 @@
 ﻿using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
 using Canducci.GraphQLQuery.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,12 +16,17 @@ namespace Canducci.GraphQLQuery.Extensions
          stringBuilder.Append(Signals.BraceClose);
          return stringBuilder;
       }
-
-      internal static StringBuilder Append(this StringBuilder stringBuilder, string alias, string name)
+      
+      internal static StringBuilder Append(this StringBuilder stringBuilder, string alias, string name, IDirective directive = null)
       {
          stringBuilder.Append(string.IsNullOrEmpty(alias)
                ? name.ToLowerInvariant()
                : $"{alias.ToLowerInvariant()}{Signals.Colon}{name.ToLowerInvariant()}");
+         if (directive != null)
+         {
+            stringBuilder.Append(" ");
+            stringBuilder.Append(directive.Convert());
+         }
          return stringBuilder;
       }
 
@@ -93,7 +97,7 @@ namespace Canducci.GraphQLQuery.Extensions
                   }
                   else
                   {
-                     stringBuilder.Append(field.Alias, field.Name);
+                     stringBuilder.Append(field.Alias, field.Name, field?.Directive);
                   }
                   if (!field.Equals(fieldLast))
                   {

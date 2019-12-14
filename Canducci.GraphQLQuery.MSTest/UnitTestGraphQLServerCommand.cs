@@ -1,5 +1,6 @@
 ﻿using Canducci.GraphQLQuery.MSTest.Queries;
 using Canducci.GraphQLQuery.MSTest.Queries.Datas;
+using Canducci.GraphQLQuery.MSTest.Queries.Directives;
 using Canducci.GraphQLQuery.MSTest.Queries.Types;
 using HotChocolate;
 using HotChocolate.Execution;
@@ -24,9 +25,10 @@ namespace Canducci.GraphQLQuery.MSTest
             IncludeExceptionDetails = true
          };
          Schema = SchemaBuilder.New()
+               .AddDirectiveType<UpperDirectiveType>()
                .AddType<RemoveType>()
                .AddType<SourceType>()
-               .AddQueryType<Query>()
+               .AddQueryType<Query>()               
                .ModifyOptions(x =>
                {
                   x.QueryTypeName = "Query";
@@ -292,6 +294,67 @@ namespace Canducci.GraphQLQuery.MSTest
          var variables = typeQL.Variables.ToDictionary();
          IExecutionResult result = QueryExecutor.Execute(text, variables);
          //var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+
+      [TestMethod]
+      public void TestSourceListWithDirectiveInclude()
+      {
+         TypeQL typeQL = new TypeQL(
+            new Variables("getSourcesList",
+               new Variable<bool>("status", true, true, true)
+            ),
+            new QueryType(
+               "sources",
+               new Fields(
+                  new Field("id", new Include("status")),
+                  new Field("name")
+               )
+            )
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestSourceListWithDirectiveSkip()
+      {
+         TypeQL typeQL = new TypeQL(
+            new Variables("getSourcesList",
+               new Variable<bool>("active", true, true, true)
+            ),
+            new QueryType(
+               "sources",
+               new Fields(
+                  new Field("id", new Skip("active")),
+                  new Field("name")
+               )
+            )
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestSourceListWithDirectiveCustom()
+      {
+         TypeQL typeQL = new TypeQL(
+            new QueryType(
+               "sources",
+               new Fields(
+                  new Field("id"),
+                  new Field("name", new Queries.Types.Upper())
+               )
+            )
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
    }

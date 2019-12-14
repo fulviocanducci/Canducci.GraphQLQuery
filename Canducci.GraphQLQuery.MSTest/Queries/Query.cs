@@ -26,7 +26,7 @@ namespace Canducci.GraphQLQuery.MSTest.Queries
             .Field("sources")
             .Type<ListType<SourceType>>()
             .Resolver(context =>
-            {
+            {               
                return Sources;
             });
 
