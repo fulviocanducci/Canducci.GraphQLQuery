@@ -29,7 +29,7 @@ namespace Canducci.GraphQLQuery.MSTest
                .AddDirectiveType<UpperDirectiveType>()
                .AddType<RemoveType>()
                .AddType<SourceType>()
-               .AddQueryType<Query>()                      
+               .AddQueryType<Query>()
                .Create();
 
          QueryExecutor = Schema.MakeExecutable();
@@ -135,7 +135,7 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         var text = typeQL.ToBodyJson();         
+         var text = typeQL.ToBodyJson();
          IExecutionResult result = QueryExecutor.Execute(text);
          //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
@@ -185,7 +185,7 @@ namespace Canducci.GraphQLQuery.MSTest
          {
             Name = "Complex Type With Arguments"
          };
-         TypeQL typeQL = new TypeQL(            
+         TypeQL typeQL = new TypeQL(
             new QueryType("source_add",
                new Fields(
                   new Field("id"),
@@ -200,7 +200,7 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         var text = typeQL.ToBodyJson();         
+         var text = typeQL.ToBodyJson();
          IExecutionResult result = QueryExecutor.Execute(text);
          //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
@@ -231,7 +231,7 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         var text = typeQL.ToBodyJson();         
+         var text = typeQL.ToBodyJson();
          IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
          //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
@@ -241,7 +241,7 @@ namespace Canducci.GraphQLQuery.MSTest
       public void TestSourceWhereInIdArgument()
       {
          int[] id_in = new int[] { 1, 2 };
-         TypeQL typeQL = new TypeQL(           
+         TypeQL typeQL = new TypeQL(
             new QueryType("source_in",
                new Fields(
                   new Field("id"),
@@ -256,7 +256,7 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         var text = typeQL.ToBodyJson();         
+         var text = typeQL.ToBodyJson();
          IExecutionResult result = QueryExecutor.Execute(text);
          //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
@@ -359,13 +359,13 @@ namespace Canducci.GraphQLQuery.MSTest
       [TestMethod]
       public void TestStateList()
       {
-         TypeQL typeQL = new TypeQL(            
+         TypeQL typeQL = new TypeQL(
             new QueryType(
                "states",
                new Fields(
                   new Field("id"),
                   new Field("name"),
-                  new Field(new QueryType("cities", 
+                  new Field(new QueryType("cities",
                      new Fields(
                         new Field("id"),
                         new Field("name")
@@ -401,6 +401,7 @@ namespace Canducci.GraphQLQuery.MSTest
             )
          );
          var text = typeQL.ToBodyJson();
+         //Debug.Print(typeQL.ToStringJson());
          IExecutionResult result = QueryExecutor.Execute(text);
          var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);

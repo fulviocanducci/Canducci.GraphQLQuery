@@ -275,3 +275,7 @@ var json = typeQL.ToStringJson();
 ```json
 {"query":"{states_in(ids:[11,12,13],load:false){id,uf}}"}
 ```
+
+## Example Complete MVC Application
+
+- [Link - MVC Application](https://github.com/fulviocanducci/Canducci.GraphQLQuery/wiki/Code-Example-Complete)
