@@ -1,4 +1,5 @@
-﻿using Canducci.GraphQLQuery.MSTest.Queries;
+﻿using Canducci.GraphQLQuery.Interfaces;
+using Canducci.GraphQLQuery.MSTest.Queries;
 using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using Canducci.GraphQLQuery.MSTest.Queries.Directives;
 using Canducci.GraphQLQuery.MSTest.Queries.Types;
@@ -28,11 +29,7 @@ namespace Canducci.GraphQLQuery.MSTest
                .AddDirectiveType<UpperDirectiveType>()
                .AddType<RemoveType>()
                .AddType<SourceType>()
-               .AddQueryType<Query>()               
-               .ModifyOptions(x =>
-               {
-                  x.QueryTypeName = "Query";
-               })
+               .AddQueryType<Query>()                      
                .Create();
 
          QueryExecutor = Schema.MakeExecutable();
@@ -110,8 +107,7 @@ namespace Canducci.GraphQLQuery.MSTest
             )
          );
          var text = typeQL.ToBodyJson();
-         var variables = typeQL.Variables.ToDictionary();
-         IExecutionResult result = QueryExecutor.Execute(text, variables);
+         IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
          //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
@@ -177,8 +173,7 @@ namespace Canducci.GraphQLQuery.MSTest
             )
          );
          var text = typeQL.ToBodyJson();
-         var variables = typeQL.Variables.ToDictionary();
-         IExecutionResult result = QueryExecutor.Execute(text, variables);
+         IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
          //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
@@ -236,9 +231,8 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         var text = typeQL.ToBodyJson();
-         var variables = typeQL.Variables.ToDictionary();
-         IExecutionResult result = QueryExecutor.Execute(text, variables);
+         var text = typeQL.ToBodyJson();         
+         IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
          //var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
@@ -291,8 +285,7 @@ namespace Canducci.GraphQLQuery.MSTest
             )
          );
          var text = typeQL.ToBodyJson();
-         var variables = typeQL.Variables.ToDictionary();
-         IExecutionResult result = QueryExecutor.Execute(text, variables);
+         IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
          //var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
@@ -308,13 +301,13 @@ namespace Canducci.GraphQLQuery.MSTest
             new QueryType(
                "sources",
                new Fields(
-                  new Field("id", new Include("status")),
+                  new Field("id", new IDirective[] { new Include("status") }),
                   new Field("name")
                )
             )
          );
          var text = typeQL.ToBodyJson();
-         IExecutionResult result = QueryExecutor.Execute(text);
+         IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
          var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
@@ -329,13 +322,13 @@ namespace Canducci.GraphQLQuery.MSTest
             new QueryType(
                "sources",
                new Fields(
-                  new Field("id", new Skip("active")),
+                  new Field("id", new IDirective[] { new Skip("active") }),
                   new Field("name")
                )
             )
          );
          var text = typeQL.ToBodyJson();
-         IExecutionResult result = QueryExecutor.Execute(text);
+         IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
          var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
@@ -344,11 +337,66 @@ namespace Canducci.GraphQLQuery.MSTest
       public void TestSourceListWithDirectiveCustom()
       {
          TypeQL typeQL = new TypeQL(
+            new Variables(
+               "getSources",
+               new Variable<bool>("source", true, true, true)
+            ),
             new QueryType(
                "sources",
                new Fields(
                   new Field("id"),
-                  new Field("name", new Queries.Types.Upper())
+                  new Field("name", new IDirective[] { new Queries.Types.Upper(), new Skip("source") }),
+                  new Field("active")
+               )
+            )
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text, typeQL.Variables.ToDictionary());
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestStateList()
+      {
+         TypeQL typeQL = new TypeQL(            
+            new QueryType(
+               "states",
+               new Fields(
+                  new Field("id"),
+                  new Field("name"),
+                  new Field(new QueryType("cities", 
+                     new Fields(
+                        new Field("id"),
+                        new Field("name")
+                     ))
+                 )
+               )
+            )
+         );
+         var text = typeQL.ToBodyJson();
+         //var text1 = typeQL.ToStringJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestCitiesList()
+      {
+         TypeQL typeQL = new TypeQL(
+            new QueryType(
+               "cities",
+               new Fields(
+                  new Field("id"),
+                  new Field("name"),
+                  new Field("stateId"),
+                  new Field(new QueryType("state",
+                     new Fields(
+                        new Field("id"),
+                        new Field("name")
+                     )
+                  ))
                )
             )
          );

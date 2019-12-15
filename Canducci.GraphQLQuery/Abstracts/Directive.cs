@@ -32,5 +32,7 @@ namespace Canducci.GraphQLQuery.Abstracts
       public static Include Include(string name) => new Include(name);
 
       public static Skip Skip(string name) => new Skip(name);
+
+      public static explicit operator string(Directive directive) => directive.Convert();
    }
 }

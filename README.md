@@ -190,6 +190,36 @@ var json = typeQL.ToStringJson();
 {"query":"query getSourceAdd($input:source_input!){source_add(input:$input){id,active,created,name,time,value}}","variables":{"input":{"id":null,"name":"Source 1","value":1000,"created":"2019-12-09T20:52:30.3620293-03:00","active":true,"time":null}}}
 ```
 
+
+__Query Type with Relationship Query Type__
+
+###### Code:
+
+```c#
+TypeQL typeQL = new TypeQL(            
+	new QueryType(
+	   "states",
+	   new Fields(
+		  new Field("id"),
+		  new Field("name"),
+		  new Field(new QueryType("cities", 
+			 new Fields(
+				new Field("id"),
+				new Field("name")
+			 ))
+		 )
+	   )
+	)
+ );
+ var text = typeQL.ToStringJson();
+```
+
+###### Result:
+
+```json
+{"query":"{states{id,name,cities{id,name}}}"}
+```
+
 ## Other
 
 ###### Code:

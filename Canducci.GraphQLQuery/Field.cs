@@ -6,7 +6,7 @@ namespace Canducci.GraphQLQuery
       public string Name { get; }
       public string Alias { get; }
       public IQueryType QueryType { get; }
-      public IDirective Directive { get; }
+      public IDirective[] Directives { get; }
 
       public Field(string name) 
          : this(name, null, null) { }
@@ -14,14 +14,14 @@ namespace Canducci.GraphQLQuery
       public Field(string name, string alias)
          : this(name, alias, null) { }
 
-      public Field(string name, IDirective directive) 
-         : this(name, null, directive) { }
+      public Field(string name, IDirective[] directives) 
+         : this(name, null, directives) { }
 
-      public Field(string name, string alias, IDirective directive)
+      public Field(string name, string alias, IDirective[] directives)
       {
          Name = name;
          Alias = alias;
-         Directive = directive;
+         Directives = directives;
          QueryType = null;
       }
 
@@ -30,10 +30,10 @@ namespace Canducci.GraphQLQuery
          QueryType = queryType;
       }
 
-      public Field(IQueryType queryType, IDirective directive) 
+      public Field(IQueryType queryType, IDirective[] directives) 
          : this(queryType)
       {
-         Directive = directive;
+         Directives = directives;
       }
    }
 }

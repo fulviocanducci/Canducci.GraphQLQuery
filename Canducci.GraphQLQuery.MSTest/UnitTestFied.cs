@@ -14,8 +14,8 @@ namespace Canducci.GraphQLQuery.MSTest
          IField field1 = new Field("name", "alias");
          IField field2 = new Field(new QueryType("name", new Fields(new Field("name"))));
 
-         IField field3 = new Field("name", Directive.Skip("status"));
-         IField field4 = new Field("name", "alias", Directive.Include("active"));
+         IField field3 = new Field("name", new IDirective[] { Directive.Skip("status"), Directive.Include("active") });
+         IField field4 = new Field("name", "alias", new IDirective[] { Directive.Include("active") });
          
          Assert.IsInstanceOfType(field0, typeof(IField));
          Assert.IsInstanceOfType(field1, typeof(IField));
@@ -27,13 +27,14 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(field0.Alias, null);
          Assert.AreEqual(field3.Name, "name");
          Assert.AreEqual(field3.Alias, null);
-         Assert.IsInstanceOfType(field3.Directive.GetType(), typeof(Skip).GetType());
+         Assert.IsInstanceOfType(field3.Directives[0].GetType(), typeof(Skip).GetType());
+         Assert.IsInstanceOfType(field3.Directives[1].GetType(), typeof(Include).GetType());
 
          Assert.AreEqual(field1.Name, "name");
          Assert.AreEqual(field1.Alias, "alias");
          Assert.AreEqual(field4.Name, "name");
          Assert.AreEqual(field4.Alias, "alias");
-         Assert.IsInstanceOfType(field4.Directive.GetType(), typeof(Include).GetType());
+         Assert.IsInstanceOfType(field4.Directives[0].GetType(), typeof(Include).GetType());
 
          Assert.AreEqual(field2.Name, null);
          Assert.AreEqual(field2.Alias, null);

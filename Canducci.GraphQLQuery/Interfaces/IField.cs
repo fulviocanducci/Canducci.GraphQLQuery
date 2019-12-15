@@ -4,7 +4,7 @@
    {
       string Name { get; }
       string Alias { get; }
-      IDirective Directive { get; }
+      IDirective[] Directives { get; }
       IQueryType QueryType { get; }
    }
 }

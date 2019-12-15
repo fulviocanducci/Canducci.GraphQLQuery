@@ -17,15 +17,12 @@ namespace Canducci.GraphQLQuery.Extensions
          return stringBuilder;
       }
       
-      internal static StringBuilder Append(this StringBuilder stringBuilder, string alias, string name, IDirective directive = null)
+      internal static StringBuilder Append(this StringBuilder stringBuilder, string alias, string name, IDirective[] directives = null)
       {
-         stringBuilder.Append(string.IsNullOrEmpty(alias)
-               ? name.ToLowerInvariant()
-               : $"{alias.ToLowerInvariant()}{Signals.Colon}{name.ToLowerInvariant()}");
-         if (directive != null)
+         stringBuilder.Append(string.IsNullOrEmpty(alias) ? name : $"{alias}{Signals.Colon}{name}");
+         if (directives != null && directives.Length > 0)
          {
-            stringBuilder.Append(" ");
-            stringBuilder.Append(directive.Convert());
+            stringBuilder.Append(directives.ConvertAll());
          }
          return stringBuilder;
       }
@@ -97,7 +94,7 @@ namespace Canducci.GraphQLQuery.Extensions
                   }
                   else
                   {
-                     stringBuilder.Append(field.Alias, field.Name, field?.Directive);
+                     stringBuilder.Append(field.Alias, field.Name, field?.Directives);
                   }
                   if (!field.Equals(fieldLast))
                   {

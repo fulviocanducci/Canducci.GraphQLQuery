@@ -11,15 +11,64 @@ namespace Canducci.GraphQLQuery.MSTest.Queries
    public partial class Query : ObjectType
    {
       public Sources Sources { get; }
+      public Cities Cities { get; }
+      public States States { get; }
       public Query()
       {
          Name = "Query";         
          Sources = new Sources();
+         Cities = new Cities();
+         States = new States();
       }
       protected override void Configure(IObjectTypeDescriptor descriptor)
       {         
          ConfigureTypeSource(descriptor);
+         ConfigureTypeState(descriptor);
+         ConfigureTypeCity(descriptor);
       }
+
+      private void ConfigureTypeCity(IObjectTypeDescriptor descriptor)
+      {
+         descriptor
+            .Field("cities")
+            .Type<ListType<CityType>>()
+            .Resolver(context =>
+            {
+               return Cities.ToList();
+            });
+
+         descriptor
+            .Field("city_find")
+            .Argument("id", x => x.Type<IntType>())
+            .Type<CityType>()
+            .Resolver(context =>
+            {
+               int id = context.Argument<int>("id");
+               return Cities.Where(x => x.Id == id).FirstOrDefault();
+            });
+      }
+
+      private void ConfigureTypeState(IObjectTypeDescriptor descriptor)
+      {
+         descriptor
+            .Field("states")
+            .Type<ListType<StateType>>()
+            .Resolver(context =>
+            {
+               return States;
+            });
+
+         descriptor
+            .Field("state_find")
+            .Argument("id", x => x.Type<IntType>())
+            .Type<StateType>()
+            .Resolver(context =>
+            {
+               int id = context.Argument<int>("id");
+               return States.Where(x => x.Id == id).FirstOrDefault();
+            });
+      }
+
       private void ConfigureTypeSource(IObjectTypeDescriptor descriptor)
       {
          descriptor
