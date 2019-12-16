@@ -113,7 +113,7 @@ namespace Canducci.GraphQLQuery.Internals
             }
          }
          StringBuilder str = new StringBuilder();
-         arguments.AppendStringBuilder(str);
+         arguments.Append(str);
          return str.ToString();
       }
 

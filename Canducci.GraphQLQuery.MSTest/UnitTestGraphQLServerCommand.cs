@@ -406,5 +406,71 @@ namespace Canducci.GraphQLQuery.MSTest
          var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
+
+      [TestMethod]
+      public void TestStateWithFragment()
+      {
+         var fragmentType = new FragmentType("fields", "state_type");
+         TypeQL typeQL = new TypeQL(
+            new Fragments(
+               new Fragment(
+                  new QueryType(fragmentType,
+                  new Fields(new Field("id"), new Field("name"))
+                  )
+               )
+            ),
+            new QueryType(
+               "states",
+               new Fields(
+                  new Field(fragmentType)
+               )
+            )
+         );
+         var text = typeQL.ToBodyJson();         
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestStateAndCitiesWithFragment()
+      {
+         var fragmentType = new FragmentType("fields", "state_type");
+         TypeQL typeQL = new TypeQL(
+            new Fragments(
+               new Fragment(
+                  new QueryType(fragmentType,
+                     new Fields(
+                        new Field("id"), 
+                        new Field("name"),
+                        new Field(new QueryType("cities", 
+                           new Fields(
+                              new Field("id"),
+                              new Field("name"),
+                              new Field("stateId")
+                           )
+                        ))
+                     )
+                  )
+               )
+            ),
+            new QueryType(
+               "states",
+               new Fields(
+                  new Field(fragmentType)
+               )
+            ),
+            new QueryType(
+               "states","data",
+               new Fields(
+                  new Field(fragmentType)
+               )
+            )
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
    }
 }

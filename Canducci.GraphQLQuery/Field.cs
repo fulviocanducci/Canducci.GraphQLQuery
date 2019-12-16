@@ -7,6 +7,7 @@ namespace Canducci.GraphQLQuery
       public string Alias { get; }
       public IQueryType QueryType { get; }
       public IDirective[] Directives { get; }
+      public IFragmentType FragmentType { get; }
 
       public Field(string name) 
          : this(name, null, null) { }
@@ -34,6 +35,11 @@ namespace Canducci.GraphQLQuery
          : this(queryType)
       {
          Directives = directives;
+      }
+
+      public Field(IFragmentType fragmentType) : this(null, null, null)
+      {
+         FragmentType = fragmentType;
       }
    }
 }

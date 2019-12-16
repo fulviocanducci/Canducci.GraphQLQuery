@@ -6,5 +6,6 @@
       string Alias { get; }
       IDirective[] Directives { get; }
       IQueryType QueryType { get; }
+      IFragmentType FragmentType { get; }
    }
 }

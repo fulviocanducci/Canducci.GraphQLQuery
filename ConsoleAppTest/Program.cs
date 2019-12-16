@@ -8,6 +8,25 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
+         var fragmentType = new FragmentType("fields", "state_type");
+         TypeQL typeQL = new TypeQL(
+            new Fragments(
+               new Fragment(
+                  new QueryType(fragmentType, 
+                  new Fields(new Field("id"), new Field("name"))
+                  )
+               )
+            ),
+            new QueryType(
+               "states",
+               new Fields(
+                  new Field(fragmentType)
+               )
+            )
+         );
+         
+         Console.WriteLine(typeQL.ToBodyJson());
+         Console.WriteLine(typeQL.ToStringJson());
          //Source Test Commit
          //TypeQL typeQL = new TypeQL(
          //   new Variables(
@@ -98,35 +117,35 @@ namespace ConsoleAppTest
          //       )
          //    )
          //);
-         var ids = new List<int>();
-         ids.Add(11);
-         ids.Add(16);
-         //var ids = new Source[] { new Source(), new Source() };
-         TypeQL typeQL = new TypeQL(
-            new Variables("getStates",
-               new Variable<List<int>>("ids", ids),
-               new Variable<bool>("load", true)
-            ),
-            new QueryType(
-                 "states_in",
-                 new Fields(
-                    new Field("id"),
-                    new Field("uf"),
-                    new Field(
-                       new QueryType("country", 
-                        new Fields(
-                           new Field("id"),
-                           new Field("name")
-                           )
-                        )
-                    )
-                 ),
-                 new Arguments(
-                    new Argument(new Parameter("ids")),
-                    new Argument(new Parameter("load"))
-                )
-             )
-         );
+         //var ids = new List<int>();
+         //ids.Add(11);
+         //ids.Add(16);
+         ////var ids = new Source[] { new Source(), new Source() };
+         //TypeQL typeQL = new TypeQL(
+         //   new Variables("getStates",
+         //      new Variable<List<int>>("ids", ids),
+         //      new Variable<bool>("load", true)
+         //   ),
+         //   new QueryType(
+         //        "states_in",
+         //        new Fields(
+         //           new Field("id"),
+         //           new Field("uf"),
+         //           new Field(
+         //              new QueryType("country", 
+         //               new Fields(
+         //                  new Field("id"),
+         //                  new Field("name")
+         //                  )
+         //               )
+         //           )
+         //        ),
+         //        new Arguments(
+         //           new Argument(new Parameter("ids")),
+         //           new Argument(new Parameter("load"))
+         //       )
+         //    )
+         //);
 
          //TypeQL typeQL = new TypeQL(
          //   new Variables("getAll",
@@ -198,7 +217,7 @@ namespace ConsoleAppTest
          //);
 
 
-         Console.WriteLine(typeQL.ToStringJson());
+
 
 
          //TypeQL typeQL = new TypeQL(

@@ -19,8 +19,12 @@ namespace Canducci.GraphQLQuery
          AddRange(arguments);
       }
 
-      internal void AppendStringBuilder(StringBuilder str = null)
+      internal void Append(StringBuilder str = null)
       {
+         if (str is null)
+         {
+            str = new StringBuilder();
+         }
          if (Count > 0)
          {
             foreach (IArgument argument in this)

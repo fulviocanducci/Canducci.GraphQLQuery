@@ -16,7 +16,9 @@ namespace Canducci.GraphQLQuery.Utils
 
       public int GetHashCode(IField obj)
       {
-         return obj.Name == null ? obj.QueryType.GetHashCode() : obj.Name.GetHashCode();
+         return obj.Name == null
+            ? (obj.QueryType != null ? obj.QueryType.GetHashCode() : 0)
+            : obj.Name.GetHashCode();
       }
       internal static NameFieldComparer Create()
          => new NameFieldComparer();

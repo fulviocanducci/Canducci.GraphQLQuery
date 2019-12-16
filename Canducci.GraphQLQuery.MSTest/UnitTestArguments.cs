@@ -32,7 +32,7 @@ namespace Canducci.GraphQLQuery.MSTest
          IArgument v1 = new Argument("name", "name");
          Arguments variables = new Arguments(v0, v1);
          StringBuilder str = new StringBuilder();
-         variables.AppendStringBuilder(str);
+         variables.Append(str);
          Assert.AreEqual("id:1,name:\\\"name\\\"", str.ToString());
       }
    }

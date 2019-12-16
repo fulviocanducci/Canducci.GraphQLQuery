@@ -2,7 +2,6 @@
 using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.Internals;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 namespace Canducci.GraphQLQuery
 {
@@ -10,9 +9,16 @@ namespace Canducci.GraphQLQuery
    {
       public IQueryType[] QueryTypes { get; private set; }
       public Variables Variables { get; private set; } = null;
+      public Fragments Fragments { get; private set; } = null;
 
       public TypeQL(params IQueryType[] queryTypes)
       {
+         QueryTypes = queryTypes;
+      }
+
+      public TypeQL(Fragments fragments, params IQueryType[] queryTypes)
+      {
+         Fragments = fragments;
          QueryTypes = queryTypes;
       }
 
@@ -20,12 +26,20 @@ namespace Canducci.GraphQLQuery
       {
          Variables = variables;
          QueryTypes = queryTypes;
-      }     
+      }
+
+      public TypeQL(Variables variables, Fragments fragments, params IQueryType[] queryTypes)
+      {
+         Variables = variables;
+         Fragments = fragments;
+         QueryTypes = queryTypes;
+      }
 
       public string ToBodyJson()
       {
          StringBuilder stringBuilder = new StringBuilder();
          stringBuilder.Append(Variables, QueryTypes);
+         if (Fragments != null) Fragments.Append(stringBuilder);
          return stringBuilder.ToString().Replace("\\", "");
       }
       public string ToStringJson()
@@ -37,7 +51,8 @@ namespace Canducci.GraphQLQuery
          stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append(Signals.Colon);
          stringBuilder.Append(Signals.QuotationMark);
-         stringBuilder.Append(Variables, QueryTypes);                  
+         stringBuilder.Append(Variables, QueryTypes);
+         if (Fragments != null) Fragments.Append(stringBuilder);
          stringBuilder.Append(Signals.QuotationMark);
          stringBuilder.Append<IList<IVariableValue>>(Variables?.Values());
          stringBuilder.Append(Signals.BraceClose);
