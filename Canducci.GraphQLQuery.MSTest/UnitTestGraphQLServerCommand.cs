@@ -2,11 +2,14 @@
 using Canducci.GraphQLQuery.MSTest.Queries;
 using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using Canducci.GraphQLQuery.MSTest.Queries.Directives;
+using Canducci.GraphQLQuery.MSTest.Queries.Input;
 using Canducci.GraphQLQuery.MSTest.Queries.Types;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Execution.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace Canducci.GraphQLQuery.MSTest
 {
@@ -29,6 +32,12 @@ namespace Canducci.GraphQLQuery.MSTest
                .AddDirectiveType<UpperDirectiveType>()
                .AddType<RemoveType>()
                .AddType<SourceType>()
+               .AddType<CarType>()
+               .AddType<StateType>()
+               .AddType<StateInput>()
+               .AddType<SourceInput>()
+               .AddType<CityInput>()
+               .AddType<CarInput>()
                .AddQueryType<Query>()
                .Create();
 
@@ -472,5 +481,85 @@ namespace Canducci.GraphQLQuery.MSTest
          var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
+
+
+      [TestMethod]
+      public void TestStateAddWithFragmentWithArguments()
+      {
+         var fragmentType = new FragmentType("fields", "state_type");
+         TypeQL typeQL = new TypeQL(
+            new Fragments(
+               new Fragment(
+                  new QueryType(fragmentType,
+                  new Fields(new Field("id"), new Field("name"))
+                  )
+               )
+            ),
+            new QueryType(
+               "state_add",
+               new Fields(
+                  new Field(fragmentType)
+               ),
+               new Arguments(
+                  new Argument("input", 
+                     new State { Id = 0, Name = "MINAS GERAIS", Cities = new List<City>() }
+                  )
+              )
+            )
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestStateAddWithFragmentWithVariables()
+      {
+         var state = new State { Id = 0, Name = "MINAS GERAIS", Cities = new List<City>() };
+         var fragmentType = new FragmentType("fields", "state_type");
+         var fragments = new Fragments(new Fragment(new QueryType(fragmentType, new Fields(new Field("id"), new Field("name")))));
+         var arguments = new Arguments(new Argument(new Parameter("input")));
+         var variables = new Variables("getState", new Variable<object>("input", state, "state_input"));
+         var queryTypes = new QueryType("state_add", new Fields(new Field(fragmentType)), arguments);
+
+         TypeQL typeQL = new TypeQL(variables, fragments, queryTypes);
+
+         var text = typeQL.ToBodyJson();
+         //var textComplete = typeQL.ToStringJson();
+         var varDic = typeQL.Variables.ToDictionary();
+         IExecutionResult result = QueryExecutor.Execute(text, varDic);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestCarAddWithFragmentWithVariables()
+      {
+         Car car = new Car
+         {
+            Active = true,
+            Purchase = DateTime.Parse("02/01/1999"),
+            Time = TimeSpan.Parse("13:14:55"),
+            Title = "Car One",
+            Value = 10000M,
+            Id = 0
+         };
+         var fragmentType = new FragmentType("fields", "car_type");
+         var fragments = new Fragments(new Fragment(new QueryType(fragmentType, new Fields(new Field("id"), new Field("title"), new Field("active")))));
+         var arguments = new Arguments(new Argument(new Parameter("input")));
+         var variables = new Variables("getCar", new Variable<object>("input", car, "car_input"));
+         var queryTypes = new QueryType("car_add", new Fields(new Field(fragmentType)), arguments);
+
+         TypeQL typeQL = new TypeQL(variables, fragments, queryTypes);
+
+         var text = typeQL.ToBodyJson();
+         //var textComplete = typeQL.ToStringJson();
+         var varDic = typeQL.Variables.ToDictionary();
+         IExecutionResult result = QueryExecutor.Execute(text, varDic);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
    }
 }

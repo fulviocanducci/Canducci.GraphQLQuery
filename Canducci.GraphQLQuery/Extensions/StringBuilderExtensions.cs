@@ -9,11 +9,18 @@ namespace Canducci.GraphQLQuery.Extensions
 {
    internal static class StringBuilderExtensions
    {
-      internal static StringBuilder Append(this StringBuilder stringBuilder, Variables variables, IQueryType[] queryTypes)
-      {
+      internal static StringBuilder Append(this StringBuilder stringBuilder, Variables variables, IQueryType[] queryTypes, Fragments fragments)
+      {         
          stringBuilder.Append<Variables>(variables);
          stringBuilder.Append<IQueryType>(queryTypes);
          stringBuilder.Append(Signals.BraceClose);
+         if (fragments != null)
+         {
+            fragments.ForEach(x =>
+            {
+               stringBuilder.Append<IQueryType>(new IQueryType[1] { x.QueryType });
+            });
+         }
          return stringBuilder;
       }
 

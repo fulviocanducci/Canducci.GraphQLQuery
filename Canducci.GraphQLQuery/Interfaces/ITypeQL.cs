@@ -4,7 +4,7 @@
    {
       IQueryType[] QueryTypes { get; }
       Variables Variables { get; }
-      Fragments Fragments { get; }
+      Fragments Fragments { get; }      
       string ToStringJson();
       string ToBodyJson();
    }

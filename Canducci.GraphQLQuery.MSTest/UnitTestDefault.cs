@@ -14,54 +14,55 @@ namespace Canducci.GraphQLQuery.MSTest
       }
 
       [TestMethod]
-      public void TestPeopleWithFieldsIdName()
+      public void TestCarsWithFieldsIdName()
       {
          var queryType = new QueryType(
-           name: "peoples",
+           name: "cars",
            fields: new Fields(
              new Field("id"),
-             new Field("name")
+             new Field("title")
            )
          );
          var typeQLTest = TypeQLTest(queryType);
-         Assert.AreEqual("{\"query\":\"{peoples{id,name}}\"}", typeQLTest.ToStringJson());
+         Assert.AreEqual("{\"query\":\"{cars{id,title}}\"}", typeQLTest.ToStringJson());
       }
 
       [TestMethod]
-      public void TestPeopleFindParamIdFieldsIdName()
+      public void TestCarsFindParamIdFieldsIdName()
       {
          var queryType = new QueryType(
-           name: "people_find",
+           name: "car_find",
            arguments: new Arguments(
              new Argument("id", 1)
            ),
            fields: new Fields(
              new Field("id"),
-             new Field("name")
+             new Field("title")
            )
          );
          var typeQLTest = TypeQLTest(queryType);
-         Assert.AreEqual("{\"query\":\"{people_find(id:1){id,name}}\"}", typeQLTest.ToStringJson());
+         Assert.AreEqual("{\"query\":\"{car_find(id:1){id,title}}\"}", typeQLTest.ToStringJson());
       }
 
       [TestMethod]
-      public void TestPeopleAddParamIdNameFieldsIdName()
+      public void TestCarsAddParamIdNameFieldsIdName()
       {
          var queryType = new QueryType(
-           name: "people_add",
+           name: "car_add",
            arguments: new Arguments(
-             new Argument("people", new People(0, "test", DateTime.Parse("01/01/1970"), true, 0, TimeSpan.Parse("14:25:00")))
+             new Argument("input", new Car() { Id = 0, Active = true, Purchase = DateTime.Parse("01/01/1970"), Value = 0, Title = "test", Time = TimeSpan.Parse("14:25:00")})
            ),
            fields: new Fields(
              new Field("id"),
-             new Field("name")
+             new Field("title")
            )
          );
 
          var typeQLTest = TypeQLTest(queryType);
+         var result = typeQLTest.ToStringJson();
          Assert.AreEqual(
-           "{\"query\":\"{people_add(people:{id:0,name:\\\"test\\\",created:\\\"1970-01-01T00:00:00.000Z\\\",active:true,value:0,hours:\\\"14:25:00\\\"}){id,name}}\"}",
-             typeQLTest.ToStringJson()
+           "{\"query\":\"{car_add(input:{id:0,title:\\\"test\\\",purchase:\\\"1970-01-01T00:00:00.000Z\\\",value:0,active:true,time:\\\"14:25:00\\\"}){id,title}}\"}",
+             result
          );
       }
 
@@ -150,16 +151,16 @@ namespace Canducci.GraphQLQuery.MSTest
       {
          TypeQL typeQL = new TypeQL(
            new QueryType(
-             "car_delete",
+             "car_remove",
              new Fields(
                new Field("description"),
-               new Field("operation"),
+               new Field("count"),
                new Field("status")
              ),
              new Arguments(new Argument("id", 1))
            )
          );
-         string expect = "{\"query\":\"{car_delete(id:1){description,operation,status}}\"}";
+         string expect = "{\"query\":\"{car_remove(id:1){description,count,status}}\"}";
          Assert.AreEqual(expect, typeQL);
       }
 

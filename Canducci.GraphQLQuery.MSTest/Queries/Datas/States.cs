@@ -24,5 +24,12 @@ namespace Canducci.GraphQLQuery.MSTest.Queries.Datas
          Add(st1);
          Add(st2);
       }
+
+      public State AddState(State state)
+      {
+         state.Id = this.LastOrDefault().Id + 1;
+         Add(state);
+         return state;
+      }
    }
 }

@@ -13,18 +13,43 @@ namespace Canducci.GraphQLQuery.MSTest.Queries
       public Sources Sources { get; }
       public Cities Cities { get; }
       public States States { get; }
+      public Cars Cars { get; }
       public Query()
       {
          Name = "Query";         
          Sources = new Sources();
          Cities = new Cities();
          States = new States();
+         Cars = new Cars();
       }
       protected override void Configure(IObjectTypeDescriptor descriptor)
       {         
          ConfigureTypeSource(descriptor);
          ConfigureTypeState(descriptor);
          ConfigureTypeCity(descriptor);
+         ConfigureTypeCar(descriptor);
+      }
+
+      private void ConfigureTypeCar(IObjectTypeDescriptor descriptor)
+      {
+         descriptor
+           .Field("cars")
+           .Type<ListType<CarType>>()
+           .Resolver(context =>
+           {
+              return Cars.ToList();
+           });
+
+         descriptor
+           .Field("car_add")
+           .Argument("input", x => x.Type<CarInput>())
+           .Type<CarType>()
+           .Resolver(context =>
+           {
+              Car car = context.Argument<Car>("input");
+              Cars.AddCar(car);
+              return car;
+           });
       }
 
       private void ConfigureTypeCity(IObjectTypeDescriptor descriptor)
@@ -59,8 +84,18 @@ namespace Canducci.GraphQLQuery.MSTest.Queries
             });
 
          descriptor
+            .Field("state_add")
+            .Argument("input", x => x.Type<StateInput>())
+            .Type<StateType>()
+            .Resolver(context =>
+            {
+               State state = context.Argument<State>("input");               
+               return States.AddState(state);
+            });
+
+         descriptor
             .Field("state_find")
-            .Argument("id", x => x.Type<IntType>())
+            .Argument("input", x => x.Type<IntType>())
             .Type<StateType>()
             .Resolver(context =>
             {
