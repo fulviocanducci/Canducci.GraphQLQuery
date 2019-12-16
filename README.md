@@ -272,8 +272,39 @@ new QueryType(
 var json = typeQL.ToStringJson();
 ```
 ###### Result:
+
 ```json
 {"query":"{states_in(ids:[11,12,13],load:false){id,uf}}"}
+```
+
+__Query Type with Fragment Query Type__
+
+###### Code:
+
+```C#
+FragmentType fragmentType = new FragmentType("fields", "state_type");
+TypeQL typeQL = new TypeQL(
+	new Fragments(
+	   new Fragment(
+		  new QueryType(fragmentType,
+		  new Fields(new Field("id"), new Field("name"))
+		  )
+	   )
+	),
+	new QueryType(
+	   "states",
+	   new Fields(
+		  new Field(fragmentType)
+	   )
+	)
+);
+var text = typeQL.ToStringJson();
+```
+
+###### Result:
+
+```json
+{"query":"{states{...fields}}fragment fields on state_type{id,name}"}
 ```
 
 ## Example Complete MVC Application

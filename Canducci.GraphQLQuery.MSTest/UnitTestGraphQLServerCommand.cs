@@ -419,7 +419,7 @@ namespace Canducci.GraphQLQuery.MSTest
       [TestMethod]
       public void TestStateWithFragment()
       {
-         var fragmentType = new FragmentType("fields", "state_type");
+         FragmentType fragmentType = new FragmentType("fields", "state_type");
          TypeQL typeQL = new TypeQL(
             new Fragments(
                new Fragment(
@@ -435,9 +435,10 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             )
          );
-         var text = typeQL.ToBodyJson();         
+         var text = typeQL.ToBodyJson();
+         //var text0 = typeQL.ToStringJson();
          IExecutionResult result = QueryExecutor.Execute(text);
-         var json = result.ToJson();
+         var json = result.ToJson();         
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
