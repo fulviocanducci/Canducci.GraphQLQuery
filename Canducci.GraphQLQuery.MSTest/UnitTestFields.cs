@@ -34,6 +34,36 @@ namespace Canducci.GraphQLQuery.MSTest
       }
 
       [TestMethod]
+      public void TestFieldsStringSimpleParam()
+      {
+         Fields fields = new Fields(
+            "id",
+            "name",
+            "created",
+            "value",
+            "active"
+         );
+         Assert.IsInstanceOfType(fields.GetType(), typeof(Fields).GetType());
+         Assert.IsTrue(fields.Count == 5);
+      }
+
+      [TestMethod]
+      public void TestFieldsStringSimpleParamWithAlias()
+      {
+         Fields fields = new Fields(
+            "id,_id",
+            "name,_name"
+         );
+         Assert.IsInstanceOfType(fields.GetType(), typeof(Fields).GetType());
+         Assert.IsTrue(fields.Count == 2);
+         Assert.AreEqual(fields[0].Name, "id");
+         Assert.AreEqual(fields[0].Alias, "_id");
+         Assert.AreEqual(fields[1].Name, "name");
+         Assert.AreEqual(fields[1].Alias, "_name");
+      }
+
+      
+      [TestMethod]
       public void TestFields()
       {
          IField field0 = new Field("name");

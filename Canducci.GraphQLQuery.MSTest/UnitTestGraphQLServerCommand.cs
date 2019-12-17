@@ -63,6 +63,30 @@ namespace Canducci.GraphQLQuery.MSTest
       }
 
       [TestMethod]
+      public void TestSourceListFieldSimplyParamString()
+      {
+         TypeQL typeQL = new TypeQL(
+            new QueryType("sources", new Fields("id", "name"))
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
+      public void TestSourceListFieldSimplyParamStringWithAlias()
+      {
+         TypeQL typeQL = new TypeQL(
+            new QueryType("sources", new Fields("id,_id", "name,_name"))
+         );
+         var text = typeQL.ToBodyJson();
+         IExecutionResult result = QueryExecutor.Execute(text);
+         var json = result.ToJson();
+         Assert.AreEqual(result.Errors.Count, 0);
+      }
+
+      [TestMethod]
       public void TestSourceListWithAlias()
       {
          TypeQL typeQL = new TypeQL(
@@ -438,7 +462,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var text = typeQL.ToBodyJson();
          //var text0 = typeQL.ToStringJson();
          IExecutionResult result = QueryExecutor.Execute(text);
-         var json = result.ToJson();         
+         var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
 
@@ -451,9 +475,9 @@ namespace Canducci.GraphQLQuery.MSTest
                new Fragment(
                   new QueryType(fragmentType,
                      new Fields(
-                        new Field("id"), 
+                        new Field("id"),
                         new Field("name"),
-                        new Field(new QueryType("cities", 
+                        new Field(new QueryType("cities",
                            new Fields(
                               new Field("id"),
                               new Field("name"),
@@ -471,7 +495,7 @@ namespace Canducci.GraphQLQuery.MSTest
                )
             ),
             new QueryType(
-               "states","data",
+               "states", "data",
                new Fields(
                   new Field(fragmentType)
                )
@@ -502,7 +526,7 @@ namespace Canducci.GraphQLQuery.MSTest
                   new Field(fragmentType)
                ),
                new Arguments(
-                  new Argument("input", 
+                  new Argument("input",
                      new State { Id = 0, Name = "MINAS GERAIS", Cities = new List<City>() }
                   )
               )

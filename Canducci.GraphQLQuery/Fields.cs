@@ -16,5 +16,22 @@ namespace Canducci.GraphQLQuery
          }
          AddRange(fields);
       }
+
+      public Fields(params string[] fields)
+      {
+         foreach(string field in fields)
+         {
+            if (field.IndexOf(",") == -1)
+            {
+               Add(new Field(field));
+            }
+            else
+            {
+               string[] fieldWithAlias = field.Split(',');
+               Add(new Field(fieldWithAlias[0], fieldWithAlias[1]));
+            }
+         }
+      }
+      
    }
 }
