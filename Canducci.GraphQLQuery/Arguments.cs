@@ -4,6 +4,7 @@ using Canducci.GraphQLQuery.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Canducci.GraphQLQuery
@@ -18,6 +19,22 @@ namespace Canducci.GraphQLQuery
          }
          AddRange(arguments);
       }
+
+      //internal Arguments(object value)
+      //{
+      //   Type type = value.GetType();
+      //   if (type.IsClass && typeof(string) != type)
+      //   {
+      //      foreach (PropertyInfo property in value.GetType().GetProperties())
+      //      {
+      //         Add(new Argument(property.Name.ToCamelCase(), property.GetValue(value)));
+      //      }
+      //   }
+      //   else
+      //   {
+      //      throw new Exception("Class no accept");
+      //   }
+      //}
 
       internal void Append(StringBuilder str = null)
       {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Canducci.GraphQLQuery.Extensions;
+using System;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Canducci.GraphQLQuery.Internals
       {
          return Utils.Convert.ToJsonString(value);
       }
+
       public string GetFormatUrlAction(object value)
       {
          if (value != null && value is Uri _)
@@ -18,6 +20,7 @@ namespace Canducci.GraphQLQuery.Internals
          }
          return string.Empty;
       }
+
       public string GetFormatIDAction(object value)
       {
          if (value != null)
@@ -109,7 +112,7 @@ namespace Canducci.GraphQLQuery.Internals
          {
             foreach (PropertyInfo property in value.GetType().GetProperties())
             {
-               arguments.Add(new Argument(property.Name.ToLowerInvariant(), property.GetValue(value)));
+               arguments.Add(new Argument(property.Name.ToCamelCase(), property.GetValue(value)));
             }
          }
          StringBuilder str = new StringBuilder();

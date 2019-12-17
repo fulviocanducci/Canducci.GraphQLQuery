@@ -8,25 +8,25 @@ namespace ConsoleAppTest
    {
       static void Main(string[] args)
       {
-         var fragmentType = new FragmentType("fields", "state_type");
-         TypeQL typeQL = new TypeQL(
-            new Fragments(
-               new Fragment(
-                  new QueryType(fragmentType, 
-                  new Fields(new Field("id"), new Field("name"))
-                  )
-               )
-            ),
-            new QueryType(
-               "states",
-               new Fields(
-                  new Field(fragmentType)
-               )
-            )
-         );
-         
-         Console.WriteLine(typeQL.ToBodyJson());
-         Console.WriteLine(typeQL.ToStringJson());
+         //var fragmentType = new FragmentType("fields", "state_type");
+         //TypeQL typeQL = new TypeQL(
+         //   new Fragments(
+         //      new Fragment(
+         //         new QueryType(fragmentType, 
+         //         new Fields(new Field("id"), new Field("name"))
+         //         )
+         //      )
+         //   ),
+         //   new QueryType(
+         //      "states",
+         //      new Fields(
+         //         new Field(fragmentType)
+         //      )
+         //   )
+         //);
+
+         //Console.WriteLine(typeQL.ToBodyJson());
+         //Console.WriteLine(typeQL.ToStringJson());
          //Source Test Commit
          //TypeQL typeQL = new TypeQL(
          //   new Variables(
