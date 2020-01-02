@@ -26,11 +26,13 @@ namespace Canducci.GraphQLQuery.MSTest
       {
          IField field0 = new Field(new QueryType("name", new Fields(new Field("name"), new Field("name"))));
          IField field1 = new Field(new QueryType("name", new Fields(new Field("year"), new Field("year"))));
+         IField field2 = new Field(new QueryType("name", new Fields("year", "year")));
          Fields fields = new Fields(
             field0,
-            field1
+            field1,
+            field2
          );
-         Assert.IsTrue(fields.Count == 2);
+         Assert.IsTrue(fields.Count == 3);
       }
 
       [TestMethod]

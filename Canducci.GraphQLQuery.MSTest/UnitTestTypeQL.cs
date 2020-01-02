@@ -15,6 +15,17 @@ namespace Canducci.GraphQLQuery.MSTest
          Variables variables = new Variables("get", new Variable<int>("id", 1));
          ITypeQL typeQL0 = new TypeQL(queryType);
          ITypeQL typeQL1 = new TypeQL(variables, queryType);
+         ITypeQL typeQL2 = new TypeQL(variables,
+            new Fragments(
+               new Fragment(
+                  new QueryType("get", new Fields("id", "name"))
+               )
+            )
+         );
+
+         Assert.IsNotNull(typeQL2.Fragments);
+         Assert.IsTrue(typeQL2.Fragments.Count == 1);
+         Assert.IsNotNull(typeQL2.Variables);
 
          Assert.IsTrue(typeQL0.QueryTypes.Length == 1);
          Assert.IsNull(typeQL0.Variables);

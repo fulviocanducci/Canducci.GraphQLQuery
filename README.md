@@ -33,6 +33,21 @@ TypeQL typeQL = new TypeQL(
         )
     )
 );
+
+// Or
+TypeQL typeQL = new TypeQL(
+    new QueryType(
+        "sources", 
+        new Fields(
+            "id", 
+            "name", 
+            "value", 
+            "created", 
+            "active", 
+            "time"
+         )
+    )
+);
 var json = typeQL.ToStringJson();
 ```
 
@@ -306,6 +321,34 @@ var text = typeQL.ToStringJson();
 ```json
 {"query":"{states{...fields}}fragment fields on state_type{id,name}"}
 ```
+
+__Query Type with Directive (@include && @skip)__
+
+###### Code:
+```c#
+var queryType = new QueryType(
+    name: "cars",
+    fields: new Fields(
+        new Field("id", new IDirective[] { new Include("status") }),
+        new Field("title", new IDirective[] { new Skip("status") })
+    ),
+    arguments: new Arguments(
+        new Argument(new Parameter("status"))
+    )
+    );
+    var typeQLTest = new TypeQL(
+    new Variables("get",
+        new Variable<bool>("status", true, true, true, Format.FormatBool)
+    ), 
+    queryType
+);
+```
+###### Result:
+
+```json
+{"query":"query get($status:Boolean!=true){cars(status:$status){id @include(if:$status),title @skip(if:$status)}}","variables":{"status":true}}
+```
+
 
 ## Example Complete MVC Application
 

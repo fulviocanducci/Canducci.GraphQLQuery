@@ -1,3 +1,4 @@
+using Canducci.GraphQLQuery.Interfaces;
 using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using Canducci.GraphQLQuery.VariablesValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,6 +29,28 @@ namespace Canducci.GraphQLQuery.MSTest
       }
 
       [TestMethod]
+      public void TestCarsWithDirective()
+      {
+         var queryType = new QueryType(
+           name: "cars",
+           fields: new Fields(
+             new Field("id", new IDirective[] { new Include("status") }),
+             new Field("title", new IDirective[] { new Skip("status") })
+           ),
+           arguments: new Arguments(
+              new Argument(new Parameter("status"))
+           )
+         );
+         var typeQLTest = new TypeQL(
+            new Variables("get",
+               new Variable<bool>("status", true, true, true, Format.FormatBool)
+            ), 
+            queryType
+         );
+         Assert.AreEqual("{\"query\":\"query get($status:Boolean!=true){cars(status:$status){id @include(if:$status),title @skip(if:$status)}}\",\"variables\":{\"status\":true}}", typeQLTest.ToStringJson());
+      }
+
+      [TestMethod]
       public void TestCarsFindParamIdFieldsIdName()
       {
          var queryType = new QueryType(
@@ -50,7 +73,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var queryType = new QueryType(
            name: "car_add",
            arguments: new Arguments(
-             new Argument("input", new Car() { Id = 0, Active = true, Purchase = DateTime.Parse("01/01/1970"), Value = 0, Title = "test", Time = TimeSpan.Parse("14:25:00")})
+             new Argument("input", new Car() { Id = 0, Active = true, Purchase = DateTime.Parse("01/01/1970"), Value = 0, Title = "test", Time = TimeSpan.Parse("14:25:00") })
            ),
            fields: new Fields(
              new Field("id"),

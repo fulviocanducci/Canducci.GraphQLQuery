@@ -23,6 +23,9 @@ namespace Canducci.GraphQLQuery.MSTest
             new Fields(new Field("id")),
             new Arguments(new Argument("id", 1)));
 
+         IQueryType queryType4 = new QueryType(new FragmentType("fields","state_type"), 
+            new Fields("id", "name"));
+
          Assert.AreEqual(queryType0.Name, "query");
          Assert.IsTrue(queryType0.Fields.Count == 1);
          Assert.AreEqual(queryType1.Name, "query");
@@ -34,7 +37,17 @@ namespace Canducci.GraphQLQuery.MSTest
          Assert.AreEqual(queryType3.Alias,"alias");
          Assert.IsTrue(queryType3.Fields.Count == 1);
          Assert.AreEqual(queryType3.Alias, "alias");
-         Assert.IsTrue(queryType3.Arguments.Count == 1);
+         Assert.IsTrue(queryType3.Arguments.Count == 1);         
+
+         Assert.IsNotNull(queryType4.Fields);
+         Assert.IsTrue(queryType4.Fields.Count == 2);
+         Assert.IsTrue(string.IsNullOrEmpty(queryType4.Alias));
+         Assert.IsTrue(string.IsNullOrEmpty(queryType4.Name));
+         Assert.IsNotNull(queryType4.FragmentType);
+         Assert.AreEqual(queryType4.FragmentType.Name, "fields");
+         Assert.AreEqual(queryType4.FragmentType.NameType, "state_type");
+         Assert.AreEqual(queryType4.FragmentType.FragmentName, "...fields");
+         Assert.AreEqual(queryType4.FragmentType.FragmentNameAndType, "fragment fields on state_type");         
       }
    }
 }

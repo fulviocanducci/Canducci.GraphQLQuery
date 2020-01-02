@@ -61,7 +61,7 @@ namespace Canducci.GraphQLQuery.MSTest
          var json = result.ToJson();
          Assert.AreEqual(result.Errors.Count, 0);
       }
-
+      
       [TestMethod]
       public void TestSourceListFieldSimplyParamString()
       {
@@ -448,7 +448,7 @@ namespace Canducci.GraphQLQuery.MSTest
             new Fragments(
                new Fragment(
                   new QueryType(fragmentType,
-                  new Fields(new Field("id"), new Field("name"))
+                     new Fields(new Field("id"), new Field("name"))
                   )
                )
             ),
