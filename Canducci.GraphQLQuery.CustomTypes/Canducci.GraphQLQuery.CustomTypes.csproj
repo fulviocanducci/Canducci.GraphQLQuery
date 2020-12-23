@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net462;net47;net48;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net461;net462;net47;net48;netstandard2.0;netstandard2.1;</TargetFrameworks>
     <Version>0.0.1.3</Version>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate.Types" Version="10.2.0" />
-    <PackageReference Include="HotChocolate.Language" Version="10.2.0" />
+    <PackageReference Include="HotChocolate.Types" Version="11.0.6" />
+    <PackageReference Include="HotChocolate.Language" Version="11.0.6" />
   </ItemGroup>
 
   <ItemGroup>

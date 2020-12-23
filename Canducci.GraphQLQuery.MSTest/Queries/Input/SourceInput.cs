@@ -1,5 +1,4 @@
-﻿using Canducci.GraphQLQuery.CustomTypes;
-using Canducci.GraphQLQuery.MSTest.Queries.Datas;
+﻿using Canducci.GraphQLQuery.MSTest.Queries.Datas;
 using HotChocolate.Types;
 namespace Canducci.GraphQLQuery.MSTest.Queries.Input
 {
