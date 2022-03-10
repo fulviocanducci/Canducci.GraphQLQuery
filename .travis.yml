@@ -4,4 +4,4 @@ dotnet: 6.0.x
 solution: Canducci.GraphQL.sln
 script:    
   - dotnet restore
-  - dotnet test -c Release -f netcoreapp3.1
+  - dotnet test -c Release
