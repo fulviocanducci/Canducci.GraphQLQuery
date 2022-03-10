@@ -19,7 +19,7 @@ namespace Canducci.GraphQLQuery.CustomTypes.MSTest
       public void TestTimeSpanType()
       {
          Assert.AreEqual(TimeSpanType.Name.Value, "TimeSpan");
-         Assert.AreEqual(TimeSpanType.ClrType, typeof(System.TimeSpan));
+         Assert.AreEqual(TimeSpanType.RuntimeType, typeof(System.TimeSpan));
          Assert.AreEqual(TimeSpanType.Description, "TimeSpan Type HotChocolate");
          Assert.AreEqual(TimeSpanType.Kind, HotChocolate.Types.TypeKind.Scalar);
       }
@@ -28,7 +28,7 @@ namespace Canducci.GraphQLQuery.CustomTypes.MSTest
       public void TestTimeSpanTypeIsInstanceOfType()
       {
          Assert.IsTrue(TimeSpanType.IsInstanceOfType(new StringValueNode("")));
-         Assert.IsTrue(TimeSpanType.IsInstanceOfType(new TimeSpanValueNode(NodeKind.ScalarTypeDefinition, TimeSpan.MinValue, null)));
+         Assert.IsTrue(TimeSpanType.IsInstanceOfType(new TimeSpanValueNode(SyntaxKind.ScalarTypeDefinition, TimeSpan.MinValue, null)));
          Assert.IsTrue(TimeSpanType.IsInstanceOfType(new NullValueNode(null)));
          Assert.IsTrue(TimeSpanType.IsInstanceOfType(null));
       }
@@ -38,7 +38,7 @@ namespace Canducci.GraphQLQuery.CustomTypes.MSTest
          Assert.ThrowsException<ArgumentNullException>(() => TimeSpanType.ParseLiteral(null));
          var min = TimeSpan.Parse("01:01:01");
          Assert.AreEqual(min, TimeSpanType.ParseLiteral(new StringValueNode(min.ToString(@"hh\:mm\:ss"))));
-         Assert.AreEqual(min, TimeSpanType.ParseLiteral(new TimeSpanValueNode(NodeKind.ScalarTypeDefinition, min, null)));
+         Assert.AreEqual(min, TimeSpanType.ParseLiteral(new TimeSpanValueNode(SyntaxKind.ScalarTypeDefinition, min, null)));
          Assert.AreEqual(null, TimeSpanType.ParseLiteral(new NullValueNode(null)));
       }
 
@@ -46,7 +46,7 @@ namespace Canducci.GraphQLQuery.CustomTypes.MSTest
       public void TestTimeSpanTypeParseValue()
       {
          var nullValueNode = new NullValueNode(null);
-         var timeSpanValueNode = new TimeSpanValueNode(NodeKind.ScalarTypeDefinition, TimeSpan.Parse("01:01:01"), null);
+         var timeSpanValueNode = new TimeSpanValueNode(SyntaxKind.ScalarTypeDefinition, TimeSpan.Parse("01:01:01"), null);
          Assert.IsInstanceOfType(nullValueNode, TimeSpanType.ParseValue("").GetType());
          Assert.IsInstanceOfType(timeSpanValueNode, TimeSpanType.ParseValue("01:01:01").GetType());
          Assert.IsInstanceOfType(timeSpanValueNode, TimeSpanType.ParseValue("01:01:01").GetType());

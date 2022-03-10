@@ -1,13 +1,12 @@
-﻿1>------ Build started: Project: Canducci.GraphQLQuery, Configuration: Debug Any CPU ------
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\net462\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\net47\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\net461\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\netstandard2.1\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\netcoreapp2.0\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\netcoreapp2.2\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\netstandard2.0\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\netcoreapp2.1\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\netcoreapp3.0\Canducci.GraphQLQuery.dll
-1>Canducci.GraphQLQuery -> C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\netcoreapp3.1\Canducci.GraphQLQuery.dll
-1>Successfully created package 'C:\Users\fulvi\source\repos\Canducci.GraphQL\Canducci.GraphQLQuery\bin\Debug\Canducci.GraphQLQuery.0.0.3.1.nupkg'.
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+﻿Build started...
+1>------ Build started: Project: Canducci.GraphQLQuery, Configuration: Debug Any CPU ------
+2>------ Build started: Project: Canducci.GraphQLQuery.CustomTypes.MSTest, Configuration: Debug Any CPU ------
+1>Canducci.GraphQLQuery -> C:\Users\Developer\Downloads\packages\Canducci.GraphQLQuery\Canducci.GraphQLQuery\bin\Debug\netstandard2.0\Canducci.GraphQLQuery.dll
+1>Canducci.GraphQLQuery -> C:\Users\Developer\Downloads\packages\Canducci.GraphQLQuery\Canducci.GraphQLQuery\bin\Debug\net461\Canducci.GraphQLQuery.dll
+2>Canducci.GraphQLQuery.CustomTypes.MSTest -> C:\Users\Developer\Downloads\packages\Canducci.GraphQLQuery\Canducci.GraphQLQuery.CustomTypes.MSTest\bin\Debug\netcoreapp3.1\Canducci.GraphQLQuery.CustomTypes.MSTest.dll
+1>Canducci.GraphQLQuery -> C:\Users\Developer\Downloads\packages\Canducci.GraphQLQuery\Canducci.GraphQLQuery\bin\Debug\netstandard2.1\Canducci.GraphQLQuery.dll
+3>------ Build started: Project: ConsoleAppTest, Configuration: Debug Any CPU ------
+4>------ Build started: Project: Canducci.GraphQLQuery.MSTest, Configuration: Debug Any CPU ------
+3>ConsoleAppTest -> C:\Users\Developer\Downloads\packages\Canducci.GraphQLQuery\ConsoleAppTest\bin\Debug\netcoreapp5\ConsoleAppTest.dll
+4>Canducci.GraphQLQuery.MSTest -> C:\Users\Developer\Downloads\packages\Canducci.GraphQLQuery\Canducci.GraphQLQuery.MSTest\bin\Debug\netcoreapp3.1\Canducci.GraphQLQuery.MSTest.dll
+========== Build: 4 succeeded, 0 failed, 1 up-to-date, 0 skipped ==========
