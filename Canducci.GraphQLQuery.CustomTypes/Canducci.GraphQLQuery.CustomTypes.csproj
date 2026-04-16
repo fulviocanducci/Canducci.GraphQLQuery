@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="HotChocolate.Types" Version="11.3.8" />
-    <PackageReference Include="HotChocolate.Language" Version="11.3.8" />
+    <PackageReference Include="HotChocolate.Language" Version="12.22.7" />
   </ItemGroup>
 
   <ItemGroup>
